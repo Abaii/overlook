@@ -1,11 +1,11 @@
 import React from 'react';
 import { Button } from '@chakra-ui/core';
-import Registration from '../components/Registration/Registration';
+import Navbar from '../components/Navbar/Navbar';
 
 const Home = () => {
 	return (
 		<div>
-			<Registration></Registration>
+			<Navbar></Navbar>
 		</div>
 	);
 };

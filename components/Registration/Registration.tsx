@@ -11,6 +11,7 @@ import {
 	InputGroup,
 	InputLeftAddon,
 	InputLeftElement,
+	InputRightElement,
 	Link,
 	Modal,
 	ModalOverlay,
@@ -21,6 +22,7 @@ import {
 	ModalCloseButton,
 	useDisclosure,
 	FormControl,
+	Divider,
 } from '@chakra-ui/core';
 import ReactDOM from 'react-dom';
 import {
@@ -29,16 +31,54 @@ import {
 	useField,
 	useFormikContext,
 	FormikHelpers,
+	FormikProps,
+	FormikErrors,
 	Field,
 } from 'formik';
 import * as Yup from 'yup';
 import { FormWrapper, FormButtonWrapper } from './Registration.styles';
 
-interface Values {
+//Define Register form input types
+interface RegisterValues {
 	firstName: string;
 	lastName: string;
 	email: string;
+	password: string;
 }
+
+interface RegisterProps extends FormikProps<RegisterValues> {}
+
+const initialValues = {
+	firstName: '',
+	lastName: '',
+	email: '',
+	password: '',
+};
+
+//Take the types that register will require - first/last name + email + password
+const validate = (values: RegisterValues) => {
+	const errors: FormikErrors<RegisterValues> = {};
+	console.log(values);
+
+	//Check that all values exist and if not present a error message
+	if (!values.email) {
+		errors.email = 'You must enter an email';
+	}
+
+	if (!values.firstName) {
+		errors.firstName = 'You must enter a first name';
+	}
+
+	if (!values.lastName) {
+		errors.lastName = 'You must enter a last name';
+	}
+
+	if (!values.password) {
+		errors.password = 'You must enter a password';
+	}
+
+	return errors;
+};
 
 const Registration = (props) => {
 	return (
@@ -50,6 +90,8 @@ const Registration = (props) => {
 
 export const SignupForm = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const [show, setShow] = React.useState(false);
+	const handleClick = () => setShow(!show);
 
 	return (
 		<>
@@ -62,58 +104,105 @@ export const SignupForm = () => {
 					<ModalCloseButton />
 					<ModalBody>
 						<Formik
-							initialValues={{
-								firstName: '',
-								lastName: '',
-								email: '',
-							}}
-							onSubmit={(values: Values, { setSubmitting }: FormikHelpers<Values>) => {
-								setTimeout(() => {
-									alert(JSON.stringify(values, null, 2));
-									setSubmitting(false);
-								}, 500);
-							}}
+							initialValues={initialValues}
+							onSubmit={(values) => console.log(values)}
+							validate={validate}
 						>
-							<Form>
-								<Stack spacing={8}>
-									<FormControl>
-										<InputGroup>
-											<InputLeftAddon children='First Name' />
-											<Input
-												roundedLeft='0'
-												name='firstName'
-												id='firstName'
-												placeholder='John'
-											/>
-										</InputGroup>
-									</FormControl>
+							{({
+								errors,
+								values,
+								setFieldValue,
+								isSubmitting,
+							}: FormikProps<RegisterValues>) => (
+								<Form>
+									<Stack spacing={8}>
+										<FormControl isInvalid={Boolean(errors.email)}>
+											<InputGroup>
+												<InputLeftAddon children='First Name' />
+												<Input
+													roundedLeft='0'
+													name='firstName'
+													id='firstName'
+													placeholder='John'
+													aria-describedby='first-name-helper-text'
+													value={values.firstName}
+													onChange={(e) => setFieldValue('firstName', e.target.value)}
+												/>
+											</InputGroup>
+											{errors.firstName && (
+												<FormErrorMessage>{errors.firstName} </FormErrorMessage>
+											)}
+										</FormControl>
 
-									<InputGroup>
-										<InputLeftAddon children='Last Name' />
-										<Input
-											roundedLeft='0'
-											name='lastName'
-											id='lastName'
-											placeholder='Doe'
-										/>
-									</InputGroup>
+										<FormControl isInvalid={Boolean(errors.lastName)}>
+											<InputGroup>
+												<InputLeftAddon children='Last Name' />
+												<Input
+													roundedLeft='0'
+													name='lastName'
+													id='lastName'
+													placeholder='Doe'
+													value={values.lastName}
+													onChange={(e) => setFieldValue('lastName', e.target.value)}
+												/>
+											</InputGroup>
+											{errors.lastName && (
+												<FormErrorMessage>{errors.lastName} </FormErrorMessage>
+											)}
+										</FormControl>
 
-									<InputGroup>
-										<InputLeftElement children={<Icon name='email' color='gray.300' />} />
-										<Input type='email' placeholder='Email' />
-									</InputGroup>
-								</Stack>
-								<FormButtonWrapper>
-									<Button
-										rightIcon='arrow-forward'
-										variantColor='green'
-										type='submit'
-										variant='solid'
-									>
-										Submit
-									</Button>
-								</FormButtonWrapper>
-							</Form>
+										<FormControl isInvalid={Boolean(errors.email)}>
+											<InputGroup>
+												<InputLeftAddon children='Email' />
+												<Input
+													roundedLeft='0'
+													name='email'
+													id='email'
+													placeholder='Email'
+													value={values.email}
+													onChange={(e) => setFieldValue('email', e.target.value)}
+												/>
+											</InputGroup>
+											{errors.email && (
+												<FormErrorMessage>{errors.email} </FormErrorMessage>
+											)}
+										</FormControl>
+
+										<FormControl isInvalid={Boolean(errors.password)}>
+											<InputGroup size='md'>
+												<InputLeftAddon children='Password' />
+												<Input
+													pr='4.5rem'
+													id='password'
+													value={values.password}
+													onChange={(e) => setFieldValue('password', e.target.value)}
+													type={show ? 'text' : 'password'}
+													placeholder='Enter password'
+												/>
+												<InputRightElement width='4.5rem'>
+													<Button h='1.75rem' size='sm' onClick={handleClick}>
+														{show ? 'Hide' : 'Show'}
+													</Button>
+												</InputRightElement>
+											</InputGroup>
+											{errors.password && (
+												<FormErrorMessage>{errors.password}</FormErrorMessage>
+											)}
+										</FormControl>
+									</Stack>
+									<FormButtonWrapper>
+										<Button
+											isLoading={isSubmitting}
+											rightIcon='arrow-forward'
+											variantColor='green'
+											type='submit'
+											variant='solid'
+										>
+											Submit
+										</Button>
+									</FormButtonWrapper>
+								</Form>
+							)}
 						</Formik>
 					</ModalBody>
 					<ModalFooter></ModalFooter>

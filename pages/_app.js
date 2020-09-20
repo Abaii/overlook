@@ -1,16 +1,27 @@
-import '../styles/globals.css'
-import { ThemeProvider } from "@chakra-ui/core";
+import '../styles/globals.css';
+import { ThemeProvider } from '@chakra-ui/core';
+import normalize from 'normalize.css';
+import { Global, css } from '@emotion/core';
 
 function MyApp({ Component, pageProps }) {
-  return (
-    <ThemeProvider>
-      <div
-        style={{padding: '0 30px'}}
-      >
-        <Component {...pageProps} />
-      </div>
-    </ThemeProvider>
-  );
+	return (
+		<>
+			<Global
+				styles={css`
+					${normalize}
+					button {
+						border: none;
+					}
+					input {
+						border: none;
+					}
+				`}
+			/>
+			<ThemeProvider>
+				<Component {...pageProps} />
+			</ThemeProvider>
+		</>
+	);
 }
 
-export default MyApp
+export default MyApp;

@@ -1,80 +1,142 @@
 import React, { useState } from 'react';
 import {
-    Button,
-    Flex,
-    FormLabel,
-    FormErrorMessage,
-    FormHelperText, FormControl, Input
-} from "@chakra-ui/core";
-import { Formik, FormikErrors, FormikProps, FormikValues } from 'formik';
-import styled from '@emotion/styled';
+	Button,
+	Flex,
+	FormLabel,
+	FormErrorMessage,
+	InputGroup,
+	InputLeftAddon,
+	InputRightElement,
+	FormHelperText,
+	FormControl,
+	Stack,
+	Text,
+	Link,
+	Input,
+	Modal,
+	ModalOverlay,
+	ModalContent,
+	ModalHeader,
+	ModalFooter,
+	ModalBody,
+	ModalCloseButton,
+	useDisclosure,
+} from '@chakra-ui/core';
+import { Formik, FormikErrors, FormikProps, FormikValues, Form } from 'formik';
+import { FormButtonWrapper } from './Login.styles';
+import { FormWrapper } from '../Registration/Registration.styles';
 
 interface LoginValues {
-    username: string;
-    password: string;
-};
-
-interface LoginProps extends FormikProps<LoginValues> {
-
-};
-
-const initialValues = {
-    username: '',
-    password: ''
+	username: string;
+	password: string;
 }
 
-const validate = (values: any)=> {
-    const errors: FormikErrors<LoginValues> = {}
-    console.log(values)
-    if (!values.username) {
-        errors.username = 'You must enter a username';
-    };
+interface LoginProps extends FormikProps<LoginValues> {}
 
-    if (!values.password) {
-        errors.password = 'You must enter your password';
-    };
-
-    return errors;
+const initialValues = {
+	username: '',
+	password: '',
 };
 
-const FormControlWrapper = styled.div`
-    padding: 10px 0;
-`
+const validate = (values: LoginValues) => {
+	const errors: FormikErrors<LoginValues> = {};
+	console.log(values);
+	if (!values.username) {
+		errors.username = 'You must enter a username';
+	}
+
+	if (!values.password) {
+		errors.password = 'You must enter your password';
+	}
+
+	return errors;
+};
 
 const Login = () => {
-    return (
-        <Formik 
-            initialValues={initialValues}
-            onSubmit={(values) => console.log(values)}
-            validate={validate}
-        >
-            {( formikProps: FormikProps<LoginValues>) => (
-                <form onSubmit={formikProps.handleSubmit}>
-                    <FormControlWrapper>
-                        <FormControl isInvalid={Boolean(formikProps.errors.username)}>
-                            <FormLabel htmlFor="username">Username</FormLabel>
-                            <Input type="text" id="username" aria-describedby="userame-helper-text" value={formikProps.values.username} onChange={(e) => formikProps.setFieldValue('username', e.target.value)} />
-                            {formikProps.errors.username && <FormErrorMessage>{formikProps.errors.username} </FormErrorMessage>}
-                        </FormControl>
-                    </FormControlWrapper>
-                    <FormControlWrapper>
-                        <FormControl isInvalid={Boolean(formikProps.errors.password)}>
-                            <FormLabel htmlFor="password">Password</FormLabel>
-                            <Input type="password" id="password" placeholder="Enter your password" value={formikProps.values.password} onChange={(e) => formikProps.setFieldValue('password', e.target.value)} />
-                            {formikProps.errors.password && <FormErrorMessage>{formikProps.errors.password}</FormErrorMessage>}
-                        </FormControl>
-                    </FormControlWrapper>
-                    <Button
-                      isLoading={formikProps.isSubmitting}
-                      variantColor="teal"
-                      type="submit"
-                    >
-                        Log in
-                    </Button>
-                </form>
-            )}
-        </Formik>
-        
-    )
+	const { isOpen, onOpen, onClose } = useDisclosure();
+	const [show, setShow] = React.useState(false);
+	const handleClick = () => setShow(!show);
+
+	return (
+		<>
+			<Link onClick={onOpen}>Login</Link>
+
+			<Modal isOpen={isOpen} onClose={onClose}>
+				<ModalOverlay />
+				<ModalContent>
+					<ModalHeader>Login!</ModalHeader>
+					<ModalCloseButton />
+					<ModalBody>
+						<Formik
+							initialValues={initialValues}
+							onSubmit={(values) => console.log(values)}
+							validate={validate}
+						>
+							{({
+								handleSubmit,
+								errors,
+								values,
+								setFieldValue,
+								isSubmitting,
+							}: FormikProps<LoginValues>) => (
+								<Form onSubmit={handleSubmit}>
+									<Stack spacing={8}>
+										<FormControl isInvalid={Boolean(errors.username)}>
+											<InputGroup>
+												<InputLeftAddon children='Username' />
+												<Input
+													type='text'
+													id='username'
+													placeholder='Enter your username'
+													aria-describedby='userame-helper-text'
+													value={values.username}
+													onChange={(e) => setFieldValue('username', e.target.value)}
+												/>
+											</InputGroup>
+											{errors.username && (
+												<FormErrorMessage>{errors.username} </FormErrorMessage>
+											)}
+										</FormControl>
+										<FormControl isInvalid={Boolean(errors.password)}>
+											<InputGroup size='md'>
+												<InputLeftAddon children='Password' />
+												<Input
+													pr='4.5rem'
+													id='password'
+													value={values.password}
+													onChange={(e) => setFieldValue('password', e.target.value)}
+													type={show ? 'text' : 'password'}
+													placeholder='Enter password'
+												/>
+												<InputRightElement width='4.5rem'>
+													<Button h='1.75rem' size='sm' onClick={handleClick}>
+														{show ? 'Hide' : 'Show'}
+													</Button>
+												</InputRightElement>
+											</InputGroup>
+											{errors.password && (
+												<FormErrorMessage>{errors.password}</FormErrorMessage>
+											)}
+										</FormControl>
+									</Stack>
+									<FormButtonWrapper>
+										<Button
+											isLoading={isSubmitting}
+											rightIcon='arrow-forward'
+											variantColor='green'
+											type='submit'
+											variant='solid'
+										>
+											Log In
+										</Button>
+									</FormButtonWrapper>
+								</Form>
+							)}
+						</Formik>
+					</ModalBody>
+				</ModalContent>
+			</Modal>
+		</>
+	);
 };
 export default Login;
