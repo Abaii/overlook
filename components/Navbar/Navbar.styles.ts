@@ -8,6 +8,5 @@ export const NavbarWrapper = styled.div`
 	display: flex;
 	justify-content: flex-end;
 	padding: 22px;
-	background-color: #3182ce;
-	color: #f7fafc;
+	border-bottom: 1px solid;
 `;
