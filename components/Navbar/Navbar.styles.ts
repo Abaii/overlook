@@ -6,7 +6,10 @@ export const NavbarElementWrapper = styled.div`
 
 export const NavbarWrapper = styled.div`
 	display: flex;
-	justify-content: flex-end;
+	justify-content: space-between;
 	padding: 22px;
-	border-bottom: 1px solid;
+`;
+
+export const SplitLinks = styled.div`
+	display: flex;
 `;

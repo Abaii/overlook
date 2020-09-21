@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 
 export const FooterWrapper = styled.div`
-	border-top: 1px solid;
 	display: flex;
 	justify-content: center;
 	margin-bottom: 15px;

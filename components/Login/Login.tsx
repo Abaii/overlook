@@ -21,6 +21,7 @@ import {
 } from '@chakra-ui/core';
 import { Formik, FormikErrors, FormikProps, FormikValues, Form } from 'formik';
 import { FormButtonWrapper, ModalFooterWrapper } from './Login.styles';
+import { LinkHoverWrapper } from '../SharedComponents.styles';
 
 interface LoginValues {
 	username: string;
@@ -59,7 +60,6 @@ const Login = ({ linkText = 'Login' }: LoginProps) => {
 
 	return (
 		<>
-
 			<Modal isOpen={showModal} onClose={() => setShowModal(false)}>
 				<ModalOverlay />
 				<ModalContent>

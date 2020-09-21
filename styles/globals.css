@@ -12,6 +12,7 @@ html {
     Droid Sans,
     Helvetica Neue,
     sans-serif;
+  height: 100vh;
 }
 
 body {
@@ -20,6 +21,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   background-color: #ece3f7;
+  height: 100%;
 }
 
 input {
@@ -33,11 +35,6 @@ div {
 a {
   color: inherit;
   text-decoration: none;
-}
-
-a:hover {
-  padding: 2px;
-  background-color: #B794F4;
 }
 
 * {

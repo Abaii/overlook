@@ -1,16 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
 	Button,
-	Flex,
-	FormLabel,
 	FormErrorMessage,
-	FormHelperText,
 	Stack,
 	Input,
-	Icon,
 	InputGroup,
 	InputLeftAddon,
-	InputLeftElement,
 	InputRightElement,
 	Link,
 	Modal,
@@ -20,26 +15,14 @@ import {
 	ModalFooter,
 	ModalBody,
 	ModalCloseButton,
-	useDisclosure,
 	FormControl,
-	Divider,
 	Text,
 } from '@chakra-ui/core';
 import ReactDOM from 'react-dom';
-import {
-	Formik,
-	Form,
-	useField,
-	useFormikContext,
-	FormikHelpers,
-	FormikProps,
-	FormikErrors,
-	Field,
-} from 'formik';
-import * as Yup from 'yup';
-import { FormWrapper, FormButtonWrapper } from './Registration.styles';
-import LoginForm from '../Login/Login';
+import { Formik, Form, FormikProps, FormikErrors } from 'formik';
+import { FormButtonWrapper } from './Registration.styles';
 import { ModalFooterWrapper } from '../Login/Login.styles';
+import { LinkHoverWrapper } from '../SharedComponents.styles';
 
 //Define Register form input types
 interface RegisterValues {
@@ -95,14 +78,12 @@ const Registration = (props) => {
 };
 
 export const SignupForm = ({ linkText = 'Register' }: RegistrationProps) => {
-
 	const [show, setShow] = React.useState(false);
 	const handleClick = () => setShow(!show);
 
 	const [showModal, setShowModal] = useState(true);
 	return (
 		<>
-
 			<Modal isOpen={showModal} onClose={() => setShowModal(false)}>
 				<ModalOverlay />
 				<ModalContent>

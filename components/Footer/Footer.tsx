@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, AvatarBadge, Link, Stack } from '@chakra-ui/core';
+import { Avatar, AvatarBadge, Text, Stack } from '@chakra-ui/core';
 import {
 	FooterElementsWrapper,
 	FooterSingleElementWrapper,
@@ -11,7 +11,7 @@ const Footer = () => {
 		<>
 			<FooterWrapper>
 				<footer>
-					<p>Developed & Designed by Abai Edmund & Johny Wills</p>
+					<Text>Developed & Designed by Abai Edmund & Johny Wills</Text>
 					<FooterElementsWrapper>
 						<FooterSingleElementWrapper>
 							<a href='https://github.com/Abaii'>
