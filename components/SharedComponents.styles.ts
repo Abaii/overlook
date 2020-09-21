@@ -7,10 +7,11 @@ interface SplitLinksProps {
 
 export const LinkHoverWrapper = styled.div<SplitLinksProps>`
 	a:hover {
-		padding: 8px;
+		padding: 4px 8px 4px 8px;
 		border-radius: 16px;
 		background-color: #9f7aea;
 		color: white;
+		text-align: center;
 		text-decoration: none;
 	}
 	${({ first }) =>

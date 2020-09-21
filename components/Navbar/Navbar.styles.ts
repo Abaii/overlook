@@ -7,9 +7,18 @@ export const NavbarElementWrapper = styled.div`
 export const NavbarWrapper = styled.div`
 	display: flex;
 	justify-content: space-between;
-	padding: 22px;
+	align-items: center;
+	// top right bottom left
+	padding: 10px 40px 0 40px;
 `;
 
 export const SplitLinks = styled.div`
 	display: flex;
+`;
+
+export const LogoLink = styled.div`
+	a {
+		text-decoration: none !important;
+		box-shadow: none !important;
+	}
 `;

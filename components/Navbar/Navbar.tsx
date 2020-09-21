@@ -4,17 +4,21 @@ import {
 	NavbarElementWrapper,
 	NavbarWrapper,
 	SplitLinks,
+	LogoLink,
 } from './Navbar.styles';
 import { LinkHoverWrapper } from '../SharedComponents.styles';
+import Logo from '../Logo/Logo';
 
 const Navbar = () => {
 	return (
 		<>
 			<NavbarWrapper>
 				<NavbarElementWrapper>
-					<LinkHoverWrapper>
-						<Link href='/'>Home</Link>
-					</LinkHoverWrapper>
+					<LogoLink>
+						<Link href='/'>
+							<Logo />
+						</Link>
+					</LogoLink>
 				</NavbarElementWrapper>
 
 				<SplitLinks>
