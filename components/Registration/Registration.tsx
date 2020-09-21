@@ -194,7 +194,7 @@ export const SignupForm = () => {
 										<Button
 											isLoading={isSubmitting}
 											rightIcon='arrow-forward'
-											variantColor='green'
+											variantColor='purple'
 											type='submit'
 											variant='solid'
 										>

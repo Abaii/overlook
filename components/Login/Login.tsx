@@ -1,29 +1,26 @@
 import React, { useState } from 'react';
 import {
 	Button,
-	Flex,
-	FormLabel,
 	FormErrorMessage,
 	InputGroup,
 	InputLeftAddon,
 	InputRightElement,
-	FormHelperText,
 	FormControl,
 	Stack,
-	Text,
 	Link,
+	Text,
 	Input,
 	Modal,
 	ModalOverlay,
 	ModalContent,
 	ModalHeader,
-	ModalFooter,
 	ModalBody,
 	ModalCloseButton,
 	useDisclosure,
+	ModalFooter,
 } from '@chakra-ui/core';
 import { Formik, FormikErrors, FormikProps, FormikValues, Form } from 'formik';
-import { FormButtonWrapper } from './Login.styles';
+import { FormButtonWrapper, ModalFooterWrapper } from './Login.styles';
 import { FormWrapper } from '../Registration/Registration.styles';
 
 interface LoginValues {
@@ -80,7 +77,7 @@ const Login = () => {
 								isSubmitting,
 							}: FormikProps<LoginValues>) => (
 								<Form onSubmit={handleSubmit}>
-									<Stack spacing={8}>
+									<Stack spacing={6}>
 										<FormControl isInvalid={Boolean(errors.username)}>
 											<InputGroup>
 												<InputLeftAddon children='Username' />
@@ -97,6 +94,7 @@ const Login = () => {
 												<FormErrorMessage>{errors.username} </FormErrorMessage>
 											)}
 										</FormControl>
+
 										<FormControl isInvalid={Boolean(errors.password)}>
 											<InputGroup size='md'>
 												<InputLeftAddon children='Password' />
@@ -123,7 +121,7 @@ const Login = () => {
 										<Button
 											isLoading={isSubmitting}
 											rightIcon='arrow-forward'
-											variantColor='green'
+											variantColor='purple'
 											type='submit'
 											variant='solid'
 										>
@@ -134,6 +132,13 @@ const Login = () => {
 							)}
 						</Formik>
 					</ModalBody>
+					<ModalFooter>
+						<ModalFooterWrapper>
+							<Text>
+								Don't have an account? <Link href='/login'>Click Here</Link>
+							</Text>
+						</ModalFooterWrapper>
+					</ModalFooter>
 				</ModalContent>
 			</Modal>
 		</>
