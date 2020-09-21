@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	Button,
 	Flex,
@@ -23,6 +23,7 @@ import {
 	useDisclosure,
 	FormControl,
 	Divider,
+	Text,
 } from '@chakra-ui/core';
 import ReactDOM from 'react-dom';
 import {
@@ -37,6 +38,8 @@ import {
 } from 'formik';
 import * as Yup from 'yup';
 import { FormWrapper, FormButtonWrapper } from './Registration.styles';
+import LoginForm from '../Login/Login';
+import { ModalFooterWrapper } from '../Login/Login.styles';
 
 //Define Register form input types
 interface RegisterValues {
@@ -80,24 +83,27 @@ const validate = (values: RegisterValues) => {
 	return errors;
 };
 
+interface RegistrationProps {
+	linkText?: string;
+}
 const Registration = (props) => {
 	return (
 		<>
-			<SignupForm></SignupForm>
+			<SignupForm {...props}></SignupForm>
 		</>
 	);
 };
 
-export const SignupForm = () => {
-	const { isOpen, onOpen, onClose } = useDisclosure();
+export const SignupForm = ({ linkText = 'Register' }: RegistrationProps) => {
+
 	const [show, setShow] = React.useState(false);
 	const handleClick = () => setShow(!show);
 
+	const [showModal, setShowModal] = useState(true);
 	return (
 		<>
-			<Link onClick={onOpen}>Register</Link>
 
-			<Modal isOpen={isOpen} onClose={onClose}>
+			<Modal isOpen={showModal} onClose={() => setShowModal(false)}>
 				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader>Register!</ModalHeader>
@@ -205,7 +211,13 @@ export const SignupForm = () => {
 							)}
 						</Formik>
 					</ModalBody>
-					<ModalFooter></ModalFooter>
+					<ModalFooter>
+						<ModalFooterWrapper>
+							<Text>
+								Already have an account? <Link href='/login'>Click here</Link>
+							</Text>
+						</ModalFooterWrapper>
+					</ModalFooter>
 				</ModalContent>
 			</Modal>
 		</>

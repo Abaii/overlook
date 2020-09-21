@@ -21,14 +21,16 @@ import {
 } from '@chakra-ui/core';
 import { Formik, FormikErrors, FormikProps, FormikValues, Form } from 'formik';
 import { FormButtonWrapper, ModalFooterWrapper } from './Login.styles';
-import { FormWrapper } from '../Registration/Registration.styles';
 
 interface LoginValues {
 	username: string;
 	password: string;
 }
 
-interface LoginProps extends FormikProps<LoginValues> {}
+interface LoginProps {
+	linkText?: string;
+	closeRegister?: () => void;
+}
 
 const initialValues = {
 	username: '',
@@ -49,16 +51,16 @@ const validate = (values: LoginValues) => {
 	return errors;
 };
 
-const Login = () => {
-	const { isOpen, onOpen, onClose } = useDisclosure();
+const Login = ({ linkText = 'Login' }: LoginProps) => {
+	const { onOpen } = useDisclosure();
 	const [show, setShow] = React.useState(false);
 	const handleClick = () => setShow(!show);
+	const [showModal, setShowModal] = useState(true);
 
 	return (
 		<>
-			<Link onClick={onOpen}>Login</Link>
 
-			<Modal isOpen={isOpen} onClose={onClose}>
+			<Modal isOpen={showModal} onClose={() => setShowModal(false)}>
 				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader>Login!</ModalHeader>
@@ -135,7 +137,7 @@ const Login = () => {
 					<ModalFooter>
 						<ModalFooterWrapper>
 							<Text>
-								Don't have an account? <Link href='/login'>Click Here</Link>
+								Don't have an account? <Link href='/register'>Click here</Link>
 							</Text>
 						</ModalFooterWrapper>
 					</ModalFooter>

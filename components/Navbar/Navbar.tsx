@@ -1,7 +1,6 @@
 import React from 'react';
-import { Button } from '@chakra-ui/core';
-import Registration from '../Registration/Registration';
-import LoginForm from '../Login/Login';
+import { Button, Link } from '@chakra-ui/core';
+
 import { NavbarElementWrapper, NavbarWrapper } from './Navbar.styles';
 
 const Navbar = () => {
@@ -9,11 +8,11 @@ const Navbar = () => {
 		<>
 			<NavbarWrapper>
 				<NavbarElementWrapper>
-					<LoginForm></LoginForm>
+					<Link href='/login'>Login</Link>
 				</NavbarElementWrapper>
 
 				<NavbarElementWrapper>
-					<Registration></Registration>
+					<Link href='/register'>Register</Link>
 				</NavbarElementWrapper>
 			</NavbarWrapper>
 		</>
