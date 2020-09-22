@@ -8,8 +8,9 @@ export const NavbarWrapper = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	background-color: white;
 	// top right bottom left
-	padding: 10px 40px 0 40px;
+	padding: 10px 40px 14px 40px;
 `;
 
 export const SplitLinks = styled.div`

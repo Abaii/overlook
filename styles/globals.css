@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=News+Cycle:wght@400;700&display=swap');
+
 html {
   padding: 0;
   margin: 0;
@@ -10,6 +12,7 @@ html {
     Cantarell,
     Fira Sans,
     Droid Sans,
+    'News Cycle',
     Helvetica Neue,
     sans-serif;
   height: 100vh;
@@ -19,7 +22,7 @@ body {
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, 'News Cycle', sans-serif;
   background-color: #ece3f7;
   height: 100%;
 }

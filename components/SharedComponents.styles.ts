@@ -9,7 +9,7 @@ export const LinkHoverWrapper = styled.div<SplitLinksProps>`
 	a:hover {
 		padding: 4px 8px 4px 8px;
 		border-radius: 16px;
-		background-color: #9f7aea;
+		background: linear-gradient(to right, #b4373d, #b23acb);
 		color: white;
 		text-align: center;
 		text-decoration: none;

@@ -8,25 +8,25 @@ import {
 
 const Footer = () => {
 	return (
-		<>
-			<FooterWrapper>
-				<footer>
-					<Text>Developed & Designed by Abai Edmund & Johny Wills</Text>
-					<FooterElementsWrapper>
-						<FooterSingleElementWrapper>
-							<a href='https://github.com/Abaii'>
-								<Avatar name='Abai Edmund' />
-							</a>
-						</FooterSingleElementWrapper>
-						<FooterSingleElementWrapper>
-							<a href='https://github.com/JohnyWills1'>
-								<Avatar name='Johny Wills' />
-							</a>
-						</FooterSingleElementWrapper>
-					</FooterElementsWrapper>
-				</footer>
-			</FooterWrapper>
-		</>
+		<FooterWrapper>
+			<footer>
+				<Text fontFamily='News Cycle' fontSize='20px'>
+					Developed & Designed by Abai Edmund & Johny Wills
+				</Text>
+				<FooterElementsWrapper>
+					<FooterSingleElementWrapper>
+						<a href='https://github.com/Abaii'>
+							<Avatar name='Abai Edmund' />
+						</a>
+					</FooterSingleElementWrapper>
+					<FooterSingleElementWrapper>
+						<a href='https://github.com/JohnyWills1'>
+							<Avatar name='Johny Wills' />
+						</a>
+					</FooterSingleElementWrapper>
+				</FooterElementsWrapper>
+			</footer>
+		</FooterWrapper>
 	);
 };
 

@@ -23,10 +23,14 @@ const Navbar = () => {
 
 				<SplitLinks>
 					<LinkHoverWrapper first={true}>
-						<Link href='/login'>Login</Link>
+						<Link href='/login' fontFamily='News Cycle' fontSize='20px'>
+							Login
+						</Link>
 					</LinkHoverWrapper>
 					<LinkHoverWrapper>
-						<Link href='/register'>Register</Link>
+						<Link href='/register' fontFamily='News Cycle' fontSize='20px'>
+							Register
+						</Link>
 					</LinkHoverWrapper>
 				</SplitLinks>
 			</NavbarWrapper>
