@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { Icon, LogoWrapper, TextWrapper, UDTriangle } from "./Logo.styles";
-import { Text } from "@chakra-ui/core";
-import Typo from "../Typo/Typo";
-import { Title } from "../Title/Title";
+import React, { useState } from 'react';
+import { Icon, LogoWrapper, TextWrapper, UDTriangle } from './Logo.styles';
+import { Text } from '@chakra-ui/core';
+import Typo from '../Typo/Typo';
+import { Title } from '../Title/Title';
 
 interface Props {}
 
@@ -15,7 +15,7 @@ export const Logo = (props: Props) => {
 			<UDTriangle />
 
 			<TextWrapper>
-				<Typo p_text='Overlook' style={{ fontSize: "31px", margin: "0" }} />
+				<Typo p_text='Overlook' style={{ fontSize: '31px', margin: '0' }} />
 			</TextWrapper>
 		</LogoWrapper>
 	);

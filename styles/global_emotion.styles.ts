@@ -1,7 +1,10 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 export const HomePage = styled.div`
-	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
 `;
 
 export const Page = styled.div`
@@ -18,9 +21,9 @@ export const LandingTextWrapper = styled.div`
 export const LandingImageWrapper = styled.div`
 	img {
 		height: 500px;
+		margin: 20px;
 	}
 	background-color: white;
-	padding: 20px;
 	margin: 20px;
 `;
 

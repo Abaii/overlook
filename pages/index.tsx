@@ -1,14 +1,14 @@
-import React from "react";
-import { HomePage } from "../styles/global_emotion.styles";
-import Title from "../components/Title/Title";
-import Typo from "../components/Typo/Typo";
+import React from 'react';
+import { HomePage } from '../styles/global_emotion.styles';
+import Title from '../components/Title/Title';
+import Typo from '../components/Typo/Typo';
 import {
 	LandingTextWrapper,
 	LandingImageWrapper,
 	BottomOfPage,
-} from "../styles/global_emotion.styles";
-import { Divider, IconButton, Image } from "@chakra-ui/core";
-import { css } from "@emotion/core";
+} from '../styles/global_emotion.styles';
+import { Divider, IconButton, Image } from '@chakra-ui/core';
+import { css } from '@emotion/core';
 
 const Home = () => {
 	return (
@@ -20,7 +20,7 @@ const Home = () => {
 							titleText='Welcome to Overlook'
 							tag='h1'
 							style={{
-								fontSize: "80px",
+								fontSize: '80px',
 							}}
 						/>
 					</LandingTextWrapper>
@@ -29,18 +29,18 @@ const Home = () => {
 							titleText='🎨'
 							tag='h1'
 							style={{
-								fontSize: "80px",
-								margin: "0 0 53px 0",
-								padding: "0",
+								fontSize: '80px',
+								margin: '0 0 53px 0',
+								padding: '0',
 							}}
 						/>
 						<Title
 							titleText='👋'
 							tag='h1'
 							style={{
-								fontSize: "80px",
-								margin: "0 0 53px 20px",
-								padding: "0",
+								fontSize: '80px',
+								margin: '0 0 53px 20px',
+								padding: '0',
 							}}
 						/>
 					</LandingTextWrapper>
@@ -49,8 +49,8 @@ const Home = () => {
 							titleText='Document the Journey, not just the Destination.'
 							tag='h2'
 							style={{
-								margin: "0 0 50px 0",
-								fontSize: "40px",
+								margin: '0 0 50px 0',
+								fontSize: '40px',
 							}}
 						/>
 					</LandingTextWrapper>
@@ -58,14 +58,14 @@ const Home = () => {
 						<Typo
 							p_text='The service which lets you track the progress of your projects and share it with anyone via a small link!'
 							style={{
-								margin: "0 0 20px 0",
+								margin: '0 0 20px 0',
 							}}
 						/>
 					</LandingTextWrapper>
 					<LandingTextWrapper>
 						<LandingImageWrapper>
 							<Image
-								src='../static/svg/peep-sitting-11.svg'
+								src='../static/svg/Process.svg'
 								alt='Illustration of a creative'
 							/>
 						</LandingImageWrapper>
@@ -80,7 +80,7 @@ const Home = () => {
 							titleText="Whether you're an - Artist"
 							tag='h1'
 							style={{
-								fontSize: "60px",
+								fontSize: '60px',
 							}}
 						/>
 					</LandingTextWrapper>
@@ -95,21 +95,46 @@ const Home = () => {
 							/>
 						</LandingImageWrapper>
 					</LandingTextWrapper>
-					<LandingTextWrapper>
-						<BottomOfPage>
-							<IconButton
-								aria-label='move page down'
-								icon='arrow-down'
-								variantColor='purple'
-								isRound={true}
-								onClick={() => {
-									// This is just temporary
-									scrollTo(1000, 1000);
-								}}
-							/>
-						</BottomOfPage>
-					</LandingTextWrapper>
+					<LandingTextWrapper></LandingTextWrapper>
 				</section>
+			</HomePage>
+
+			<HomePage>
+				<section className='thirdSection'>
+					<LandingTextWrapper>
+						<Title
+							titleText="Whether you're a - Developer"
+							tag='h1'
+							style={{
+								fontSize: '60px',
+							}}
+						/>
+					</LandingTextWrapper>
+					<LandingTextWrapper>
+						<Typo p_text='You can use Overlook to track the progress of your products as you develop them, and use it to display your workflow!' />
+					</LandingTextWrapper>
+					<LandingTextWrapper>
+						<LandingImageWrapper>
+							<Image
+								src='../static/svg/peep-standing-3.svg'
+								alt='Illustration of a creative'
+							/>
+						</LandingImageWrapper>
+					</LandingTextWrapper>
+					<LandingTextWrapper></LandingTextWrapper>
+				</section>
+				<BottomOfPage>
+					<IconButton
+						aria-label='move page down'
+						icon='arrow-down'
+						variantColor='purple'
+						isRound={true}
+						onClick={() => {
+							// This is just temporary
+							scrollTo(1000, 1000);
+						}}
+					/>
+				</BottomOfPage>
 			</HomePage>
 		</>
 	);

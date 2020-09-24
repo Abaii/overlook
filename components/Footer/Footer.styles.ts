@@ -1,13 +1,16 @@
 import styled from '@emotion/styled';
 
 export const FooterWrapper = styled.div`
+	footer {
+		clear: both;
+		position: relative;
+		height: 100px;
+		margin-top: -600px;
+	}
 	display: flex;
 	justify-content: center;
-	position: relative;
-	bottom: 0;
-	width: 100%;
+	align-items: flex-end;
 	padding: 0px 0 8px 0;
-	border-top: 1px solid;
 	background-color: white;
 `;
 
