@@ -1,5 +1,5 @@
-import { css } from '@emotion/core';
-import styled from '@emotion/styled';
+import { css } from "@emotion/core";
+import styled from "@emotion/styled";
 
 interface AnimationProps {
 	animation: boolean;
@@ -12,26 +12,26 @@ export const LogoWrapper = styled.div`
 `;
 
 export const Icon = styled.div<AnimationProps>`
-  height: 30px;
-  width: 30px;
-  transform: rotate(45deg);
-  background: linear-gradient(to right, #b4373d, #b23acb);
+	height: 30px;
+	width: 30px;
+	transform: rotate(45deg);
+	background: linear-gradient(to right, #b4373d, #b23acb);
 
-  ${({ animation }) =>
-    animation &&
-    css`
-      animation-name: icon-anim;
-    `}
-  animation-duration: 1.6s;
-  @keyframes icon-anim {
-    from {
-      transform: rotate(45deg);
-    }
-    to {
-      //405 is a full rotation - half is 225
-      transform: rotate(405deg);
-    }
-  }
+	${({ animation }) =>
+		animation &&
+		css`
+			animation-name: icon-anim;
+		`}
+	animation-duration: 1.6s;
+	@keyframes icon-anim {
+		from {
+			transform: rotate(45deg);
+		}
+		to {
+			//405 is a full rotation - half is 225
+			transform: rotate(405deg);
+		}
+	}
 `;
 
 export const TextWrapper = styled.div`
@@ -39,28 +39,13 @@ export const TextWrapper = styled.div`
 	margin: 0 0 0 0;
 `;
 
-export const UDTriangle = styled.div<AnimationProps>`
-  width: 0;
-  height: 0;
-  position: relative;
-  left: -25px;
-  top: 4px;
-  border-left: 10px solid transparent !important;
-  border-right: 10px solid transparent !important;
-  border-top: 10px solid white !important;
-
-  ${({ animation }) =>
-    animation &&
-    css`
-      animation-name: udt-anim;
-    `}
-  animation-duration: 1.2s;
-  @keyframes udt-anim {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
+export const UDTriangle = styled.div`
+	width: 0;
+	height: 0;
+	position: relative;
+	left: -25px;
+	top: 4px;
+	border-left: 10px solid transparent !important;
+	border-right: 10px solid transparent !important;
+	border-top: 10px solid white !important;
 `;

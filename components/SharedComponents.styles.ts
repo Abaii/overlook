@@ -1,5 +1,5 @@
-import styled from '@emotion/styled';
-import { css } from '@emotion/core';
+import styled from "@emotion/styled";
+import { css } from "@emotion/core";
 
 interface SplitLinksProps {
 	first?: boolean;
@@ -19,4 +19,19 @@ export const LinkHoverWrapper = styled.div<SplitLinksProps>`
 		css`
 			margin-right: 20px;
 		`}
+`;
+
+export const LandingTextWrapper = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+`;
+
+export const LandingImageWrapper = styled.div`
+	img {
+		height: 400px;
+	}
+	background-color: white;
+	padding: 20px;
+	margin: 20px;
 `;

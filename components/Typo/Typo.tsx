@@ -1,9 +1,9 @@
-import React, { CSSProperties } from 'react';
-import styled from '@emotion/styled';
+import React, { CSSProperties } from "react";
+import styled from "@emotion/styled";
 
 interface Props {
 	p_text: string;
-	style: CSSProperties;
+	style?: CSSProperties;
 }
 
 const RemovePaddingWrapper = styled.div`
@@ -12,7 +12,7 @@ const RemovePaddingWrapper = styled.div`
 	}
 `;
 
-export const Logo = (props: Props) => {
+export const Typo = (props: Props) => {
 	return (
 		<>
 			<RemovePaddingWrapper>
@@ -22,4 +22,4 @@ export const Logo = (props: Props) => {
 	);
 };
 
-export default Logo;
+export default Typo;
