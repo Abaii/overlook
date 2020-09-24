@@ -17,6 +17,6 @@ export const LinkHoverWrapper = styled.div<SplitLinksProps>`
 	${({ first }) =>
 		first &&
 		css`
-			margin-right: 20px;
+			margin-right: 25px;
 		`}
 `;

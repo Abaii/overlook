@@ -1,14 +1,14 @@
-import React from 'react';
-import { HomePage } from '../styles/global_emotion.styles';
-import Title from '../components/Title/Title';
-import Typo from '../components/Typo/Typo';
+import React from "react";
+import { HomePage } from "../styles/global_emotion.styles";
+import Title from "../components/Title/Title";
+import Typo from "../components/Typo/Typo";
 import {
 	LandingTextWrapper,
 	LandingImageWrapper,
 	BottomOfPage,
-} from '../styles/global_emotion.styles';
-import { IconButton } from '@chakra-ui/core';
-import { css } from '@emotion/core';
+} from "../styles/global_emotion.styles";
+import { Divider, IconButton, Image } from "@chakra-ui/core";
+import { css } from "@emotion/core";
 
 const Home = () => {
 	return (
@@ -17,10 +17,30 @@ const Home = () => {
 				<section className='firstSection'>
 					<LandingTextWrapper>
 						<Title
-							titleText='Welcome to Overlook:'
+							titleText='Welcome to Overlook'
 							tag='h1'
 							style={{
-								fontSize: '80px',
+								fontSize: "80px",
+							}}
+						/>
+					</LandingTextWrapper>
+					<LandingTextWrapper>
+						<Title
+							titleText='🎨'
+							tag='h1'
+							style={{
+								fontSize: "80px",
+								margin: "0 0 53px 0",
+								padding: "0",
+							}}
+						/>
+						<Title
+							titleText='👋'
+							tag='h1'
+							style={{
+								fontSize: "80px",
+								margin: "0 0 53px 20px",
+								padding: "0",
 							}}
 						/>
 					</LandingTextWrapper>
@@ -29,8 +49,8 @@ const Home = () => {
 							titleText='Document the Journey, not just the Destination.'
 							tag='h2'
 							style={{
-								margin: '0 0 50px 0',
-								fontSize: '40px',
+								margin: "0 0 50px 0",
+								fontSize: "40px",
 							}}
 						/>
 					</LandingTextWrapper>
@@ -38,13 +58,16 @@ const Home = () => {
 						<Typo
 							p_text='The service which lets you track the progress of your projects and share it with anyone via a small link!'
 							style={{
-								margin: '0 0 20px 0',
+								margin: "0 0 20px 0",
 							}}
 						/>
 					</LandingTextWrapper>
 					<LandingTextWrapper>
 						<LandingImageWrapper>
-							<img src={require('../static/svg/peep-sitting-11.svg')} />
+							<Image
+								src='../static/svg/peep-sitting-11.svg'
+								alt='Illustration of a creative'
+							/>
 						</LandingImageWrapper>
 					</LandingTextWrapper>
 				</section>
@@ -57,7 +80,7 @@ const Home = () => {
 							titleText="Whether you're an - Artist"
 							tag='h1'
 							style={{
-								fontSize: '60px',
+								fontSize: "60px",
 							}}
 						/>
 					</LandingTextWrapper>
@@ -66,7 +89,10 @@ const Home = () => {
 					</LandingTextWrapper>
 					<LandingTextWrapper>
 						<LandingImageWrapper>
-							<img src={require('../static/svg/peep-sitting-12.svg')} />
+							<Image
+								src='../static/svg/peep-sitting-12.svg'
+								alt='Illustration of a creative'
+							/>
 						</LandingImageWrapper>
 					</LandingTextWrapper>
 					<LandingTextWrapper>
