@@ -8,7 +8,7 @@ interface SplitLinksProps {
 export const LinkHoverWrapper = styled.div<SplitLinksProps>`
 	a:hover {
 		padding: 4px 8px 4px 8px;
-		border-radius: 16px;
+		border-radius: 20px;
 		background: linear-gradient(to right, #b4373d, #b23acb);
 		color: white;
 		text-align: center;
@@ -19,19 +19,4 @@ export const LinkHoverWrapper = styled.div<SplitLinksProps>`
 		css`
 			margin-right: 20px;
 		`}
-`;
-
-export const LandingTextWrapper = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: center;
-`;
-
-export const LandingImageWrapper = styled.div`
-	img {
-		height: 400px;
-	}
-	background-color: white;
-	padding: 20px;
-	margin: 20px;
 `;

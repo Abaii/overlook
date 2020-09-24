@@ -1,13 +1,13 @@
-import React from 'react';
-import { Link, Button } from '@chakra-ui/core';
+import React from "react";
+import { Link, Button } from "@chakra-ui/core";
 import {
 	NavbarElementWrapper,
 	NavbarWrapper,
 	SplitLinks,
 	LogoLink,
-} from './Navbar.styles';
-import { LinkHoverWrapper } from '../SharedComponents.styles';
-import Logo from '../Logo/Logo';
+} from "./Navbar.styles";
+import { LinkHoverWrapper } from "../SharedComponents.styles";
+import Logo from "../Logo/Logo";
 
 const Navbar = () => {
 	return (
@@ -23,12 +23,12 @@ const Navbar = () => {
 
 				<SplitLinks>
 					<LinkHoverWrapper first={true}>
-						<Link href='/login' fontFamily='News Cycle' fontSize='20px'>
+						<Link href='/login' fontSize='18px'>
 							Login
 						</Link>
 					</LinkHoverWrapper>
 					<LinkHoverWrapper>
-						<Link href='/register' fontFamily='News Cycle' fontSize='20px'>
+						<Link href='/register' fontSize='18px'>
 							Register
 						</Link>
 					</LinkHoverWrapper>

@@ -1,16 +1,16 @@
-import React from 'react';
-import { Avatar, AvatarBadge, Text, Stack } from '@chakra-ui/core';
+import React from "react";
+import { Avatar, AvatarBadge, Text, Stack } from "@chakra-ui/core";
 import {
 	FooterElementsWrapper,
 	FooterSingleElementWrapper,
 	FooterWrapper,
-} from './Footer.styles';
+} from "./Footer.styles";
 
 const Footer = () => {
 	return (
 		<FooterWrapper>
 			<footer>
-				<Text fontFamily='News Cycle' fontSize='20px'>
+				<Text fontSize='18px'>
 					Developed & Designed by Abai Edmund & Johny Wills
 				</Text>
 				<FooterElementsWrapper>
