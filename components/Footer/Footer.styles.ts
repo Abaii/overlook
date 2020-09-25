@@ -1,12 +1,6 @@
 import styled from '@emotion/styled';
 
 export const FooterWrapper = styled.div`
-	footer {
-		clear: both;
-		position: relative;
-		height: 100px;
-		margin-top: -600px;
-	}
 	display: flex;
 	justify-content: center;
 	align-items: flex-end;

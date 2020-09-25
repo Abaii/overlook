@@ -1,19 +1,17 @@
 import React from 'react';
-import { HomePage } from '../styles/global_emotion.styles';
-import Title from '../components/Title/Title';
+import Title from '../components/Typo/Title/Title';
 import Typo from '../components/Typo/Typo';
 import {
 	LandingTextWrapper,
 	LandingImageWrapper,
 	BottomOfPage,
 } from '../styles/global_emotion.styles';
-import { Divider, IconButton, Image } from '@chakra-ui/core';
-import { css } from '@emotion/core';
+import { IconButton, Image, Flex } from '@chakra-ui/core';
 
 const Home = () => {
 	return (
 		<>
-			<HomePage>
+			<Flex align='center' justify='center'>
 				<section className='firstSection'>
 					<LandingTextWrapper>
 						<Title
@@ -39,7 +37,7 @@ const Home = () => {
 							tag='h1'
 							style={{
 								fontSize: '80px',
-								margin: '0 0 53px 20px',
+								margin: '0 0 53px 0px',
 								padding: '0',
 							}}
 						/>
@@ -71,9 +69,9 @@ const Home = () => {
 						</LandingImageWrapper>
 					</LandingTextWrapper>
 				</section>
-			</HomePage>
+			</Flex>
 
-			<HomePage>
+			<Flex align='center' justify='center'>
 				<section className='secondSection'>
 					<LandingTextWrapper>
 						<Title
@@ -97,9 +95,9 @@ const Home = () => {
 					</LandingTextWrapper>
 					<LandingTextWrapper></LandingTextWrapper>
 				</section>
-			</HomePage>
+			</Flex>
 
-			<HomePage>
+			<Flex align='center' justify='center'>
 				<section className='thirdSection'>
 					<LandingTextWrapper>
 						<Title
@@ -135,7 +133,7 @@ const Home = () => {
 						}}
 					/>
 				</BottomOfPage>
-			</HomePage>
+			</Flex>
 		</>
 	);
 };

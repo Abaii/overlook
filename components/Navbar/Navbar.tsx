@@ -1,17 +1,37 @@
-import React from "react";
-import { Link, Button } from "@chakra-ui/core";
+import React from 'react';
+import { Link, Button } from '@chakra-ui/core';
 import {
 	NavbarElementWrapper,
 	NavbarWrapper,
 	SplitLinks,
 	LogoLink,
-} from "./Navbar.styles";
-import { LinkHoverWrapper } from "../SharedComponents.styles";
-import Logo from "../Logo/Logo";
+} from './Navbar.styles';
+import { LinkHoverWrapper } from '../SharedComponents.styles';
+import Logo from './Logo/Logo';
+import firebase from 'firebase';
 
-const Navbar = () => {
-	return (
-		<>
+interface NavBarProps {
+	isLogged: boolean;
+	user?: firebase.User;
+}
+
+const Navbar = ({ isLogged, user }: NavBarProps) => {
+	if (isLogged) {
+		<NavbarWrapper>
+			<NavbarElementWrapper>
+				<LogoLink>
+					<Link href='/'>
+						<Logo />
+					</Link>
+				</LogoLink>
+			</NavbarElementWrapper>
+
+			<SplitLinks>
+				<LinkHoverWrapper>{user}</LinkHoverWrapper>
+			</SplitLinks>
+		</NavbarWrapper>;
+	} else {
+		return (
 			<NavbarWrapper>
 				<NavbarElementWrapper>
 					<LogoLink>
@@ -34,8 +54,8 @@ const Navbar = () => {
 					</LinkHoverWrapper>
 				</SplitLinks>
 			</NavbarWrapper>
-		</>
-	);
+		);
+	}
 };
 
 export default Navbar;
