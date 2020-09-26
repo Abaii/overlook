@@ -49,32 +49,38 @@ const Login = ({ linkText = 'Login' }: LoginProps) => {
 	const [show, setShow] = React.useState(false);
 	const handleClick = () => setShow(!show);
 	const [showModal, setShowModal] = useState(true);
+	const [isSubmitting, setSubmitting] = useState(false);
 	const toast = useToast();
 
 	const handleSubmit = ({ username, password }: LoginValues) => {
+		setSubmitting(true);
 		firebase
 			.auth()
 			.signInWithEmailAndPassword(username, password)
 			.then(() => {
+				setSubmitting(false);
 				toast({
 					title: 'Logged In',
 					description: 'Logged In successfully.',
 					status: 'success',
-					duration: 5000,
+					duration: 4000,
 					isClosable: true,
+					position: 'top',
 				});
 
 				router.push('/');
 			})
 			.catch((error) => {
+				setSubmitting(false);
 				var errorCode = error.code;
 				var errorMessage = error.message;
 				toast({
 					title: errorCode,
 					description: errorMessage,
 					status: 'error',
-					duration: 5000,
+					duration: 4000,
 					isClosable: true,
+					position: 'top',
 				});
 			});
 	};
@@ -111,7 +117,6 @@ const Login = ({ linkText = 'Login' }: LoginProps) => {
 								errors,
 								values,
 								setFieldValue,
-								isSubmitting,
 							}: FormikProps<LoginValues>) => (
 								<Form onSubmit={handleSubmit}>
 									<Stack spacing={6}>

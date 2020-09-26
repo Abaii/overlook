@@ -24,6 +24,7 @@ const Navbar = (props) => {
 			status: 'success',
 			duration: 5000,
 			isClosable: true,
+			position: 'top',
 		});
 
 		signOut();
@@ -48,12 +49,12 @@ const Navbar = (props) => {
 		links = (
 			<>
 				<LinkHoverWrapper first={true}>
-					<Link href='/login' fontSize='18px'>
+					<Link href='/login' fontSize='16px'>
 						Login
 					</Link>
 				</LinkHoverWrapper>
 				<LinkHoverWrapper>
-					<Link href='/register' fontSize='18px'>
+					<Link href='/register' fontSize='16px'>
 						Register
 					</Link>
 				</LinkHoverWrapper>

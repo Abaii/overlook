@@ -15,7 +15,15 @@ export const Logo = (props: Props) => {
 			<UDTriangle />
 
 			<TextWrapper>
-				<Typo p_text='Overlook' style={{ fontSize: '31px', margin: '0' }} />
+				<Typo
+					p_text='Overlook'
+					style={{
+						fontSize: '32px',
+						margin: '0',
+						paddingTop: '8px',
+						fontFamily: 'Nothing You Could Do',
+					}}
+				/>
 			</TextWrapper>
 		</LogoWrapper>
 	);

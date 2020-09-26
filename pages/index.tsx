@@ -15,10 +15,21 @@ const Home = () => {
 				<section className='firstSection'>
 					<LandingTextWrapper>
 						<Title
-							titleText='Welcome to Overlook'
+							titleText='Welcome to'
 							tag='h1'
 							style={{
 								fontSize: '80px',
+								margin: '33px 0 33px 0',
+							}}
+						/>
+						<Title
+							titleText='Overlook'
+							tag='h1'
+							style={{
+								fontSize: '85px',
+								padding: '28px 0 0 25px',
+								margin: '33px 0 33px 0',
+								fontFamily: 'Nothing You Could Do',
 							}}
 						/>
 					</LandingTextWrapper>
@@ -79,6 +90,7 @@ const Home = () => {
 							tag='h1'
 							style={{
 								fontSize: '60px',
+								fontFamily: 'Nothing You Could Do',
 							}}
 						/>
 					</LandingTextWrapper>
@@ -105,6 +117,7 @@ const Home = () => {
 							tag='h1'
 							style={{
 								fontSize: '60px',
+								fontFamily: 'Consolas',
 							}}
 						/>
 					</LandingTextWrapper>
@@ -121,7 +134,7 @@ const Home = () => {
 					</LandingTextWrapper>
 					<LandingTextWrapper></LandingTextWrapper>
 				</section>
-				<BottomOfPage>
+				{/* <BottomOfPage>
 					<IconButton
 						aria-label='move page down'
 						icon='arrow-down'
@@ -132,7 +145,7 @@ const Home = () => {
 							scrollTo(1000, 1000);
 						}}
 					/>
-				</BottomOfPage>
+				</BottomOfPage> */}
 			</Flex>
 		</>
 	);

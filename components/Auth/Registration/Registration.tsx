@@ -91,17 +91,31 @@ export const SignupForm = ({ linkText = 'Register' }: RegistrationProps) => {
 	const handleSubmit = ({ email, password }: RegisterValues) => {
 		const promise = firebase
 			.auth()
-			.createUserWithEmailAndPassword(email, password);
+			.createUserWithEmailAndPassword(email, password)
+			.then(() => {
+				toast({
+					title: 'Account Created',
+					description: 'Account has been created successfully',
+					status: 'success',
+					duration: 5000,
+					isClosable: true,
+					position: 'top',
+				});
 
-		toast({
-			title: 'Account Created',
-			description: 'Account has been created successfully',
-			status: 'success',
-			duration: 5000,
-			isClosable: true,
-		});
-
-		router.push('/');
+				router.push('/');
+			})
+			.catch((error) => {
+				var errorCode = error.code;
+				var errorMessage = error.message;
+				toast({
+					title: errorCode,
+					description: errorMessage,
+					status: 'error',
+					duration: 5000,
+					isClosable: true,
+					position: 'top',
+				});
+			});
 	};
 
 	return (

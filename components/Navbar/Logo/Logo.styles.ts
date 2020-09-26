@@ -1,5 +1,5 @@
-import { css } from "@emotion/core";
-import styled from "@emotion/styled";
+import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 
 interface AnimationProps {
 	animation: boolean;
@@ -36,7 +36,7 @@ export const Icon = styled.div<AnimationProps>`
 
 export const TextWrapper = styled.div`
 	font-size: 30px;
-	margin: 0 0 0 0;
+	margin: -4px 0 0 0;
 `;
 
 export const UDTriangle = styled.div`
