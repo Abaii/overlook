@@ -19,6 +19,10 @@ import {
 	useDisclosure,
 	ModalFooter,
 	useToast,
+	IconButton,
+	Box,
+	ButtonGroup,
+	Flex,
 } from '@chakra-ui/core';
 import { Formik, FormikErrors, FormikProps, FormikValues, Form } from 'formik';
 import { FormButtonWrapper, ModalFooterWrapper } from './Login.styles';
@@ -26,6 +30,9 @@ import { LinkHoverWrapper } from '../../SharedComponents.styles';
 import initFirebase from '../../../utils/auth/initFirebase';
 import firebase from 'firebase';
 import router from 'next/router';
+import { FcGoogle } from 'react-icons/fc';
+import { FaApple } from 'react-icons/fa';
+import { Icon } from '../../Navbar/Logo/Logo.styles';
 
 initFirebase();
 
@@ -85,6 +92,49 @@ const Login = ({ linkText = 'Login' }: LoginProps) => {
 			});
 	};
 
+	const googleLogin = () => {
+		var provider = new firebase.auth.GoogleAuthProvider();
+
+		firebase
+			.auth()
+			.signInWithPopup(provider)
+			.then(function (result) {
+				// This gives you a Google Access Token. You can use it to access the Google API.
+				var token = result.credential;
+				// The signed-in user info.
+				var user = result.user;
+				// ...
+				toast({
+					title: 'Account Linked',
+					description: 'Account created and Logged In successfully.',
+					status: 'success',
+					duration: 4000,
+					isClosable: true,
+					position: 'top',
+				});
+
+				router.push('/');
+			})
+			.catch(function (error) {
+				// Handle Errors here.
+				var errorCode = error.code;
+				var errorMessage = error.message;
+				// The email of the user's account used.
+				var email = error.email;
+				// The firebase.auth.AuthCredential type that was used.
+				var credential = error.credential;
+				// ...
+				toast({
+					title: errorCode,
+					description: errorMessage,
+					status: 'error',
+					duration: 4000,
+					isClosable: true,
+					position: 'top',
+				});
+			});
+	};
+
 	const validate = (values: LoginValues) => {
 		const errors: FormikErrors<LoginValues> = {};
 		console.log(values);
@@ -120,6 +170,18 @@ const Login = ({ linkText = 'Login' }: LoginProps) => {
 							}: FormikProps<LoginValues>) => (
 								<Form onSubmit={handleSubmit}>
 									<Stack spacing={6}>
+										<Button
+											onClick={googleLogin}
+											style={{ fontFamily: 'Roboto' }}
+											aria-label='google sign-in'
+										>
+											<Box as={FcGoogle} size='30px' style={{ marginRight: '18px' }} />
+											Sign In With Google
+										</Button>
+										<Button style={{ fontFamily: 'Roboto' }} aria-label='apple sign-in'>
+											<Box as={FaApple} size='30px' style={{ marginRight: '18px' }} />
+											Sign In With Apple
+										</Button>
 										<FormControl isInvalid={Boolean(errors.username)}>
 											<InputGroup>
 												<InputLeftAddon children='Username' />

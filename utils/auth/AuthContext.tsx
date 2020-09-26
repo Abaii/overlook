@@ -3,7 +3,6 @@ import nookies from 'nookies';
 import { firebase } from './initFirebase';
 import initFirebase from './initFirebase';
 import { auth } from 'firebase';
-import router from 'next/router';
 
 initFirebase();
 
@@ -38,6 +37,31 @@ export function AuthProvider({ children }: any) {
 // signOut function
 export const signOut = async () => {
 	await auth().signOut();
+};
+
+export const googleLogin = () => {
+	var provider = new firebase.auth.GoogleAuthProvider();
+
+	firebase
+		.auth()
+		.signInWithPopup(provider)
+		.then(function (result) {
+			// This gives you a Google Access Token. You can use it to access the Google API.
+			var token = result.credential.accessToken;
+			// The signed-in user info.
+			var user = result.user;
+			// ...
+		})
+		.catch(function (error) {
+			// Handle Errors here.
+			var errorCode = error.code;
+			var errorMessage = error.message;
+			// The email of the user's account used.
+			var email = error.email;
+			// The firebase.auth.AuthCredential type that was used.
+			var credential = error.credential;
+			// ...
+		});
 };
 
 // useAuth hook
