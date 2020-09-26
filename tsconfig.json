@@ -21,7 +21,7 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx", "utils/auth/initFirebase.js"
   ],
   "exclude": [
     "node_modules"

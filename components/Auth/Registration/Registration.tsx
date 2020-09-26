@@ -17,6 +17,7 @@ import {
 	ModalCloseButton,
 	FormControl,
 	Text,
+	useToast,
 } from '@chakra-ui/core';
 import ReactDOM from 'react-dom';
 import { Formik, Form, FormikProps, FormikErrors } from 'formik';
@@ -41,41 +42,8 @@ interface RegisterProps extends FormikProps<RegisterValues> {}
 const initialValues = {
 	firstName: 'john',
 	lastName: 'doe',
-	email: 'johndoe2@gmail.com',
+	email: 'johndoe3@gmail.com',
 	password: 'test123',
-};
-
-//Take the types that register will require - first/last name + email + password
-const validate = (values: RegisterValues) => {
-	const errors: FormikErrors<RegisterValues> = {};
-	console.log(values);
-
-	//Check that all values exist and if not present a error message
-	if (!values.email) {
-		errors.email = 'You must enter an email';
-	}
-
-	if (!values.firstName) {
-		errors.firstName = 'You must enter a first name';
-	}
-
-	if (!values.lastName) {
-		errors.lastName = 'You must enter a last name';
-	}
-
-	if (!values.password) {
-		errors.password = 'You must enter a password';
-	}
-
-	return errors;
-};
-
-const handleSubmit = ({ email, password }: RegisterValues) => {
-	const promise = firebase
-		.auth()
-		.createUserWithEmailAndPassword(email, password);
-	console.log('Created a User in Firebase! - ', promise);
-	router.push('/');
 };
 
 interface RegistrationProps {
@@ -92,8 +60,50 @@ const RegistrationForm = (props) => {
 export const SignupForm = ({ linkText = 'Register' }: RegistrationProps) => {
 	const [show, setShow] = React.useState(false);
 	const handleClick = () => setShow(!show);
-
 	const [showModal, setShowModal] = useState(true);
+	const toast = useToast();
+
+	//Take the types that register will require - first/last name + email + password
+	const validate = (values: RegisterValues) => {
+		const errors: FormikErrors<RegisterValues> = {};
+		console.log(values);
+
+		//Check that all values exist and if not present a error message
+		if (!values.email) {
+			errors.email = 'You must enter an email';
+		}
+
+		if (!values.firstName) {
+			errors.firstName = 'You must enter a first name';
+		}
+
+		if (!values.lastName) {
+			errors.lastName = 'You must enter a last name';
+		}
+
+		if (!values.password) {
+			errors.password = 'You must enter a password';
+		}
+
+		return errors;
+	};
+
+	const handleSubmit = ({ email, password }: RegisterValues) => {
+		const promise = firebase
+			.auth()
+			.createUserWithEmailAndPassword(email, password);
+
+		toast({
+			title: 'Account Created',
+			description: 'Account has been created successfully',
+			status: 'success',
+			duration: 5000,
+			isClosable: true,
+		});
+
+		router.push('/');
+	};
+
 	return (
 		<>
 			<Modal isOpen={showModal} onClose={() => setShowModal(false)}>

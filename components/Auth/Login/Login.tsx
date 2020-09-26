@@ -18,6 +18,7 @@ import {
 	ModalCloseButton,
 	useDisclosure,
 	ModalFooter,
+	useToast,
 } from '@chakra-ui/core';
 import { Formik, FormikErrors, FormikProps, FormikValues, Form } from 'formik';
 import { FormButtonWrapper, ModalFooterWrapper } from './Login.styles';
@@ -39,34 +40,8 @@ interface LoginProps {
 }
 
 const initialValues = {
-	username: '',
-	password: '',
-};
-
-const validate = (values: LoginValues) => {
-	const errors: FormikErrors<LoginValues> = {};
-	console.log(values);
-	if (!values.username) {
-		errors.username = 'You must enter a username';
-	}
-
-	if (!values.password) {
-		errors.password = 'You must enter your password';
-	}
-
-	return errors;
-};
-
-const handleSubmit = ({ username, password }: LoginValues) => {
-	firebase
-		.auth()
-		.signInWithEmailAndPassword(username, password)
-		.catch((error) => {
-			var errorCode = error.code;
-			var errorMessage = error.message;
-		});
-	console.log('Successfully logged in using Firebase!');
-	router.push('/');
+	username: 'johndoe@gmail.com',
+	password: 'test123',
 };
 
 const Login = ({ linkText = 'Login' }: LoginProps) => {
@@ -74,6 +49,49 @@ const Login = ({ linkText = 'Login' }: LoginProps) => {
 	const [show, setShow] = React.useState(false);
 	const handleClick = () => setShow(!show);
 	const [showModal, setShowModal] = useState(true);
+	const toast = useToast();
+
+	const handleSubmit = ({ username, password }: LoginValues) => {
+		firebase
+			.auth()
+			.signInWithEmailAndPassword(username, password)
+			.then(() => {
+				toast({
+					title: 'Logged In',
+					description: 'Logged In successfully.',
+					status: 'success',
+					duration: 5000,
+					isClosable: true,
+				});
+
+				router.push('/');
+			})
+			.catch((error) => {
+				var errorCode = error.code;
+				var errorMessage = error.message;
+				toast({
+					title: errorCode,
+					description: errorMessage,
+					status: 'error',
+					duration: 5000,
+					isClosable: true,
+				});
+			});
+	};
+
+	const validate = (values: LoginValues) => {
+		const errors: FormikErrors<LoginValues> = {};
+		console.log(values);
+		if (!values.username) {
+			errors.username = 'You must enter a username';
+		}
+
+		if (!values.password) {
+			errors.password = 'You must enter your password';
+		}
+
+		return errors;
+	};
 
 	return (
 		<>
