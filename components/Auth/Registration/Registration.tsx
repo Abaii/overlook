@@ -98,7 +98,7 @@ export const SignupForm = ({ linkText = 'Register' }: RegistrationProps) => {
 					title: 'Account Created',
 					description: 'Account has been created successfully',
 					status: 'success',
-					duration: 5000,
+					duration: 4000,
 					isClosable: true,
 					position: 'top',
 				});
@@ -112,7 +112,7 @@ export const SignupForm = ({ linkText = 'Register' }: RegistrationProps) => {
 					title: errorCode,
 					description: errorMessage,
 					status: 'error',
-					duration: 5000,
+					duration: 4000,
 					isClosable: true,
 					position: 'top',
 				});
