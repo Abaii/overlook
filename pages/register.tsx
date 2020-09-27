@@ -1,12 +1,12 @@
 import React from 'react';
-import RegistrationForm from '../components/Auth/Registration/Registration';
+import { RegistrationFullPage } from '../components/Auth/Registration/Registration';
 import { HomePage } from '../styles/global_emotion.styles';
 
 const Register = () => {
 	return (
 		<>
 			<HomePage>
-				<RegistrationForm />
+				<RegistrationFullPage />
 			</HomePage>
 		</>
 	);

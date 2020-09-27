@@ -13,6 +13,7 @@ import {
 import Logo from './Logo/Logo';
 import { useAuth, signOut } from '../../utils/auth/AuthContext';
 import LoginModal from '../Auth/Login/Login';
+import RegistrationModal from '../Auth/Registration/Registration';
 
 const Navbar = (props) => {
 	const { user } = useAuth();
@@ -79,9 +80,7 @@ const Navbar = (props) => {
 					<LoginModal />
 				</LinkHoverWrapper>
 				<LinkHoverWrapper>
-					<Link href='/register' fontSize='16px'>
-						Register
-					</Link>
+					<RegistrationModal />
 				</LinkHoverWrapper>
 			</>
 		);
