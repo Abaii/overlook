@@ -12,6 +12,7 @@ import {
 } from '../SharedComponents.styles';
 import Logo from './Logo/Logo';
 import { useAuth, signOut } from '../../utils/auth/AuthContext';
+import LoginModal from '../Auth/Login/Login';
 
 const Navbar = (props) => {
 	const { user } = useAuth();
@@ -75,9 +76,7 @@ const Navbar = (props) => {
 		links = (
 			<>
 				<LinkHoverWrapper first={true}>
-					<Link href='/login' fontSize='16px'>
-						Login
-					</Link>
+					<LoginModal />
 				</LinkHoverWrapper>
 				<LinkHoverWrapper>
 					<Link href='/register' fontSize='16px'>
