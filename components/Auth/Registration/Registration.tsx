@@ -26,6 +26,7 @@ import { ModalFooterWrapper } from '../Login/Login.styles';
 import firebase from 'firebase';
 import initFirebase from '../../../utils/auth/initFirebase';
 import router from 'next/router';
+import ProviderButtons from '../ProviderButtons';
 
 initFirebase();
 
@@ -139,7 +140,11 @@ export const SignupForm = ({ linkText = 'Register' }: RegistrationProps) => {
 							}: FormikProps<RegisterValues>) => (
 								<Form>
 									<Stack spacing={8}>
-										<FormControl isInvalid={Boolean(errors.email)}>
+										<ProviderButtons />
+										<FormControl
+											isInvalid={Boolean(errors.email)}
+											style={{ marginTop: '20px' }}
+										>
 											<InputGroup>
 												<InputLeftAddon children='First Name' />
 												<Input
