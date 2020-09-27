@@ -31,7 +31,7 @@ import initFirebase from '../../../utils/auth/initFirebase';
 import firebase from 'firebase';
 import router from 'next/router';
 import { FcGoogle } from 'react-icons/fc';
-import { FaApple } from 'react-icons/fa';
+import { ImFacebook2 } from 'react-icons/im';
 import { Icon } from '../../Navbar/Logo/Logo.styles';
 
 initFirebase();
@@ -105,8 +105,8 @@ const Login = ({ linkText = 'Login' }: LoginProps) => {
 				var user = result.user;
 				// ...
 				toast({
-					title: 'Account Linked',
-					description: 'Account created and Logged In successfully.',
+					title: 'Google Account Linked',
+					description: 'Account created and logged In successfully.',
 					status: 'success',
 					duration: 4000,
 					isClosable: true,
@@ -116,6 +116,49 @@ const Login = ({ linkText = 'Login' }: LoginProps) => {
 				router.push('/');
 			})
 			.catch(function (error) {
+				// Handle Errors here.
+				var errorCode = error.code;
+				var errorMessage = error.message;
+				// The email of the user's account used.
+				var email = error.email;
+				// The firebase.auth.AuthCredential type that was used.
+				var credential = error.credential;
+				// ...
+				toast({
+					title: errorCode,
+					description: errorMessage,
+					status: 'error',
+					duration: 4000,
+					isClosable: true,
+					position: 'top',
+				});
+			});
+	};
+
+	const facebookLogin = () => {
+		var provider = new firebase.auth.FacebookAuthProvider();
+
+		firebase
+			.auth()
+			.signInWithPopup(provider)
+			.then((result) => {
+				// This gives you a Facebook Access Token. You can use it to access the Facebook API.
+				var token = result.credential;
+				// The signed-in user info.
+				var user = result.user;
+
+				toast({
+					title: 'Facebook Account Linked',
+					description: 'Account created and logged In successfully.',
+					status: 'success',
+					duration: 4000,
+					isClosable: true,
+					position: 'top',
+				});
+
+				router.push('/');
+			})
+			.catch((error) => {
 				// Handle Errors here.
 				var errorCode = error.code;
 				var errorMessage = error.message;
@@ -170,18 +213,28 @@ const Login = ({ linkText = 'Login' }: LoginProps) => {
 							}: FormikProps<LoginValues>) => (
 								<Form onSubmit={handleSubmit}>
 									<Stack spacing={6}>
-										<Button
-											onClick={googleLogin}
-											style={{ fontFamily: 'Roboto' }}
-											aria-label='google sign-in'
-										>
-											<Box as={FcGoogle} size='30px' style={{ marginRight: '18px' }} />
-											Sign In With Google
-										</Button>
-										<Button style={{ fontFamily: 'Roboto' }} aria-label='apple sign-in'>
-											<Box as={FaApple} size='30px' style={{ marginRight: '18px' }} />
-											Sign In With Apple
-										</Button>
+										<Stack spacing={6}>
+											<Button
+												onClick={googleLogin}
+												style={{ fontFamily: 'Roboto' }}
+												aria-label='google sign-in'
+											>
+												<Box as={FcGoogle} size='30px' style={{ marginRight: '18px' }} />
+												Sign In With Google
+											</Button>
+											<Button
+												onClick={facebookLogin}
+												style={{ fontFamily: 'Roboto' }}
+												aria-label='facebook sign-in'
+											>
+												<Box
+													as={ImFacebook2}
+													size='26px'
+													style={{ color: '#3b5998', marginRight: '18px' }}
+												/>
+												Sign In With Facebook
+											</Button>
+										</Stack>
 										<FormControl isInvalid={Boolean(errors.username)}>
 											<InputGroup>
 												<InputLeftAddon children='Username' />
