@@ -22,7 +22,6 @@ import {
 	Box,
 	Flex,
 } from '@chakra-ui/core';
-import ReactDOM from 'react-dom';
 import { Formik, Form, FormikProps, FormikErrors } from 'formik';
 import { FormButtonWrapper } from './Registration.styles';
 import { ModalFooterWrapper } from '../Login/Login.styles';

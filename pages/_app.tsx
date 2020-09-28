@@ -1,5 +1,5 @@
 import '../styles/globals.css';
-import { ThemeProvider } from '@chakra-ui/core';
+import { CSSReset, ThemeProvider } from '@chakra-ui/core';
 import { Global, css } from '@emotion/core';
 import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
@@ -23,6 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 				`}
 			/>
 			<ThemeProvider>
+				<CSSReset />
 				<AuthProvider>
 					<Page>
 						<Navbar />
