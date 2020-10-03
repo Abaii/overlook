@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import { Icon, LogoWrapper, TextWrapper, UDTriangle } from './Logo.styles';
-import { Text } from '@chakra-ui/core';
 import Typo from '../../Typo/Typo';
-import { Title } from '../../Typo/Title/Title';
 
-interface Props {}
-
-export const Logo = (props: Props) => {
+export const Logo = () => {
 	const [animation, setAnimation] = useState(false);
 
 	return (

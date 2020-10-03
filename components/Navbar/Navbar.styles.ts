@@ -1,17 +1,19 @@
 import styled from "@emotion/styled";
+import tokens from '../../styles/tokens.json';
 
 export const NavbarElementWrapper = styled.div`
 	margin-right: 20px;
 `;
 
 export const NavbarWrapper = styled.div`
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	background-color: white;
-	border-bottom: 1px solid;
-	// top right bottom left
-	padding: 10px 40px 14px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid;
+  background-color: ${tokens.secondaryBackground};
+  box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+  // top right bottom left
+  padding: 10px 40px 14px 40px;
 `;
 
 export const SplitLinks = styled.div`

@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, AvatarBadge, Text, Stack } from "@chakra-ui/core";
+import { Avatar, Text } from "@chakra-ui/core";
 import {
 	FooterElementsWrapper,
 	FooterSingleElementWrapper,

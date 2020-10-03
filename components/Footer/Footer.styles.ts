@@ -5,7 +5,6 @@ export const FooterWrapper = styled.div`
 	justify-content: center;
 	align-items: flex-end;
 	padding: 0px 0 8px 0;
-	background-color: white;
 `;
 
 export const FooterElementsWrapper = styled.div`

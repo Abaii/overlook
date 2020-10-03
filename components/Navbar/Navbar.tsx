@@ -15,7 +15,7 @@ import { useAuth, signOut } from '../../utils/auth/AuthContext';
 import LoginModal from '../Auth/Login/Login';
 import RegistrationModal from '../Auth/Registration/Registration';
 
-const Navbar = (props) => {
+const Navbar = () => {
 	const { user } = useAuth();
 	const toast = useToast();
 
@@ -47,10 +47,10 @@ const Navbar = (props) => {
 
 	let links;
 
-	if (user && user.displayName) {
+	user ?
 		links = (
 			<>
-				<LoggedInInfoWrapper first={true}>{user.displayName}</LoggedInInfoWrapper>
+				<LoggedInInfoWrapper first={true}>{user.displayName || user.email}</LoggedInInfoWrapper>
 				<Button
 					onClick={handleSignOut}
 					leftIcon='arrow-forward'
@@ -59,21 +59,8 @@ const Navbar = (props) => {
 					Sign Out
 				</Button>
 			</>
-		);
-	} else if (user) {
-		links = (
-			<>
-				<LoggedInInfoWrapper first={true}>{user.email}</LoggedInInfoWrapper>
-				<Button
-					onClick={handleSignOut}
-					leftIcon='arrow-forward'
-					variantColor='purple'
-				>
-					Sign Out
-				</Button>
-			</>
-		);
-	} else {
+		)
+	:
 		links = (
 			<>
 				<LinkHoverWrapper first={true}>
@@ -84,7 +71,7 @@ const Navbar = (props) => {
 				</LinkHoverWrapper>
 			</>
 		);
-	}
+	
 
 	return (
 		<NavbarWrapper>
