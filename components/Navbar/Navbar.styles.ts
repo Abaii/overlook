@@ -2,7 +2,10 @@ import styled from "@emotion/styled";
 import tokens from '../../styles/tokens.json';
 
 export const NavbarElementWrapper = styled.div`
-	margin-right: 20px;
+  margin-right: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const NavbarWrapper = styled.div`
@@ -18,6 +21,12 @@ export const NavbarWrapper = styled.div`
 
 export const SplitLinks = styled.div`
 	display: flex;
+`;
+
+export const IconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  padding-right: 15px;
 `;
 
 export const LogoLink = styled.div`

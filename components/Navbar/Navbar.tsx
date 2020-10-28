@@ -1,23 +1,33 @@
 import React from 'react';
-import { Link, Button, useToast } from '@chakra-ui/core';
+//Styles
+import { Link, Button, useToast, IconButton, Box } from '@chakra-ui/core';
 import {
 	NavbarElementWrapper,
 	NavbarWrapper,
 	SplitLinks,
 	LogoLink,
+	IconWrapper,
 } from './Navbar.styles';
 import {
 	LinkHoverWrapper,
 	LoggedInInfoWrapper,
 } from '../SharedComponents.styles';
-import Logo from './Logo/Logo';
+// Auth
 import { useAuth, signOut } from '../../utils/auth/AuthContext';
+// Components
+import Logo from './Logo/Logo';
 import LoginModal from '../Auth/Login/Login';
 import RegistrationModal from '../Auth/Registration/Registration';
+import TimelineModal from '../Timeline/TimelineModal';
+// Icons
+import { FaUser } from 'react-icons/fa';
+// Router
+import { useRouter } from 'next/router';
 
 const Navbar = () => {
 	const { user } = useAuth();
 	const toast = useToast();
+	const router = useRouter();
 
 	const handleSignOut = () => {
 		signOut()
@@ -50,7 +60,16 @@ const Navbar = () => {
 	user ?
 		links = (
 			<>
-				<LoggedInInfoWrapper first={true}>{user.displayName || user.email}</LoggedInInfoWrapper>
+				<LoggedInInfoWrapper first={true}>
+					<IconWrapper>
+						<Box as={FaUser} size='20px' />
+					</IconWrapper>
+					{user.displayName || user.email}
+					</LoggedInInfoWrapper>
+				<NavbarElementWrapper>
+					<TimelineModal />
+				</NavbarElementWrapper>
+				
 				<Button
 					onClick={handleSignOut}
 					leftIcon='arrow-forward'

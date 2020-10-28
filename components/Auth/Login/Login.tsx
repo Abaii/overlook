@@ -96,7 +96,7 @@ const LoginModal = ({ linkText = 'Login' }: LoginProps) => {
 
 	const validate = (values: LoginValues) => {
 		const errors: FormikErrors<LoginValues> = {};
-		console.log(values);
+
 		if (!values.username) {
 			errors.username = 'You must enter a username';
 		}

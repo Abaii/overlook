@@ -26,6 +26,8 @@ export const LoggedInInfoWrapper = styled.div<SplitLinksProps>`
 	${({ first }) =>
 		first &&
 		css`
-			margin: 9px 25px 0 0;
+			margin: 0px 25px 0 0;
 		`}
+	display: flex;
+	align-items: center;
 `;

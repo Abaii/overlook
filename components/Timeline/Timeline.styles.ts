@@ -23,6 +23,13 @@ export const ImagesContainer = styled.div`
     flex-wrap: wrap;
 `;
 
+export const FormButtonWrapper = styled.div`
+    margin-top: 22px;
+    margin-bottom: 12px;
+	display: flex;
+	justify-content: center;
+`;
+
 
 export const PhotoWrapper = styled.div<{ imageSrc: string }>`
   height: 300px;
