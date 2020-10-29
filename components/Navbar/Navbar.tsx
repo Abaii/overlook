@@ -1,6 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 //Styles
-import { Link, Button, useToast, IconButton, Box } from '@chakra-ui/core';
+import {
+	Link,
+	Button,
+	useToast,
+	IconButton,
+	Box,
+	Menu,
+	MenuList,
+	MenuGroup,
+	MenuItem,
+	MenuButton,
+	Skeleton,
+} from '@chakra-ui/core';
 import {
 	NavbarElementWrapper,
 	NavbarWrapper,
@@ -57,29 +69,31 @@ const Navbar = () => {
 
 	let links;
 
-	user ?
+	if (user) {
 		links = (
 			<>
 				<LoggedInInfoWrapper first={true}>
-					<IconWrapper>
-						<Box as={FaUser} size='20px' />
-					</IconWrapper>
-					{user.displayName || user.email}
-					</LoggedInInfoWrapper>
-				<NavbarElementWrapper>
-					<TimelineModal />
-				</NavbarElementWrapper>
-				
-				<Button
-					onClick={handleSignOut}
-					leftIcon='arrow-forward'
-					variantColor='purple'
-				>
+					<NavbarElementWrapper>
+						<TimelineModal />
+					</NavbarElementWrapper>
+					<Menu>
+						<MenuButton as={Button} leftIcon={FaUser} variantColor='blue'>
+							{user.displayName || user.email}
+						</MenuButton>
+						<MenuList>
+							<MenuGroup>
+								<MenuItem onClick={() => router.push('/account')}>Account</MenuItem>
+								<MenuItem onClick={() => router.push('/timelines')}>Timelines</MenuItem>
+							</MenuGroup>
+						</MenuList>
+					</Menu>
+				</LoggedInInfoWrapper>
+				<Button onClick={handleSignOut} leftIcon='arrow-forward' variantColor='red'>
 					Sign Out
 				</Button>
 			</>
-		)
-	:
+		);
+	} else {
 		links = (
 			<>
 				<LinkHoverWrapper first={true}>
@@ -90,7 +104,7 @@ const Navbar = () => {
 				</LinkHoverWrapper>
 			</>
 		);
-	
+	}
 
 	return (
 		<NavbarWrapper>

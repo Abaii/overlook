@@ -22,6 +22,7 @@ import {
 	Text,
 	Input,
 	Textarea,
+	useToast,
 } from '@chakra-ui/core';
 
 // Formik Imports
@@ -31,6 +32,8 @@ import { FormButtonWrapper } from './Timeline.styles';
 // Other Imports
 import axios from 'axios';
 import nookies from 'nookies';
+import { useAuth } from '../../utils/auth/AuthContext';
+import { useRouter } from 'next/router';
 
 interface TimelineValues {
 	title: string;
@@ -44,7 +47,10 @@ const initialValues = {
 
 export const TimelineModal = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const { user } = useAuth();
 	const [isSubmitting, setSubmitting] = useState(false);
+	const router = useRouter();
+	const toast = useToast();
 
 	const handleSubmit = async ({ title, description }: TimelineValues) => {
 		setSubmitting(true);
@@ -57,15 +63,35 @@ export const TimelineModal = () => {
 			data: {
 				title: title,
 				description: description,
+				ownerId: user.uid,
 			},
 			headers: { Authorization: 'Bearer ' + token.token },
 		})
 			.then(() => {
+				toast({
+					title: 'Timeline Created',
+					description: 'Successfully created Timeline.',
+					status: 'success',
+					duration: 4000,
+					isClosable: true,
+					position: 'top',
+				});
 				setSubmitting(false);
+				onClose();
+				router.push('/');
 			})
 			.catch((err) => {
 				setSubmitting(false);
-				console.log('Oops, Something went wrong - ' + err);
+				const errorCode = err.code;
+				const errorMessage = err.message;
+				toast({
+					title: errorCode,
+					description: errorMessage,
+					status: 'error',
+					duration: 4000,
+					isClosable: true,
+					position: 'top',
+				});
 			});
 
 		console.log(response);
@@ -136,7 +162,6 @@ export const TimelineModal = () => {
 										<FormControl isInvalid={Boolean(errors.description)}>
 											<InputGroup size='md'>
 												<Textarea
-													pr='4.5rem'
 													id='description'
 													value={values.description}
 													onChange={(e) => setFieldValue('description', e.target.value)}
