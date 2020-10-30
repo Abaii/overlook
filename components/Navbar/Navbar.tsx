@@ -12,6 +12,7 @@ import {
 	MenuItem,
 	MenuButton,
 	Skeleton,
+	Icon,
 } from '@chakra-ui/core';
 import {
 	NavbarElementWrapper,
@@ -52,6 +53,7 @@ const Navbar = () => {
 					isClosable: true,
 					position: 'top',
 				});
+				router.push('/');
 			})
 			.catch((error) => {
 				var errorCode = error.code;
@@ -77,7 +79,7 @@ const Navbar = () => {
 						<TimelineModal />
 					</NavbarElementWrapper>
 					<Menu>
-						<MenuButton as={Button} leftIcon={FaUser} variantColor='blue'>
+						<MenuButton as={Button} variantColor='blue' leftIcon={FaUser}>
 							{user.displayName || user.email}
 						</MenuButton>
 						<MenuList>

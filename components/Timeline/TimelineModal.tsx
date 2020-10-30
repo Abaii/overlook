@@ -78,7 +78,7 @@ export const TimelineModal = () => {
 				});
 				setSubmitting(false);
 				onClose();
-				router.push('/');
+				router.reload();
 			})
 			.catch((err) => {
 				setSubmitting(false);

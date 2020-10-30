@@ -12,7 +12,7 @@ export const NavbarWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid;
+  border-bottom: 1px solid #e2e8f0;
   background-color: ${tokens.secondaryBackground};
   box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
   // top right bottom left
