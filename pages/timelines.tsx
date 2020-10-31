@@ -13,6 +13,7 @@ import {
 	Tag,
 	Text,
 } from '@chakra-ui/core';
+import Head from 'next/head';
 
 // React Imports
 import React, { useEffect, useState } from 'react';
@@ -57,38 +58,37 @@ export const Timelines = () => {
 
 	return (
 		<>
-			<Flex
-				justify='center'
-				align='center'
-				flexDirection='column'
-				w='100%'
-				pt='22px'
-			>
+			<Head>
+				<title>All Timelines</title>
+				<link
+					rel='icon'
+					href='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌍</text></svg>'
+				/>
+			</Head>
+
+			<Flex justify='center' align='center' flexDirection='column' pt='22px'>
 				<Heading m={'22px 0 22px 0'} size='2xl'>
 					All Timelines
 				</Heading>
 				{user ? (
 					<>
 						{data.length && data ? (
-							<SimpleGrid columns={3} spacing={5}>
-								{data.map((timeline) => (
-									<Box
-										borderWidth='1px'
-										rounded='lg'
-										overflow='hidden'
-										height='100%'
-										bg='white'
-										p={5}
-									>
-										<Heading>{timeline.title}</Heading>
-										<Divider />
-										<p style={{ marginBottom: '20px' }}>{timeline.description}</p>
-										<Tag variantColor='green' rounded='full'>
-											{user.displayName || user.email.split('@')[0]}
-										</Tag>
-									</Box>
-								))}
-							</SimpleGrid>
+							<Box width='100%' px={5}>
+								<SimpleGrid minChildWidth='250px' spacing={4}>
+									{data.map((timeline) => (
+										<Box rounded='lg' overflow='hidden' bg='white' height='100%' p={5}>
+											<Heading>{timeline.title}</Heading>
+											<Divider />
+											<p style={{ marginBottom: '20px', marginTop: '20px' }}>
+												{timeline.description}
+											</p>
+											<Tag variantColor='green' rounded='full'>
+												{user.displayName || user.email.split('@')[0]}
+											</Tag>
+										</Box>
+									))}
+								</SimpleGrid>
+							</Box>
 						) : (
 							<>
 								<Stack spacing={5}>

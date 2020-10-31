@@ -8,6 +8,12 @@ export const NavbarElementWrapper = styled.div`
   align-items: center;
 `;
 
+export const NavbarElement = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const NavbarWrapper = styled.div`
   display: flex;
   justify-content: space-between;

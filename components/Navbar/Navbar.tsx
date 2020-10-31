@@ -13,6 +13,8 @@ import {
 	MenuButton,
 	Skeleton,
 	Icon,
+	Avatar,
+	useDisclosure,
 } from '@chakra-ui/core';
 import {
 	NavbarElementWrapper,
@@ -20,6 +22,7 @@ import {
 	SplitLinks,
 	LogoLink,
 	IconWrapper,
+	NavbarElement,
 } from './Navbar.styles';
 import {
 	LinkHoverWrapper,
@@ -32,8 +35,10 @@ import Logo from './Logo/Logo';
 import LoginModal from '../Auth/Login/Login';
 import RegistrationModal from '../Auth/Registration/Registration';
 import TimelineModal from '../Timeline/TimelineModal';
+import AccountModal from '../Account/AccountModal';
 // Icons
 import { FaUser } from 'react-icons/fa';
+import { MdTimeline } from 'react-icons/md';
 // Router
 import { useRouter } from 'next/router';
 
@@ -41,6 +46,7 @@ const Navbar = () => {
 	const { user } = useAuth();
 	const toast = useToast();
 	const router = useRouter();
+	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	const handleSignOut = () => {
 		signOut()
@@ -79,20 +85,32 @@ const Navbar = () => {
 						<TimelineModal />
 					</NavbarElementWrapper>
 					<Menu>
-						<MenuButton as={Button} variantColor='blue' leftIcon={FaUser}>
-							{user.displayName || user.email}
+						<MenuButton style={{ outline: 'none' }}>
+							<Avatar src={user.photoURL} />
 						</MenuButton>
 						<MenuList>
 							<MenuGroup>
-								<MenuItem onClick={() => router.push('/account')}>Account</MenuItem>
-								<MenuItem onClick={() => router.push('/timelines')}>Timelines</MenuItem>
+								<MenuItem onClick={() => onOpen()} minH='48px'>
+									<Box as={FaUser} mr='12px' />
+									Account
+								</MenuItem>
+								<MenuItem onClick={() => router.push('/timelines')} minH='48px'>
+									<Box as={MdTimeline} mr='12px' />
+									Timelines
+								</MenuItem>
 							</MenuGroup>
 						</MenuList>
 					</Menu>
 				</LoggedInInfoWrapper>
-				<Button onClick={handleSignOut} leftIcon='arrow-forward' variantColor='red'>
-					Sign Out
-				</Button>
+				<NavbarElement>
+					<Button
+						onClick={handleSignOut}
+						leftIcon='arrow-forward'
+						variantColor='red'
+					>
+						Sign Out
+					</Button>
+				</NavbarElement>
 			</>
 		);
 	} else {
@@ -109,17 +127,21 @@ const Navbar = () => {
 	}
 
 	return (
-		<NavbarWrapper>
-			<NavbarElementWrapper>
-				<LogoLink>
-					<Link href='/'>
-						<Logo />
-					</Link>
-				</LogoLink>
-			</NavbarElementWrapper>
+		<>
+			<NavbarWrapper>
+				<NavbarElementWrapper>
+					<LogoLink>
+						<Link href='/'>
+							<Logo />
+						</Link>
+					</LogoLink>
+				</NavbarElementWrapper>
 
-			<SplitLinks>{links}</SplitLinks>
-		</NavbarWrapper>
+				<SplitLinks>{links}</SplitLinks>
+			</NavbarWrapper>
+
+			<AccountModal isOpen={isOpen} onClose={onClose} />
+		</>
 	);
 };
 
