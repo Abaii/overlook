@@ -26,6 +26,9 @@ import {
 	Tooltip,
 	ControlBox,
 	VisuallyHidden,
+	FormLabel,
+	RadioGroup,
+	Radio,
 } from '@chakra-ui/core';
 
 // Formik Imports
@@ -57,10 +60,10 @@ export const TimelineModal = () => {
 	const [isSubmitting, setSubmitting] = useState(false);
 	const router = useRouter();
 	const toast = useToast();
+	const [selectedImage, setSelectedImage] = useState();
 
 	const handleSubmit = async ({ title, description }: TimelineValues) => {
 		setSubmitting(true);
-
 		const token = nookies.get({}, 'token');
 
 		const response = await axios({
@@ -117,6 +120,11 @@ export const TimelineModal = () => {
 		return errors;
 	};
 
+	const handleImageChange = (event) => {
+		setSelectedImage(event.target.files[0]);
+		// Send image off to image api point before creating timeline.
+	};
+
 	return (
 		<>
 			<Tooltip label='Create a Timeline' aria-label='create a timeline button'>
@@ -166,7 +174,6 @@ export const TimelineModal = () => {
 												</FormErrorMessage>
 											)}
 										</FormControl>
-
 										<FormControl isInvalid={Boolean(errors.description)}>
 											<InputGroup size='md'>
 												<Textarea
@@ -182,11 +189,24 @@ export const TimelineModal = () => {
 												</FormErrorMessage>
 											)}
 										</FormControl>
-
-										{/* <ControlBox rounded='sm' size='150px'>
-											<Box as={ImFilePicture}>Picture/Art</Box>
-											<Box as={BsCodeSlash}>Software/Website</Box>
-										</ControlBox> */}
+										<FormControl>
+											<FormLabel>Image Upload</FormLabel>
+											<Box rounded='lg' bg='gray.100' p={2}>
+												<input
+													onChange={handleImageChange}
+													accept='.jpg, .png, .jpeg'
+													type='file'
+													multiple={true}
+												/>
+											</Box>
+										</FormControl>
+										{/* TODO: Read into https://chakra-ui.com/radio#custom-radio-buttons */}
+										{/* <FormControl>
+											<FormLabel>Timeline Type</FormLabel>
+											<RadioGroup>
+												<Radio as={ImFilePicture}></Radio>
+											</RadioGroup>
+										</FormControl> */}
 									</Stack>
 									<FormButtonWrapper>
 										<Button
