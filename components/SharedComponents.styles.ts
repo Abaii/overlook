@@ -11,7 +11,7 @@ export const LinkHoverWrapper = styled.div<SplitLinksProps>`
 		padding: 4px 8px 4px 8px;
 		border-radius: 20px;
 		background: linear-gradient(to right, #b4373d, #b23acb);
-		color: ${tokens.buttonText};
+		color: ${tokens.buttonTextAlt};
 		text-align: center;
 		text-decoration: none;
 	}

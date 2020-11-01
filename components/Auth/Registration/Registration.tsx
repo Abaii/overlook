@@ -139,7 +139,7 @@ const RegistrationModal = ({ linkText = 'Register' }: RegistrationProps) => {
 							}: FormikProps<RegisterValues>) => (
 								<Form>
 									<Stack spacing={8}>
-										<ProviderButtons />
+										<ProviderButtons bgColor='gray.100' />
 										<FormControl
 											isInvalid={Boolean(errors.email)}
 											style={{ marginTop: '25px' }}
@@ -309,7 +309,7 @@ export const RegistrationFullPage = () => {
 		<Box w='100%' p={20}>
 			<Flex align='center' justify='center'>
 				<Stack spacing={6}>
-					<ProviderButtons />
+					<ProviderButtons bgColor='white' />
 					<Box w='100%' p={5}>
 						<Formik
 							initialValues={initialValues}

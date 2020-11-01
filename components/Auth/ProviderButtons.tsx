@@ -8,7 +8,7 @@ import router from 'next/router';
 
 initFirebase();
 
-const ProviderButtons = () => {
+const ProviderButtons = ({ bgColor }) => {
 	const toast = useToast();
 
 	const googleLogin = () => {
@@ -97,10 +97,11 @@ const ProviderButtons = () => {
 			});
 	};
 	return (
-		<Stack spacing={6}>
+		<Stack spacing={5}>
 			<Button
 				onClick={googleLogin}
 				style={{ fontFamily: 'Roboto' }}
+				bg={bgColor}
 				aria-label='google sign-in'
 			>
 				<Box as={FcGoogle} size='30px' style={{ marginRight: '18px' }} />
@@ -109,6 +110,7 @@ const ProviderButtons = () => {
 			<Button
 				onClick={facebookLogin}
 				style={{ fontFamily: 'Roboto' }}
+				bg={bgColor}
 				aria-label='facebook sign-in'
 			>
 				<Box

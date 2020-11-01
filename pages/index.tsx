@@ -6,8 +6,9 @@ import {
 	LandingImageWrapper,
 	BottomOfPage,
 } from '../styles/global_emotion.styles';
-import { IconButton, Image, Flex } from '@chakra-ui/core';
+import { IconButton, Image, Flex, Box } from '@chakra-ui/core';
 import Head from 'next/head';
+import Footer from '../components/Footer/Footer';
 
 const Home = () => {
 	return (

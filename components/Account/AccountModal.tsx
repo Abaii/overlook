@@ -33,11 +33,23 @@ export default function AccountModal({ isOpen, onClose }) {
 
 	const handleClick = () => setShow(!show);
 
+	function checkEmail() {
+		if (
+			/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+				newEmail
+			)
+		) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	function displayNewCreds() {
-		if (newEmail != '' && newPassword != '') {
+		if (newPassword != '' && newPassword.length >= 5 && checkEmail() == true) {
 			console.log('New Email Address - ' + newEmail);
 			console.log('New Password - ' + newPassword);
-		} else if (newEmail != '') {
+		} else if (checkEmail() == true) {
 			console.log('New Email Address - ' + newEmail);
 		} else if (newPassword != '') {
 			console.log('New Password - ' + newPassword);
@@ -106,11 +118,6 @@ export default function AccountModal({ isOpen, onClose }) {
 											</Button>
 										</InputRightElement>
 									</InputGroup>
-								</Box>
-								<Box textAlign='center'>
-									<form>
-										<input type='file' />
-									</form>
 								</Box>
 							</Stack>
 						</ModalBody>

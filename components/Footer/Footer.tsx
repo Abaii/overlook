@@ -1,32 +1,46 @@
-import React from "react";
-import { Avatar, Text } from "@chakra-ui/core";
+import React, { useState } from 'react';
+import { Avatar, Box, Flex, IconButton, Text } from '@chakra-ui/core';
 import {
 	FooterElementsWrapper,
 	FooterSingleElementWrapper,
 	FooterWrapper,
-} from "./Footer.styles";
+} from './Footer.styles';
 
 const Footer = () => {
+	const [show, setShow] = useState(false);
 	return (
-		<FooterWrapper>
-			<footer>
-				<Text fontSize='18px'>
-					Developed & Designed by Abai Edmund & Johny Wills
-				</Text>
-				<FooterElementsWrapper>
-					<FooterSingleElementWrapper>
-						<a href='https://github.com/Abaii'>
-							<Avatar name='Abai Edmund' />
-						</a>
-					</FooterSingleElementWrapper>
-					<FooterSingleElementWrapper>
-						<a href='https://github.com/JohnyWills1'>
-							<Avatar name='Johny Wills' />
-						</a>
-					</FooterSingleElementWrapper>
-				</FooterElementsWrapper>
-			</footer>
-		</FooterWrapper>
+		<Flex align='center' justify='center' mt={2} mb={5} flexDirection='column'>
+			<IconButton
+				aria-label='close footer button'
+				icon={show ? 'chevron-up' : 'chevron-down'}
+				size='xs'
+				variantColor='purple'
+				mb={2}
+				onClick={() => setShow(!show)}
+			/>
+
+			{show && (
+				<Box py={2} rounded='lg' bg='white' p={3}>
+					<footer>
+						<Text fontSize='14px' mb={2}>
+							Developed & Designed by Abai Edmund & Johny Wills
+						</Text>
+						<FooterElementsWrapper>
+							<FooterSingleElementWrapper>
+								<a href='https://github.com/Abaii'>
+									<Avatar name='Abai Edmund' size='sm' />
+								</a>
+							</FooterSingleElementWrapper>
+							<FooterSingleElementWrapper>
+								<a href='https://github.com/JohnyWills1'>
+									<Avatar name='Johny Wills' size='sm' />
+								</a>
+							</FooterSingleElementWrapper>
+						</FooterElementsWrapper>
+					</footer>
+				</Box>
+			)}
+		</Flex>
 	);
 };
 

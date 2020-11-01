@@ -66,7 +66,7 @@ export const Timelines = () => {
 				/>
 			</Head>
 
-			<Flex justify='center' align='center' flexDirection='column' pt='22px'>
+			<Flex justify='center' align='center' flexDirection='column' py='22px'>
 				<Heading m={'22px 0 22px 0'} size='2xl'>
 					All Timelines
 				</Heading>
@@ -101,13 +101,13 @@ export const Timelines = () => {
 						)}
 					</>
 				) : (
-					<Flex justify='center' align='center'>
+					<Flex justify='center' align='center' rounded='lg' p={2} bg='white'>
 						<Spinner
 							thickness='4px'
 							emptyColor='gray.200'
 							color='blue.500'
+							speed='0.8s'
 							size='xl'
-							mt={40}
 						/>
 					</Flex>
 				)}

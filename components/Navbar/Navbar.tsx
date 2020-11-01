@@ -86,15 +86,19 @@ const Navbar = () => {
 				</NavbarElementWrapper>
 				<Menu>
 					<MenuButton style={{ outline: 'none' }}>
-						<Avatar src={user.photoURL} />
+						<Avatar
+							src={user.photoURL}
+							name={user.displayName || user.email.split('@')[0]}
+						/>
 					</MenuButton>
 					<MenuList>
 						<MenuGroup>
-							<MenuItem onClick={() => onOpen()} minH='48px'>
+							<MenuItem onClick={() => onOpen()} minH='100%'>
 								<Box as={FaUser} mr='12px' />
 								Account
 							</MenuItem>
-							<MenuItem onClick={() => router.push('/timelines')} minH='48px'>
+							<MenuDivider />
+							<MenuItem onClick={() => router.push('/timelines')} minH='100%'>
 								<Box as={MdTimeline} mr='12px' />
 								Timelines
 							</MenuItem>

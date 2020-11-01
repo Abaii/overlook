@@ -23,6 +23,7 @@ import {
 	Box,
 	ButtonGroup,
 	Flex,
+	Heading,
 } from '@chakra-ui/core';
 import { Formik, FormikErrors, FormikProps, FormikValues, Form } from 'formik';
 import { FormButtonWrapper, ModalFooterWrapper } from './Login.styles';
@@ -131,7 +132,7 @@ const LoginModal = ({ linkText = 'Login' }: LoginProps) => {
 							}: FormikProps<LoginValues>) => (
 								<Form onSubmit={handleSubmit}>
 									<Stack spacing={6}>
-										<ProviderButtons />
+										<ProviderButtons bgColor='gray.100' />
 										<FormControl
 											isInvalid={Boolean(errors.username)}
 											style={{ marginTop: '20px' }}
@@ -257,10 +258,10 @@ export const LoginFullPage = () => {
 	};
 
 	return (
-		<Box w='100%' p={20}>
-			<Flex align='center' justify='center'>
+		<Box w='100%' p={10}>
+			<Flex align='center' justify='center' bg='white' rounded='lg' p={5}>
 				<Stack spacing={6}>
-					<ProviderButtons />
+					<ProviderButtons bgColor='gray.100' />
 					<Box w='100%' p={5}>
 						<Formik
 							initialValues={initialValues}
@@ -274,6 +275,9 @@ export const LoginFullPage = () => {
 								setFieldValue,
 							}: FormikProps<LoginValues>) => (
 								<Form onSubmit={handleSubmit}>
+									<Text fontSize='35px' fontWeight='bold' textAlign='center'>
+										Login
+									</Text>
 									<Stack spacing={6}>
 										<FormControl
 											isInvalid={Boolean(errors.username)}
