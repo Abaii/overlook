@@ -23,6 +23,9 @@ import {
 	Input,
 	Textarea,
 	useToast,
+	Tooltip,
+	ControlBox,
+	VisuallyHidden,
 } from '@chakra-ui/core';
 
 // Formik Imports
@@ -34,6 +37,9 @@ import axios from 'axios';
 import nookies from 'nookies';
 import { useAuth } from '../../utils/auth/AuthContext';
 import { useRouter } from 'next/router';
+import { Icon } from '../Navbar/Logo/Logo.styles';
+import { ImFilePicture } from 'react-icons/im';
+import { BsCodeSlash } from 'react-icons/bs';
 
 interface TimelineValues {
 	title: string;
@@ -113,13 +119,15 @@ export const TimelineModal = () => {
 
 	return (
 		<>
-			<IconButton
-				icon='add'
-				variantColor='green'
-				isRound={true}
-				aria-label='Create Timeline Button'
-				onClick={onOpen}
-			/>
+			<Tooltip label='Create a Timeline' aria-label='create a timeline button'>
+				<IconButton
+					icon='add'
+					variantColor='green'
+					isRound={true}
+					aria-label='Create Timeline Button'
+					onClick={onOpen}
+				/>
+			</Tooltip>
 
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
@@ -174,6 +182,11 @@ export const TimelineModal = () => {
 												</FormErrorMessage>
 											)}
 										</FormControl>
+
+										{/* <ControlBox rounded='sm' size='150px'>
+											<Box as={ImFilePicture}>Picture/Art</Box>
+											<Box as={BsCodeSlash}>Software/Website</Box>
+										</ControlBox> */}
 									</Stack>
 									<FormButtonWrapper>
 										<Button

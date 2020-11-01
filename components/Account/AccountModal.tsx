@@ -58,7 +58,7 @@ export default function AccountModal({ isOpen, onClose }) {
 
 	function EditableControls({ onRequestEdit }) {
 		return (
-			<Flex justifyContent='center' mt={4}>
+			<Flex justify='center' mt={2}>
 				<IconButton
 					size='sm'
 					icon='edit'

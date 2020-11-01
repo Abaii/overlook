@@ -118,7 +118,7 @@ const RegistrationModal = ({ linkText = 'Register' }: RegistrationProps) => {
 
 	return (
 		<>
-			<Link onClick={onOpen}>Register</Link>
+			<Link onClick={onOpen}>{linkText}</Link>
 
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
@@ -306,10 +306,10 @@ export const RegistrationFullPage = () => {
 	};
 
 	return (
-		<Box w='100%' p={20}>
-			<Flex align='center' justify='center'>
+		<Box w='100%' p={10} width='fit-content'>
+			<Flex align='center' justify='center' bg='white' rounded='lg' p={5}>
 				<Stack spacing={6}>
-					<ProviderButtons bgColor='white' />
+					<ProviderButtons bgColor='gray.100' />
 					<Box w='100%' p={5}>
 						<Formik
 							initialValues={initialValues}
@@ -323,6 +323,9 @@ export const RegistrationFullPage = () => {
 								isSubmitting,
 							}: FormikProps<RegisterValues>) => (
 								<Form>
+									<Text fontSize='35px' fontWeight='bold' textAlign='center'>
+										Register
+									</Text>
 									<Stack spacing={8}>
 										<FormControl
 											isInvalid={Boolean(errors.email)}

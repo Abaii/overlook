@@ -258,7 +258,7 @@ export const LoginFullPage = () => {
 	};
 
 	return (
-		<Box w='100%' p={10}>
+		<Box p={10} width='fit-content'>
 			<Flex align='center' justify='center' bg='white' rounded='lg' p={5}>
 				<Stack spacing={6}>
 					<ProviderButtons bgColor='gray.100' />

@@ -16,6 +16,7 @@ import {
 	Avatar,
 	useDisclosure,
 	MenuDivider,
+	Tooltip,
 } from '@chakra-ui/core';
 import {
 	NavbarElementWrapper,
@@ -84,13 +85,16 @@ const Navbar = () => {
 				<NavbarElementWrapper>
 					<TimelineModal />
 				</NavbarElementWrapper>
+
 				<Menu>
-					<MenuButton style={{ outline: 'none' }}>
-						<Avatar
-							src={user.photoURL}
-							name={user.displayName || user.email.split('@')[0]}
-						/>
-					</MenuButton>
+					<Tooltip label='Account Details' aria-label='account details'>
+						<MenuButton style={{ outline: 'none' }}>
+							<Avatar
+								src={user.photoURL}
+								name={user.displayName || user.email.split('@')[0]}
+							/>
+						</MenuButton>
+					</Tooltip>
 					<MenuList>
 						<MenuGroup>
 							<MenuItem onClick={() => onOpen()} minH='100%'>

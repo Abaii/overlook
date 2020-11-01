@@ -23,6 +23,8 @@ import axios from 'axios';
 import { useAuth } from '../utils/auth/AuthContext';
 import nookies from 'nookies';
 import TimelineModal from '../components/Timeline/TimelineModal';
+import TimelineCard from '../components/Timeline/TimelineCard';
+import { time } from 'console';
 
 export const Timelines = () => {
 	const { user } = useAuth();
@@ -76,27 +78,20 @@ export const Timelines = () => {
 							<Box width='100%' px={5}>
 								<SimpleGrid minChildWidth='250px' spacing={4}>
 									{data.map((timeline) => (
-										<Box rounded='lg' overflow='hidden' bg='white' height='100%' p={5}>
-											<Heading>{timeline.title}</Heading>
-											<Divider />
-											<p style={{ marginBottom: '20px', marginTop: '20px' }}>
-												{timeline.description}
-											</p>
-											<Tag variantColor='green' rounded='full'>
-												{user.displayName || user.email.split('@')[0]}
-											</Tag>
-										</Box>
+										<TimelineCard user={user} timeline={timeline} />
 									))}
 								</SimpleGrid>
 							</Box>
 						) : (
 							<>
-								<Stack spacing={5}>
-									<Text fontSize='2xl' color='red.500' alignSelf='center'>
-										No Timelines Yet Created
-									</Text>
-									<TimelineModal />
-								</Stack>
+								<Box bg='white' rounded='lg' p={5}>
+									<Stack spacing={5}>
+										<Text fontSize='2xl' color='red.500' alignSelf='center'>
+											No Timelines Created Yet
+										</Text>
+										<TimelineModal />
+									</Stack>
+								</Box>
 							</>
 						)}
 					</>
