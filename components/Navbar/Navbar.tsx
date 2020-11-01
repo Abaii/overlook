@@ -15,6 +15,7 @@ import {
 	Icon,
 	Avatar,
 	useDisclosure,
+	MenuDivider,
 } from '@chakra-ui/core';
 import {
 	NavbarElementWrapper,
@@ -80,37 +81,36 @@ const Navbar = () => {
 	if (user) {
 		links = (
 			<>
-				<LoggedInInfoWrapper first={true}>
-					<NavbarElementWrapper>
-						<TimelineModal />
-					</NavbarElementWrapper>
-					<Menu>
-						<MenuButton style={{ outline: 'none' }}>
-							<Avatar src={user.photoURL} />
-						</MenuButton>
-						<MenuList>
-							<MenuGroup>
-								<MenuItem onClick={() => onOpen()} minH='48px'>
-									<Box as={FaUser} mr='12px' />
-									Account
-								</MenuItem>
-								<MenuItem onClick={() => router.push('/timelines')} minH='48px'>
-									<Box as={MdTimeline} mr='12px' />
-									Timelines
-								</MenuItem>
-							</MenuGroup>
-						</MenuList>
-					</Menu>
-				</LoggedInInfoWrapper>
-				<NavbarElement>
-					<Button
-						onClick={handleSignOut}
-						leftIcon='arrow-forward'
-						variantColor='red'
-					>
-						Sign Out
-					</Button>
-				</NavbarElement>
+				<NavbarElementWrapper>
+					<TimelineModal />
+				</NavbarElementWrapper>
+				<Menu>
+					<MenuButton style={{ outline: 'none' }}>
+						<Avatar src={user.photoURL} />
+					</MenuButton>
+					<MenuList>
+						<MenuGroup>
+							<MenuItem onClick={() => onOpen()} minH='48px'>
+								<Box as={FaUser} mr='12px' />
+								Account
+							</MenuItem>
+							<MenuItem onClick={() => router.push('/timelines')} minH='48px'>
+								<Box as={MdTimeline} mr='12px' />
+								Timelines
+							</MenuItem>
+							<MenuDivider />
+							<MenuItem justifyContent='center' style={{ background: 'none' }}>
+								<Button
+									onClick={handleSignOut}
+									leftIcon='arrow-forward'
+									variantColor='red'
+								>
+									Sign Out
+								</Button>
+							</MenuItem>
+						</MenuGroup>
+					</MenuList>
+				</Menu>
 			</>
 		);
 	} else {
