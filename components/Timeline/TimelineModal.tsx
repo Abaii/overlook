@@ -21,6 +21,7 @@ import {
 	Link,
 	Text,
 	Input,
+	Image,
 	Textarea,
 	useToast,
 	Tooltip,
@@ -29,6 +30,7 @@ import {
 	FormLabel,
 	RadioGroup,
 	Radio,
+	Flex,
 } from '@chakra-ui/core';
 
 // Formik Imports
@@ -41,7 +43,7 @@ import nookies from 'nookies';
 import { useAuth } from '../../utils/auth/AuthContext';
 import { useRouter } from 'next/router';
 import { Icon } from '../Navbar/Logo/Logo.styles';
-import { ImFilePicture } from 'react-icons/im';
+import { ImFilePicture, ImOffice } from 'react-icons/im';
 import { BsCodeSlash } from 'react-icons/bs';
 
 interface TimelineValues {
@@ -61,10 +63,11 @@ export const TimelineModal = () => {
 	const router = useRouter();
 	const toast = useToast();
 	const [selectedImage, setSelectedImage] = useState();
+	const [selectedImages, setSelectedImages] = useState([]);
+	const token = nookies.get({}, 'token');
 
 	const handleSubmit = async ({ title, description }: TimelineValues) => {
 		setSubmitting(true);
-		const token = nookies.get({}, 'token');
 
 		const response = await axios({
 			method: 'post',
@@ -121,8 +124,59 @@ export const TimelineModal = () => {
 	};
 
 	const handleImageChange = (event) => {
-		setSelectedImage(event.target.files[0]);
+		if (event.target.files.length == 1) {
+			setSelectedImage(event.target.files[0]);
+			setSelectedImages([]);
+		} else {
+			const files = [...event.target.files];
+			setSelectedImages(files);
+			setSelectedImage(undefined);
+		}
 		// Send image off to image api point before creating timeline.
+	};
+
+	const handleImageUpload = () => {
+		if (!selectedImage && selectedImages == []) {
+			return;
+		}
+
+		if (selectedImage) {
+			console.log('Single File Upload');
+			const formData = new FormData();
+			formData.append('image', selectedImage);
+			axios
+				.post('http://localhost:8080/api/timelines/image', formData, {
+					headers: {
+						Authorization: 'Bearer ' + token.token,
+						'Content-Type': 'multipart/form-data',
+					},
+				})
+				.then((res) => {
+					console.log(res);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		} else if (selectedImages) {
+			console.log('Multiple File Upload');
+			const formData = new FormData();
+			selectedImages.forEach((file) => {
+				formData.append('image', file);
+			});
+			axios
+				.post('http://localhost:8080/api/timelines/image', formData, {
+					headers: {
+						Authorization: 'Bearer ' + token.token,
+						'Content-Type': 'multipart/form-data',
+					},
+				})
+				.then((res) => {
+					console.log(res);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		}
 	};
 
 	return (
@@ -198,8 +252,29 @@ export const TimelineModal = () => {
 													type='file'
 													multiple={true}
 												/>
+												{selectedImage && (
+													<Flex justify='center' align='center'>
+														<Image
+															p={2}
+															size='50%'
+															src={URL.createObjectURL(selectedImage)}
+															// Creates a preview of the image being selected
+														/>
+													</Flex>
+												)}
+												{selectedImages &&
+													selectedImages.map((image) => (
+														<>
+															<Image p={2} size='50%' src={URL.createObjectURL(image)} />
+														</>
+													))}
 											</Box>
 										</FormControl>
+										<FormButtonWrapper>
+											<Button variantColor='purple' onClick={handleImageUpload}>
+												Upload Image
+											</Button>
+										</FormButtonWrapper>
 										{/* TODO: Read into https://chakra-ui.com/radio#custom-radio-buttons */}
 										{/* <FormControl>
 											<FormLabel>Timeline Type</FormLabel>
