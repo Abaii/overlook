@@ -20,9 +20,9 @@ export const NavbarWrapper = styled.div`
   align-items: center;
   border-bottom: 1px solid #e2e8f0;
   background-color: ${tokens.secondaryBackground};
-  box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+  width: 100%;
   // top right bottom left
-  padding: 10px 40px 14px 40px;
+  padding: 10px 100px 10px 100px;
 `;
 
 export const SplitLinks = styled.div`

@@ -25,6 +25,7 @@ import nookies from 'nookies';
 import TimelineModal from '../components/Timeline/TimelineModal';
 import TimelineCard from '../components/Timeline/TimelineCard';
 import { time } from 'console';
+import Title from '../components/Typo/Title/Title';
 
 export const Timelines = () => {
 	const { user } = useAuth();
@@ -69,9 +70,17 @@ export const Timelines = () => {
 			</Head>
 
 			<Flex justify='center' align='center' flexDirection='column' py='22px'>
-				<Heading m={'22px 0 22px 0'} size='2xl'>
-					All Timelines
-				</Heading>
+				<Title
+					titleText='Timelines'
+					tag='h2'
+					style={{
+						margin: '0 0 40px 0',
+						fontSize: '60px',
+						fontWeight: 'bold',
+						letterSpacing: '-4px',
+						lineHeight: 1,
+					}}
+				/>
 				{user ? (
 					<>
 						{data.length && data ? (
@@ -80,6 +89,9 @@ export const Timelines = () => {
 									{data.map((timeline) => (
 										<TimelineCard user={user} timeline={timeline} />
 									))}
+									<Flex align='center' justify='center' height='261px'>
+										<TimelineModal />
+									</Flex>
 								</SimpleGrid>
 							</Box>
 						) : (

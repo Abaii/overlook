@@ -97,12 +97,11 @@ const Navbar = () => {
 					</Tooltip>
 					<MenuList>
 						<MenuGroup>
-							<MenuItem onClick={() => onOpen()} minH='100%'>
+							<MenuItem onClick={() => onOpen()} height='100%'>
 								<Box as={FaUser} mr='12px' />
 								Account
 							</MenuItem>
-							<MenuDivider />
-							<MenuItem onClick={() => router.push('/timelines')} minH='100%'>
+							<MenuItem onClick={() => router.push('/timelines')} height='100%'>
 								<Box as={MdTimeline} mr='12px' />
 								Timelines
 							</MenuItem>
@@ -146,9 +145,9 @@ const Navbar = () => {
 				</NavbarElementWrapper>
 
 				<SplitLinks>{links}</SplitLinks>
-			</NavbarWrapper>
 
-			<AccountModal isOpen={isOpen} onClose={onClose} />
+				<AccountModal isOpen={isOpen} onClose={onClose} />
+			</NavbarWrapper>
 		</>
 	);
 };

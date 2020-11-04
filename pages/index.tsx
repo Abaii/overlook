@@ -8,7 +8,6 @@ import {
 } from '../styles/global_emotion.styles';
 import { IconButton, Image, Flex, Box } from '@chakra-ui/core';
 import Head from 'next/head';
-import Footer from '../components/Footer/Footer';
 
 const Home = () => {
 	return (
@@ -22,78 +21,101 @@ const Home = () => {
 			</Head>
 
 			<Flex align='center' justify='center' flexDirection='column'>
-				<Box bg='white' rounded='lg' my={5} p={10} width='fit-content'>
-					<section className='firstSection'>
-						<LandingTextWrapper>
-							<Title
-								titleText='Welcome to'
-								tag='h1'
-								style={{
-									fontSize: '80px',
-									margin: '33px 0 33px 0',
-								}}
-							/>
-							<Title
-								titleText='Overlook'
-								tag='h1'
-								style={{
-									fontSize: '85px',
-									padding: '28px 0 0 25px',
-									margin: '33px 0 33px 0',
-									fontFamily: 'Nothing You Could Do',
-								}}
-							/>
-						</LandingTextWrapper>
-						<LandingTextWrapper>
-							<Title
-								titleText='🎨'
-								tag='h1'
-								style={{
-									fontSize: '80px',
-									margin: '0 0 53px 0',
-									padding: '0',
-								}}
-							/>
-							<Title
-								titleText='👋'
-								tag='h1'
-								style={{
-									fontSize: '80px',
-									margin: '0 0 53px 0px',
-									padding: '0',
-								}}
-							/>
-						</LandingTextWrapper>
-						<LandingTextWrapper>
-							<Title
-								titleText='Document the Journey, not just the Destination.'
-								tag='h2'
-								style={{
-									margin: '0 0 50px 0',
-									fontSize: '40px',
-								}}
-							/>
-						</LandingTextWrapper>
-						<LandingTextWrapper>
-							<Typo
-								p_text='The service which lets you track the progress of your projects and share it with anyone via a small link!'
-								style={{
-									margin: '0 0 20px 0',
-								}}
-							/>
-						</LandingTextWrapper>
-						<LandingTextWrapper>
-							<LandingImageWrapper>
-								<Image
-									src='../static/svg/Process.svg'
-									alt='Illustration of a creative'
-								/>
-							</LandingImageWrapper>
-						</LandingTextWrapper>
-					</section>
+				<Flex
+					align='center'
+					justify='center'
+					flexDirection='column'
+					bg='#111111'
+					width='100%'
+					py={5}
+				>
+					<Title
+						titleText='Welcome to'
+						tag='h1'
+						style={{
+							fontSize: '120px',
+							fontWeight: 'bold',
+							color: '#fff',
+							letterSpacing: '-8px',
+							lineHeight: 1,
+						}}
+					/>
+					<Title
+						titleText='Overlook'
+						tag='h1'
+						style={{
+							fontSize: '120px',
+							fontWeight: 'bold',
+							letterSpacing: '-6px',
+							lineHeight: 1,
+							background: '-webkit-linear-gradient(145deg, #b4373d, #b23acb)',
+							WebkitBackgroundClip: 'text',
+							WebkitTextFillColor: 'transparent',
+							padding: '0px 10px',
+						}}
+					/>
+					<Flex align='center' justify='center' flexDirection='row' mb={5}>
+						<Title
+							titleText='🎨'
+							tag='h1'
+							style={{
+								fontSize: '80px',
+								padding: '0',
+							}}
+						/>
+						<Title
+							titleText='👋'
+							tag='h1'
+							style={{
+								fontSize: '80px',
+								padding: '0',
+							}}
+						/>
+					</Flex>
+				</Flex>
 
-					<section className='secondSection'>
-						<LandingTextWrapper>
+				<Box px={10} width='100%' pt={5}>
+					<Flex
+						align='center'
+						justify='center'
+						flexDirection='column'
+						flexWrap='wrap'
+						my={5}
+					>
+						<Title
+							titleText='Document the Journey, not just the Destination.'
+							tag='h2'
+							style={{
+								margin: '0 0 50px 0',
+								fontSize: '60px',
+								fontWeight: 'bold',
+								letterSpacing: '-4px',
+								lineHeight: 1,
+							}}
+						/>
+
+						<Typo
+							p_text='The service which lets you track the progress of your projects and share it with anyone via a small link!'
+							style={{
+								margin: '0 0 20px 0',
+							}}
+						/>
+						{/* <LandingImageWrapper>
+							<Image
+								src='../static/svg/Process.svg'
+								alt='Illustration of a creative'
+							/>
+						</LandingImageWrapper> */}
+					</Flex>
+
+					<Flex justify='center' align='center' flexDirection='row' flexWrap='wrap'>
+						<LandingImageWrapper>
+							<Image
+								src='../static/svg/peep-sitting-12.svg'
+								alt='Illustration of a creative'
+							/>
+						</LandingImageWrapper>
+						<Flex align='center' flexDirection='column'>
 							<Title
 								titleText="Whether you're an - Artist"
 								tag='h1'
@@ -102,57 +124,33 @@ const Home = () => {
 									fontFamily: 'Nothing You Could Do',
 								}}
 							/>
-						</LandingTextWrapper>
-						<LandingTextWrapper>
-							<Typo p_text='You can use Overlook to track the progress of your art as you decide what it is that you are creating!' />
-						</LandingTextWrapper>
-						<LandingTextWrapper>
-							<LandingImageWrapper>
-								<Image
-									src='../static/svg/peep-sitting-12.svg'
-									alt='Illustration of a creative'
-								/>
-							</LandingImageWrapper>
-						</LandingTextWrapper>
-						<LandingTextWrapper></LandingTextWrapper>
-					</section>
 
-					<section className='thirdSection'>
-						<LandingTextWrapper>
+							<Typo p_text='You can use Overlook to track the progress of your art as you decide what it is that you are creating!' />
+						</Flex>
+					</Flex>
+
+					<Flex justify='center' align='center' flexDirection='row' flexWrap='wrap'>
+						<Flex justify='center' align='center' flexDirection='column'>
 							<Title
 								titleText="Whether you're a - Developer"
 								tag='h1'
 								style={{
 									fontSize: '60px',
 									fontFamily: 'Consolas',
+									letterSpacing: '-6px',
+									lineHeight: 1,
 								}}
 							/>
-						</LandingTextWrapper>
-						<LandingTextWrapper>
 							<Typo p_text='You can use Overlook to track the progress of your products as you develop them, and use it to display your workflow!' />
-						</LandingTextWrapper>
-						<LandingTextWrapper>
-							<LandingImageWrapper>
-								<Image
-									src='../static/svg/peep-standing-3.svg'
-									alt='Illustration of a creative'
-								/>
-							</LandingImageWrapper>
-						</LandingTextWrapper>
-						<LandingTextWrapper></LandingTextWrapper>
-					</section>
-					{/* <BottomOfPage>
-					<IconButton
-						aria-label='move page down'
-						icon='arrow-down'
-						variantColor='purple'
-						isRound={true}
-						onClick={() => {
-							// This is just temporary
-							scrollTo(1000, 1000);
-						}}
-					/>
-				</BottomOfPage> */}
+						</Flex>
+
+						<LandingImageWrapper>
+							<Image
+								src='../static/svg/peep-standing-3.svg'
+								alt='Illustration of a creative'
+							/>
+						</LandingImageWrapper>
+					</Flex>
 				</Box>
 			</Flex>
 		</>

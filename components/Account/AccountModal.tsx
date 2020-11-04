@@ -89,7 +89,6 @@ export default function AccountModal({ isOpen, onClose }) {
 										textAlign='center'
 										isPreviewFocusable={false}
 										selectAllOnFocus={true}
-										// onChange={(value) => changeEmail(value)}
 										onSubmit={(value) => setNewEmail(value)}
 									>
 										{(props) => (

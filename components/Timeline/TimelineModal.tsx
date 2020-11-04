@@ -52,8 +52,8 @@ interface TimelineValues {
 }
 
 const initialValues = {
-	title: 'test title 5',
-	description: 'this is a description...',
+	title: '',
+	description: '',
 };
 
 export const TimelineModal = () => {
@@ -132,7 +132,6 @@ export const TimelineModal = () => {
 			setSelectedImages(files);
 			setSelectedImage(undefined);
 		}
-		// Send image off to image api point before creating timeline.
 	};
 
 	const handleImageUpload = () => {
@@ -141,7 +140,6 @@ export const TimelineModal = () => {
 		}
 
 		if (selectedImage) {
-			console.log('Single File Upload');
 			const formData = new FormData();
 			formData.append('image', selectedImage);
 			axios
@@ -158,7 +156,6 @@ export const TimelineModal = () => {
 					console.log(error);
 				});
 		} else if (selectedImages) {
-			console.log('Multiple File Upload');
 			const formData = new FormData();
 			selectedImages.forEach((file) => {
 				formData.append('image', file);
@@ -179,6 +176,11 @@ export const TimelineModal = () => {
 		}
 	};
 
+	const modalClose = () => {
+		setSelectedImage(undefined);
+		setSelectedImages([]);
+	};
+
 	return (
 		<>
 			<Tooltip label='Create a Timeline' aria-label='create a timeline button'>
@@ -191,7 +193,14 @@ export const TimelineModal = () => {
 				/>
 			</Tooltip>
 
-			<Modal isOpen={isOpen} onClose={onClose}>
+			<Modal
+				isOpen={isOpen}
+				onClose={() => {
+					onClose();
+					modalClose();
+				}}
+				size='xl'
+			>
 				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader>Create a Timeline</ModalHeader>
@@ -211,30 +220,34 @@ export const TimelineModal = () => {
 								<Form onSubmit={handleSubmit}>
 									<Stack spacing={6}>
 										<FormControl isInvalid={Boolean(errors.title)}>
+											<FormLabel>Timeline Title</FormLabel>
 											<InputGroup>
-												<InputLeftAddon children='Title' />
 												<Input
 													type='text'
 													id='Title'
 													placeholder='Enter a Title for this Timeline'
 													aria-describedby='timeline title input box'
+													variant='filled'
 													value={values.title}
 													onChange={(e) => setFieldValue('title', e.target.value)}
 												/>
 											</InputGroup>
 											{errors.title && (
 												<FormErrorMessage style={{ paddingTop: '12px' }}>
-													{errors.title}{' '}
+													{errors.title}
 												</FormErrorMessage>
 											)}
 										</FormControl>
 										<FormControl isInvalid={Boolean(errors.description)}>
+											<FormLabel>Timeline Description</FormLabel>
 											<InputGroup size='md'>
 												<Textarea
 													id='description'
 													value={values.description}
+													variant='filled'
 													onChange={(e) => setFieldValue('description', e.target.value)}
 													placeholder='Enter a description for this Timeline'
+													height='130px'
 												/>
 											</InputGroup>
 											{errors.description && (
@@ -252,8 +265,9 @@ export const TimelineModal = () => {
 													type='file'
 													multiple={true}
 												/>
+
 												{selectedImage && (
-													<Flex justify='center' align='center'>
+													<Flex justify='center' align='center' mt={2}>
 														<Image
 															p={2}
 															size='50%'
@@ -262,12 +276,19 @@ export const TimelineModal = () => {
 														/>
 													</Flex>
 												)}
-												{selectedImages &&
-													selectedImages.map((image) => (
-														<>
+
+												<Flex
+													justify='center'
+													align='center'
+													mt={2}
+													flexDirection='row'
+													flexWrap='wrap'
+												>
+													{selectedImages &&
+														selectedImages.map((image) => (
 															<Image p={2} size='50%' src={URL.createObjectURL(image)} />
-														</>
-													))}
+														))}
+												</Flex>
 											</Box>
 										</FormControl>
 										<FormButtonWrapper>
