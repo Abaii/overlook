@@ -64,6 +64,9 @@ export const TimelineModal = () => {
 	const toast = useToast();
 	const [selectedImage, setSelectedImage] = useState();
 	const [selectedImages, setSelectedImages] = useState([]);
+
+	const [uploadedImage, setUploadedImage] = useState();
+
 	const token = nookies.get({}, 'token');
 
 	const handleSubmit = async ({ title, description }: TimelineValues) => {
@@ -151,6 +154,9 @@ export const TimelineModal = () => {
 				})
 				.then((res) => {
 					console.log(res);
+					setUploadedImage(res.data.data.location);
+					console.log(uploadedImage);
+					alert(res.data.data.location);
 				})
 				.catch((error) => {
 					console.log(error);
@@ -289,6 +295,11 @@ export const TimelineModal = () => {
 															<Image p={2} size='50%' src={URL.createObjectURL(image)} />
 														))}
 												</Flex>
+												{uploadedImage && (
+													<Flex justify='center' align='center' mt={2}>
+														<Image p={2} size='50%' src={uploadedImage} />
+													</Flex>
+												)}
 											</Box>
 										</FormControl>
 										<FormButtonWrapper>
