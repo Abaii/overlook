@@ -20,7 +20,7 @@ const Home = () => {
 				/>
 			</Head>
 
-			<Flex align='center' justify='center' flexDirection='column'>
+			<Flex as='main' align='center' justify='center' flexDirection='column'>
 				<Flex
 					align='center'
 					justify='center'

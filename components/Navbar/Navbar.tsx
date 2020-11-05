@@ -77,62 +77,6 @@ const Navbar = () => {
 			});
 	};
 
-	let links;
-
-	if (user) {
-		links = (
-			<>
-				<NavbarElementWrapper>
-					<TimelineModal />
-				</NavbarElementWrapper>
-
-				<Menu>
-					<Tooltip label='Account Details' aria-label='account details'>
-						<MenuButton style={{ outline: 'none' }}>
-							<Avatar
-								src={user.photoURL}
-								name={user.displayName || user.email.split('@')[0]}
-							/>
-						</MenuButton>
-					</Tooltip>
-					<MenuList>
-						<MenuGroup>
-							<MenuItem onClick={() => onOpen()} height='100%'>
-								<Box as={FaUser} mr='12px' />
-								Account
-							</MenuItem>
-							<MenuItem onClick={() => router.push('/timelines')} height='100%'>
-								<Box as={MdTimeline} mr='12px' />
-								Timelines
-							</MenuItem>
-							<MenuDivider />
-							<MenuItem justifyContent='center' style={{ background: 'none' }}>
-								<Button
-									onClick={handleSignOut}
-									leftIcon='arrow-forward'
-									variantColor='red'
-								>
-									Sign Out
-								</Button>
-							</MenuItem>
-						</MenuGroup>
-					</MenuList>
-				</Menu>
-			</>
-		);
-	} else {
-		links = (
-			<>
-				<LinkHoverWrapper first={true}>
-					<LoginModal />
-				</LinkHoverWrapper>
-				<LinkHoverWrapper>
-					<RegistrationModal />
-				</LinkHoverWrapper>
-			</>
-		);
-	}
-
 	return (
 		<>
 			<NavbarWrapper>
@@ -144,7 +88,55 @@ const Navbar = () => {
 					</LogoLink>
 				</NavbarElementWrapper>
 
-				<SplitLinks>{links}</SplitLinks>
+				{user ? (
+					<SplitLinks>
+						<NavbarElementWrapper>
+							<TimelineModal />
+						</NavbarElementWrapper>
+
+						<Menu>
+							<Tooltip label='Account Details' aria-label='account details'>
+								<MenuButton style={{ outline: 'none' }}>
+									<Avatar
+										src={user.photoURL}
+										name={user.displayName || user.email.split('@')[0]}
+									/>
+								</MenuButton>
+							</Tooltip>
+							<MenuList>
+								<MenuGroup>
+									<MenuItem onClick={() => onOpen()} height='100%'>
+										<Box as={FaUser} mr='12px' />
+										Account
+									</MenuItem>
+									<MenuItem onClick={() => router.push('/timelines')} height='100%'>
+										<Box as={MdTimeline} mr='12px' />
+										Timelines
+									</MenuItem>
+									<MenuDivider />
+									<MenuItem justifyContent='center' style={{ background: 'none' }}>
+										<Button
+											onClick={handleSignOut}
+											leftIcon='arrow-forward'
+											variantColor='red'
+										>
+											Sign Out
+										</Button>
+									</MenuItem>
+								</MenuGroup>
+							</MenuList>
+						</Menu>
+					</SplitLinks>
+				) : (
+					<SplitLinks>
+						<LinkHoverWrapper first={true}>
+							<LoginModal />
+						</LinkHoverWrapper>
+						<LinkHoverWrapper>
+							<RegistrationModal />
+						</LinkHoverWrapper>
+					</SplitLinks>
+				)}
 
 				<AccountModal isOpen={isOpen} onClose={onClose} />
 			</NavbarWrapper>

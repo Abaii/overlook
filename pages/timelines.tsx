@@ -24,17 +24,17 @@ import { useAuth } from '../utils/auth/AuthContext';
 import nookies from 'nookies';
 import TimelineModal from '../components/Timeline/TimelineModal';
 import TimelineCard from '../components/Timeline/TimelineCard';
-import { time } from 'console';
 import Title from '../components/Typo/Title/Title';
+import { AnimatePresence, AnimateSharedLayout, motion } from 'framer-motion';
 
 export const Timelines = () => {
 	const { user } = useAuth();
 	const [data, setData] = useState([]);
 	const [loaded, setLoaded] = useState(false);
 	const token = nookies.get({}, 'token');
+	const [selectedId, setSelectedId] = useState(null);
 
 	async function getTimelines(uid, token) {
-		console.log('-- getTimelines function run --');
 		await axios({
 			method: 'get',
 			url: 'http://localhost:8080/api/timelines/' + uid,
@@ -89,6 +89,7 @@ export const Timelines = () => {
 									{data.map((timeline) => (
 										<TimelineCard user={user} timeline={timeline} />
 									))}
+
 									<Flex align='center' justify='center' height='261px'>
 										<TimelineModal />
 									</Flex>

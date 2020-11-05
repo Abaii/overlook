@@ -45,6 +45,7 @@ import { useRouter } from 'next/router';
 import { Icon } from '../Navbar/Logo/Logo.styles';
 import { ImFilePicture, ImOffice } from 'react-icons/im';
 import { BsCodeSlash } from 'react-icons/bs';
+import { motion } from 'framer-motion';
 
 interface TimelineValues {
 	title: string;
@@ -187,15 +188,18 @@ export const TimelineModal = () => {
 		setSelectedImages([]);
 	};
 
+	const MotionIconButton = motion.custom(IconButton);
+
 	return (
 		<>
 			<Tooltip label='Create a Timeline' aria-label='create a timeline button'>
-				<IconButton
+				<MotionIconButton
 					icon='add'
 					variantColor='green'
 					isRound={true}
 					aria-label='Create Timeline Button'
 					onClick={onOpen}
+					whileHover={{ scale: 1.1 }}
 				/>
 			</Tooltip>
 

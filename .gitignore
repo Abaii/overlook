@@ -32,3 +32,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# firebase admin init
+utils/auth/overlook-23fbe-firebase-adminsdk-ogfh3-a7cff501d4.json

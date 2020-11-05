@@ -1,5 +1,5 @@
-import * as firebase from "firebase/app";
-import "firebase/auth";
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
 
 const config = {
 	apiKey: process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY,
@@ -9,7 +9,7 @@ const config = {
 };
 
 export default function initFirebase() {
-	if (typeof window !== "undefined" && !firebase.apps.length) {
+	if (typeof window !== 'undefined' && !firebase.apps.length) {
 		firebase.initializeApp(config);
 		firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
 	}
