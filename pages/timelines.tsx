@@ -28,7 +28,7 @@ import Title from '../components/Typo/Title/Title';
 import { AnimatePresence, AnimateSharedLayout, motion } from 'framer-motion';
 
 export const Timelines = () => {
-	const { user } = useAuth();
+	const { user, loading } = useAuth();
 	const [data, setData] = useState([]);
 	const [loaded, setLoaded] = useState(false);
 	const token = nookies.get({}, 'token');
@@ -52,11 +52,8 @@ export const Timelines = () => {
 			});
 	}
 
-	if (user != null) {
-		const uid = user.uid;
-		if (!loaded) {
-			getTimelines(uid, token.token);
-		}
+	if (user && loaded == false) {
+		getTimelines(user.uid, token.token);
 	}
 
 	return (
@@ -81,13 +78,13 @@ export const Timelines = () => {
 						lineHeight: 1,
 					}}
 				/>
-				{user ? (
+				{!loading && data && loaded ? (
 					<>
-						{data.length && data ? (
+						{data.length ? (
 							<Box width='100%' px={5}>
 								<SimpleGrid minChildWidth='250px' spacing={4}>
 									{data.map((timeline) => (
-										<TimelineCard user={user} timeline={timeline} />
+										<TimelineCard key={timeline._id} user={user} timeline={timeline} />
 									))}
 
 									<Flex align='center' justify='center' height='261px'>

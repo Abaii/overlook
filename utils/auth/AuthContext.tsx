@@ -3,17 +3,21 @@ import nookies from 'nookies';
 import { firebase } from './initFirebase';
 import initFirebase from './initFirebase';
 import { auth } from 'firebase';
+import { MdTrendingUp } from 'react-icons/md';
 
-const AuthContext = createContext<{ user: firebase.User | null }>({
+const AuthContext = createContext<{
+	user: firebase.User | null;
+	loading: Boolean;
+}>({
 	user: null,
+	loading: true,
 });
 
 export function AuthProvider({ children }: any) {
 	const [user, setUser] = useState<firebase.User | null>(null);
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		setLoading(true);
 		// identical to onAuthStateChanged but also fires when user's ID token is refreshed (happens hourly)
 		return firebase.auth().onIdTokenChanged(async (user) => {
 			if (!user) {
@@ -32,7 +36,9 @@ export function AuthProvider({ children }: any) {
 	}, []);
 
 	return (
-		<AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+		<AuthContext.Provider value={{ user, loading }}>
+			{children}
+		</AuthContext.Provider>
 	);
 }
 

@@ -20,7 +20,7 @@ const Home = () => {
 				/>
 			</Head>
 
-			<Flex as='main' align='center' justify='center' flexDirection='column'>
+			<Flex align='center' justify='center' flexDirection='column'>
 				<Flex
 					align='center'
 					justify='center'
@@ -38,6 +38,7 @@ const Home = () => {
 							color: '#fff',
 							letterSpacing: '-8px',
 							lineHeight: 1,
+							textAlign: 'center',
 						}}
 					/>
 					<Title
@@ -91,6 +92,7 @@ const Home = () => {
 								fontWeight: 'bold',
 								letterSpacing: '-4px',
 								lineHeight: 1,
+								textAlign: 'center',
 							}}
 						/>
 
@@ -98,6 +100,7 @@ const Home = () => {
 							p_text='The service which lets you track the progress of your projects and share it with anyone via a small link!'
 							style={{
 								margin: '0 0 20px 0',
+								textAlign: 'center',
 							}}
 						/>
 						{/* <LandingImageWrapper>
@@ -122,6 +125,7 @@ const Home = () => {
 								style={{
 									fontSize: '60px',
 									fontFamily: 'Nothing You Could Do',
+									textAlign: 'center',
 								}}
 							/>
 

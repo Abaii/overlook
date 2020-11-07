@@ -67,50 +67,145 @@ export const TimelineModal = () => {
 	const [selectedImages, setSelectedImages] = useState([]);
 
 	const [uploadedImage, setUploadedImage] = useState();
+	const [uploadedImages, setUploadedImages] = useState([]);
 
 	const token = nookies.get({}, 'token');
 
 	const handleSubmit = async ({ title, description }: TimelineValues) => {
 		setSubmitting(true);
 
-		const response = await axios({
-			method: 'post',
-			url: 'http://localhost:8080/api/timelines',
-			data: {
-				title: title,
-				description: description,
-				ownerId: user.uid,
-			},
-			headers: { Authorization: 'Bearer ' + token.token },
-		})
-			.then(() => {
-				toast({
-					title: 'Timeline Created',
-					description: 'Successfully created Timeline.',
-					status: 'success',
-					duration: 4000,
-					isClosable: true,
-					position: 'top',
-				});
-				setSubmitting(false);
-				onClose();
-				router.reload();
-			})
-			.catch((err) => {
-				setSubmitting(false);
-				const errorCode = err.code;
-				const errorMessage = err.message;
-				toast({
-					title: errorCode,
-					description: errorMessage,
-					status: 'error',
-					duration: 4000,
-					isClosable: true,
-					position: 'top',
-				});
-			});
+		// Single File version
+		if (!selectedImage && selectedImages == []) {
+			return;
+		}
 
-		console.log(response);
+		// Multiple File version
+		if (selectedImage) {
+			const formData = new FormData();
+			formData.append('image', selectedImage);
+			await axios
+				.post('http://localhost:8080/api/timelines/image', formData, {
+					headers: {
+						Authorization: 'Bearer ' + token.token,
+						'Content-Type': 'multipart/form-data',
+					},
+				})
+				.then((res) => {
+					setUploadedImage(res.data.data.location);
+
+					console.log('Image Location -', res.data.data.location);
+
+					const response = axios({
+						method: 'post',
+						url: 'http://localhost:8080/api/timelines',
+						data: {
+							title: title,
+							description: description,
+							ownerId: user.uid,
+							content: [
+								{
+									image_url: res.data.data.location,
+									comment: ['This is a test comment!'],
+								},
+							],
+						},
+						headers: { Authorization: 'Bearer ' + token.token },
+					})
+						.then(() => {
+							toast({
+								title: 'Timeline Created',
+								description: 'Successfully created Timeline.',
+								status: 'success',
+								duration: 4000,
+								isClosable: true,
+								position: 'top',
+							});
+							setSubmitting(false);
+							onClose();
+							router.reload();
+						})
+						.catch((err) => {
+							setSubmitting(false);
+							const errorCode = err.code;
+							const errorMessage = err.message;
+							toast({
+								title: errorCode,
+								description: errorMessage,
+								status: 'error',
+								duration: 4000,
+								isClosable: true,
+								position: 'top',
+							});
+						});
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		} else if (selectedImages) {
+			const formData = new FormData();
+			selectedImages.forEach((file) => {
+				formData.append('image', file);
+			});
+			await axios
+				.post('http://localhost:8080/api/timelines/image', formData, {
+					headers: {
+						Authorization: 'Bearer ' + token.token,
+						'Content-Type': 'multipart/form-data',
+					},
+				})
+				.then(async (res) => {
+					setUploadedImages(res.data.data);
+
+					console.log(res.data.data);
+
+					var uploadContent = res.data.data.map((file) => ({
+						image_url: file.Location,
+						comment: [''],
+					}));
+
+					console.log(uploadContent);
+
+					const response = await axios({
+						method: 'post',
+						url: 'http://localhost:8080/api/timelines',
+						data: {
+							title: title,
+							description: description,
+							ownerId: user.uid,
+							content: uploadContent,
+						},
+						headers: { Authorization: 'Bearer ' + token.token },
+					})
+						.then(() => {
+							toast({
+								title: 'Timeline Created',
+								description: 'Successfully created Timeline.',
+								status: 'success',
+								duration: 4000,
+								isClosable: true,
+								position: 'top',
+							});
+							setSubmitting(false);
+							onClose();
+						})
+						.catch((err) => {
+							setSubmitting(false);
+							const errorCode = err.code;
+							const errorMessage = err.message;
+							toast({
+								title: errorCode,
+								description: errorMessage,
+								status: 'error',
+								duration: 4000,
+								isClosable: true,
+								position: 'top',
+							});
+						});
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		}
 	};
 
 	const validate = ({ title, description }: TimelineValues) => {
@@ -138,51 +233,6 @@ export const TimelineModal = () => {
 		}
 	};
 
-	const handleImageUpload = () => {
-		if (!selectedImage && selectedImages == []) {
-			return;
-		}
-
-		if (selectedImage) {
-			const formData = new FormData();
-			formData.append('image', selectedImage);
-			axios
-				.post('http://localhost:8080/api/timelines/image', formData, {
-					headers: {
-						Authorization: 'Bearer ' + token.token,
-						'Content-Type': 'multipart/form-data',
-					},
-				})
-				.then((res) => {
-					console.log(res);
-					setUploadedImage(res.data.data.location);
-					console.log(uploadedImage);
-					alert(res.data.data.location);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		} else if (selectedImages) {
-			const formData = new FormData();
-			selectedImages.forEach((file) => {
-				formData.append('image', file);
-			});
-			axios
-				.post('http://localhost:8080/api/timelines/image', formData, {
-					headers: {
-						Authorization: 'Bearer ' + token.token,
-						'Content-Type': 'multipart/form-data',
-					},
-				})
-				.then((res) => {
-					console.log(res);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		}
-	};
-
 	const modalClose = () => {
 		setSelectedImage(undefined);
 		setSelectedImages([]);
@@ -192,16 +242,14 @@ export const TimelineModal = () => {
 
 	return (
 		<>
-			<Tooltip label='Create a Timeline' aria-label='create a timeline button'>
-				<MotionIconButton
-					icon='add'
-					variantColor='green'
-					isRound={true}
-					aria-label='Create Timeline Button'
-					onClick={onOpen}
-					whileHover={{ scale: 1.1 }}
-				/>
-			</Tooltip>
+			<MotionIconButton
+				icon='add'
+				variantColor='green'
+				isRound={true}
+				aria-label='Create Timeline Button'
+				onClick={onOpen}
+				whileHover={{ scale: 1.1 }}
+			/>
 
 			<Modal
 				isOpen={isOpen}
@@ -299,6 +347,7 @@ export const TimelineModal = () => {
 															<Image p={2} size='50%' src={URL.createObjectURL(image)} />
 														))}
 												</Flex>
+
 												{uploadedImage && (
 													<Flex justify='center' align='center' mt={2}>
 														<Image p={2} size='50%' src={uploadedImage} />
@@ -306,11 +355,6 @@ export const TimelineModal = () => {
 												)}
 											</Box>
 										</FormControl>
-										<FormButtonWrapper>
-											<Button variantColor='purple' onClick={handleImageUpload}>
-												Upload Image
-											</Button>
-										</FormButtonWrapper>
 										{/* TODO: Read into https://chakra-ui.com/radio#custom-radio-buttons */}
 										{/* <FormControl>
 											<FormLabel>Timeline Type</FormLabel>
