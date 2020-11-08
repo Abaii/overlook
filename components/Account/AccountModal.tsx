@@ -21,6 +21,7 @@ import {
 	ModalHeader,
 	ModalOverlay,
 	Stack,
+	useToast,
 } from '@chakra-ui/core';
 import React, { useState } from 'react';
 import { useAuth } from '../../utils/auth/AuthContext';
@@ -30,6 +31,7 @@ export default function AccountModal({ isOpen, onClose }) {
 	const [newEmail, setNewEmail] = useState('');
 	const [newPassword, setNewPassword] = useState('');
 	const [show, setShow] = useState(false);
+	const toast = useToast();
 
 	const handleClick = () => setShow(!show);
 
@@ -45,13 +47,41 @@ export default function AccountModal({ isOpen, onClose }) {
 		}
 	}
 
-	function displayNewCreds() {
+	function newCreds() {
 		if (newPassword != '' && newPassword.length >= 5 && checkEmail() == true) {
+			// Changing Both
 			console.log('New Email Address - ' + newEmail);
 			console.log('New Password - ' + newPassword);
 		} else if (checkEmail() == true) {
+			// Only changing the email
 			console.log('New Email Address - ' + newEmail);
-		} else if (newPassword != '') {
+			user
+				.updateEmail(newEmail)
+				.then((response) => {
+					modalClose();
+					toast({
+						title: 'Successfully changed e-mail',
+						description: `Your account's e-mail address was succesfully changed to ${newEmail}`,
+						status: 'success',
+						duration: 3000,
+						isClosable: true,
+						position: 'top',
+					});
+				})
+				.catch((err) => {
+					toast({
+						title: 'Error Occured',
+						description:
+							'An error occured while trying to change your e-mail address',
+						status: 'error',
+						duration: 3000,
+						isClosable: true,
+						position: 'top',
+					});
+					console.error(err);
+				});
+		} else if (newPassword != '' && newPassword.length >= 5) {
+			// Only Changing the password
 			console.log('New Password - ' + newPassword);
 		}
 	}
@@ -69,10 +99,21 @@ export default function AccountModal({ isOpen, onClose }) {
 		);
 	}
 
+	const modalClose = () => {
+		setNewEmail('');
+		setNewPassword('');
+		onClose();
+	};
+
 	return (
 		<>
 			{user && (
-				<Modal isOpen={isOpen} onClose={onClose}>
+				<Modal
+					isOpen={isOpen}
+					onClose={() => {
+						modalClose();
+					}}
+				>
 					<ModalOverlay />
 
 					<ModalContent>
@@ -122,10 +163,16 @@ export default function AccountModal({ isOpen, onClose }) {
 						</ModalBody>
 
 						<ModalFooter textAlign='center'>
-							<Button variantColor='blue' mr={3} onClick={onClose}>
+							<Button
+								variantColor='blue'
+								mr={3}
+								onClick={() => {
+									modalClose();
+								}}
+							>
 								Close
 							</Button>
-							<Button variant='solid' variantColor='green' onClick={displayNewCreds}>
+							<Button variant='solid' variantColor='green' onClick={newCreds}>
 								Save Changes
 							</Button>
 						</ModalFooter>

@@ -2,10 +2,14 @@
 import {
 	Badge,
 	Box,
+	Breadcrumb,
+	BreadcrumbItem,
+	BreadcrumbLink,
 	Button,
 	Divider,
 	Flex,
 	Heading,
+	Icon,
 	SimpleGrid,
 	Skeleton,
 	Spinner,
@@ -26,6 +30,7 @@ import TimelineModal from '../components/Timeline/TimelineModal';
 import TimelineCard from '../components/Timeline/TimelineCard';
 import Title from '../components/Typo/Title/Title';
 import { AnimatePresence, AnimateSharedLayout, motion } from 'framer-motion';
+import { LoginFullPage } from '../components/Auth/Login/Login';
 
 export const Timelines = () => {
 	const { user, loading } = useAuth();
@@ -66,47 +71,79 @@ export const Timelines = () => {
 				/>
 			</Head>
 
-			<Flex justify='center' align='center' flexDirection='column' py='22px'>
-				<Title
-					titleText='Timelines'
-					tag='h2'
-					style={{
-						margin: '0 0 40px 0',
-						fontSize: '60px',
-						fontWeight: 'bold',
-						letterSpacing: '-4px',
-						lineHeight: 1,
-					}}
-				/>
-				{!loading && data && loaded ? (
-					<>
-						{data.length ? (
-							<Box width='100%' px={5}>
-								<SimpleGrid minChildWidth='250px' spacing={4}>
-									{data.map((timeline) => (
-										<TimelineCard key={timeline._id} user={user} timeline={timeline} />
-									))}
+			<Breadcrumb
+				ml='30px'
+				my={4}
+				spacing='8px'
+				separator={<Icon color='gray.300' name='chevron-right' />}
+			>
+				<BreadcrumbItem>
+					<BreadcrumbLink href='/'>Home</BreadcrumbLink>
+				</BreadcrumbItem>
 
-									<Flex align='center' justify='center' height='261px'>
-										<TimelineModal />
-									</Flex>
-								</SimpleGrid>
-							</Box>
-						) : (
-							<>
-								<Box bg='white' rounded='lg' p={5}>
-									<Stack spacing={5}>
-										<Text fontSize='2xl' color='red.500' alignSelf='center'>
-											No Timelines Created Yet
-										</Text>
-										<TimelineModal />
-									</Stack>
+				<BreadcrumbItem isCurrentPage>
+					<BreadcrumbLink href='#'>Timelines</BreadcrumbLink>
+				</BreadcrumbItem>
+			</Breadcrumb>
+
+			{user && !loading && loaded ? (
+				<Flex justify='center' align='center' flexDirection='column' py='22px'>
+					<Title
+						titleText='Timelines'
+						tag='h2'
+						style={{
+							margin: '0 0 40px 0',
+							fontSize: '60px',
+							fontWeight: 'bold',
+							letterSpacing: '-4px',
+							lineHeight: 1,
+						}}
+					/>
+
+					{!loading && data && loaded ? (
+						<>
+							{data.length ? (
+								<Box width='100%' px={5}>
+									<SimpleGrid minChildWidth='250px' spacing={4}>
+										{data.map((timeline) => (
+											<TimelineCard key={timeline._id} user={user} timeline={timeline} />
+										))}
+
+										<Flex align='center' justify='center' height='261px'>
+											<TimelineModal />
+										</Flex>
+									</SimpleGrid>
 								</Box>
-							</>
-						)}
-					</>
-				) : (
-					<Flex justify='center' align='center' rounded='lg' p={2} bg='white'>
+							) : (
+								<>
+									<Box bg='white' rounded='lg' p={5}>
+										<Stack spacing={5}>
+											<Text fontSize='2xl' color='red.500' alignSelf='center'>
+												No Timelines Created Yet
+											</Text>
+											<TimelineModal />
+										</Stack>
+									</Box>
+								</>
+							)}
+						</>
+					) : (
+						<Flex justify='center' align='center' rounded='lg' p={2} bg='white'>
+							<Spinner
+								thickness='4px'
+								emptyColor='gray.200'
+								color='blue.500'
+								speed='0.8s'
+								size='xl'
+							/>
+						</Flex>
+					)}
+				</Flex>
+			) : (
+				<Flex justify='center' align='center' flexDirection='column' py='22px'>
+					{!user && !loading ? (
+						<LoginFullPage />
+					) : (
 						<Spinner
 							thickness='4px'
 							emptyColor='gray.200'
@@ -114,9 +151,9 @@ export const Timelines = () => {
 							speed='0.8s'
 							size='xl'
 						/>
-					</Flex>
-				)}
-			</Flex>
+					)}
+				</Flex>
+			)}
 		</>
 	);
 };

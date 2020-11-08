@@ -2,7 +2,7 @@ import tokens from '../../styles/tokens.json';
 import styled from '@emotion/styled';
 
 export const TimelineWrapper = styled.section`
-    background-color: ${tokens.background};
+    background-color: white;
     color: ${tokens.paragraph};
     display: flex;
     flex-direction: column;
@@ -13,7 +13,7 @@ export const TimelineWrapper = styled.section`
 export const TimelineHeader = styled.h2`
     color: ${tokens.headline};
     font-size: 5vw;
-    margin: 40px 40px;
+    margin: 0px 40px 40px 40px;
     font-weight: bold;
 `;
 

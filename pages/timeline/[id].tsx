@@ -8,7 +8,15 @@ import {
 	TimelineHeader,
 	TimelineWrapper,
 } from '../../components/Timeline/Timeline.styles';
-import { Text, Image } from '@chakra-ui/core';
+import {
+	Text,
+	Image,
+	Breadcrumb,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	Icon,
+} from '@chakra-ui/core';
+import Timeline from '../../components/Timeline/Timeline';
 
 export interface TimelineTypes {
 	title: string;
@@ -58,6 +66,27 @@ export const ProjectTimeline = () => {
 
 	return (
 		<>
+			<Breadcrumb
+				ml='30px'
+				my={4}
+				spacing='8px'
+				separator={<Icon color='gray.300' name='chevron-right' />}
+			>
+				<BreadcrumbItem>
+					<BreadcrumbLink href='/'>Home</BreadcrumbLink>
+				</BreadcrumbItem>
+
+				<BreadcrumbItem>
+					<BreadcrumbLink href='/timelines'>Timelines</BreadcrumbLink>
+				</BreadcrumbItem>
+
+				{user && timeline && (
+					<BreadcrumbItem isCurrentPage>
+						<BreadcrumbLink href='#'>{timeline.title}</BreadcrumbLink>
+					</BreadcrumbItem>
+				)}
+			</Breadcrumb>
+
 			{user && timeline && (
 				<TimelineWrapper>
 					<TimelineHeader>{timeline.title}</TimelineHeader>

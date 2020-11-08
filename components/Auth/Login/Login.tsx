@@ -48,7 +48,7 @@ interface LoginProps {
 }
 
 const initialValues = {
-	username: 'johndoe@gmail.com',
+	username: 'test@gmail.com',
 	password: 'test123',
 };
 
@@ -73,7 +73,7 @@ const LoginModal = ({ linkText = 'Login' }: LoginProps) => {
 					title: 'Logged In',
 					description: 'Logged In successfully.',
 					status: 'success',
-					duration: 4000,
+					duration: 3000,
 					isClosable: true,
 					position: 'top',
 				});
@@ -88,7 +88,7 @@ const LoginModal = ({ linkText = 'Login' }: LoginProps) => {
 					title: errorCode,
 					description: errorMessage,
 					status: 'error',
-					duration: 4000,
+					duration: 3000,
 					isClosable: true,
 					position: 'top',
 				});
