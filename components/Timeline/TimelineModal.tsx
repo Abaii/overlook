@@ -363,7 +363,7 @@ export const TimelineModal = () => {
 											</RadioGroup>
 										</FormControl> */}
 									</Stack>
-									<FormButtonWrapper>
+									<Flex justify='center' align='center' my={5}>
 										<Button
 											isLoading={isSubmitting}
 											rightIcon='check'
@@ -373,7 +373,7 @@ export const TimelineModal = () => {
 										>
 											Create Timeline
 										</Button>
-									</FormButtonWrapper>
+									</Flex>
 								</Form>
 							)}
 						</Formik>

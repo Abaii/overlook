@@ -37,7 +37,7 @@ export const Timelines = () => {
 	async function getTimelines(uid, token) {
 		await axios({
 			method: 'get',
-			url: 'http://localhost:8080/api/timelines/' + uid,
+			url: 'http://localhost:8080/api/timelines/uid/' + uid,
 			headers: {
 				Authorization: 'Bearer ' + token,
 				'Content-Type': 'text/event-stream',
