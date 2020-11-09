@@ -45,6 +45,7 @@ interface LoginValues {
 
 interface LoginProps {
 	linkText?: string;
+	reRoute: string;
 }
 
 const initialValues = {
@@ -52,7 +53,7 @@ const initialValues = {
 	password: 'test123',
 };
 
-const LoginModal = ({ linkText = 'Login' }: LoginProps) => {
+const LoginModal = ({ linkText = 'Login', reRoute }: LoginProps) => {
 	// Modal specific hooks
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -78,7 +79,9 @@ const LoginModal = ({ linkText = 'Login' }: LoginProps) => {
 					position: 'top',
 				});
 
-				router.push('/');
+				if (reRoute != '') {
+					router.push(reRoute);
+				}
 			})
 			.catch((error) => {
 				setSubmitting(false);
@@ -203,8 +206,12 @@ const LoginModal = ({ linkText = 'Login' }: LoginProps) => {
 	);
 };
 
-export const LoginFullPage = () => {
-	const [show, setShow] = React.useState(false);
+interface LoginFullProps {
+	setReAuth?: any;
+}
+
+export const LoginFullPage = ({ setReAuth }: LoginFullProps) => {
+	const [show, setShow] = useState(false);
 	const [isSubmitting, setSubmitting] = useState(false);
 	const toast = useToast();
 
@@ -217,6 +224,7 @@ export const LoginFullPage = () => {
 			.signInWithEmailAndPassword(username, password)
 			.then(() => {
 				setSubmitting(false);
+
 				toast({
 					title: 'Logged In',
 					description: 'Logged In successfully.',
@@ -226,7 +234,7 @@ export const LoginFullPage = () => {
 					position: 'top',
 				});
 
-				router.push('/');
+				setReAuth();
 			})
 			.catch((error) => {
 				setSubmitting(false);
@@ -245,7 +253,7 @@ export const LoginFullPage = () => {
 
 	const validate = (values: LoginValues) => {
 		const errors: FormikErrors<LoginValues> = {};
-		console.log(values);
+
 		if (!values.username) {
 			errors.username = 'You must enter a username';
 		}

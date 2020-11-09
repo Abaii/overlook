@@ -87,6 +87,18 @@ const Navbar = () => {
 				</NavbarElementWrapper>
 			</Tooltip>
 
+			<NavbarElementWrapper>
+				<Button
+					leftIcon={MdTimeline}
+					variant='outline'
+					variantColor='purple'
+					onClick={() => router.push('/timelines')}
+					rounded='full'
+				>
+					Timelines
+				</Button>
+			</NavbarElementWrapper>
+
 			<Menu>
 				<Tooltip label='Account Details' aria-label='account details'>
 					<MenuButton style={{ outline: 'none' }}>
@@ -100,13 +112,10 @@ const Navbar = () => {
 				</Tooltip>
 				<MenuList>
 					<MenuGroup>
-						<MenuItem onClick={() => onOpen()} height='100%'>
-							<Box as={FaUser} mr='12px' />
-							Account
-						</MenuItem>
-						<MenuItem onClick={() => router.push('/timelines')} height='100%'>
-							<Box as={MdTimeline} mr='12px' />
-							Timelines
+						<MenuItem onClick={() => onOpen()} height='50px' textAlign='center'>
+							<Icon name='settings' mr='18px' size='28px' />
+							Account Settings
+							<Icon name='chevron-right' ml='12px' size='30px' />
 						</MenuItem>
 						<MenuDivider />
 						<MenuItem justifyContent='center' style={{ background: 'none' }}>
@@ -127,7 +136,7 @@ const Navbar = () => {
 	const loggedOutLinks = (
 		<SplitLinks>
 			<LinkHoverWrapper first={true}>
-				<LoginModal />
+				<LoginModal reRoute='/' />
 			</LinkHoverWrapper>
 			<LinkHoverWrapper>
 				<RegistrationModal />
@@ -138,7 +147,8 @@ const Navbar = () => {
 	const loadingLinks = (
 		<SplitLinks>
 			<Flex justify='center' align='center'>
-				<Skeleton height='30px' width='70px' mr={5} />
+				<Skeleton as={IconButton} rounded='full' mr={5} />
+				<Skeleton as={Button} height='40px' width='122px' rounded='full' mr={5} />
 				<Skeleton as={Avatar} rounded='full' />
 			</Flex>
 		</SplitLinks>

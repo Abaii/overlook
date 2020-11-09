@@ -17,6 +17,7 @@ import {
 	Icon,
 } from '@chakra-ui/core';
 import Timeline from '../../components/Timeline/Timeline';
+import Head from 'next/head';
 
 export interface TimelineTypes {
 	title: string;
@@ -66,6 +67,14 @@ export const ProjectTimeline = () => {
 
 	return (
 		<>
+			<Head>
+				{user && timeline && <title>{timeline.title}</title>}
+				<link
+					rel='icon'
+					href='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌍</text></svg>'
+				/>
+			</Head>
+
 			<Breadcrumb
 				ml='30px'
 				my={4}

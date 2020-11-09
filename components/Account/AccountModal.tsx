@@ -13,6 +13,7 @@ import {
 	InputGroup,
 	InputLeftAddon,
 	InputRightElement,
+	Link,
 	Modal,
 	ModalBody,
 	ModalCloseButton,
@@ -22,14 +23,17 @@ import {
 	ModalOverlay,
 	Stack,
 	useToast,
+	Text,
 } from '@chakra-ui/core';
 import React, { useState } from 'react';
 import { useAuth } from '../../utils/auth/AuthContext';
+import LoginModal, { LoginFullPage } from '../Auth/Login/Login';
 
 export default function AccountModal({ isOpen, onClose }) {
 	const { user } = useAuth();
 	const [newEmail, setNewEmail] = useState('');
 	const [newPassword, setNewPassword] = useState('');
+	const [reAuth, setReAuth] = useState(false);
 	const [show, setShow] = useState(false);
 	const toast = useToast();
 
@@ -54,13 +58,12 @@ export default function AccountModal({ isOpen, onClose }) {
 			console.log('New Password - ' + newPassword);
 		} else if (checkEmail() == true) {
 			// Only changing the email
-			console.log('New Email Address - ' + newEmail);
 			user
 				.updateEmail(newEmail)
 				.then((response) => {
 					modalClose();
 					toast({
-						title: 'Successfully changed e-mail',
+						title: 'Successfully Updated e-mail',
 						description: `Your account's e-mail address was succesfully changed to ${newEmail}`,
 						status: 'success',
 						duration: 3000,
@@ -69,20 +72,44 @@ export default function AccountModal({ isOpen, onClose }) {
 					});
 				})
 				.catch((err) => {
+					console.log(err);
+
 					toast({
-						title: 'Error Occured',
-						description:
-							'An error occured while trying to change your e-mail address',
+						title: 'Error Occurred',
+						description: err.message,
 						status: 'error',
 						duration: 3000,
 						isClosable: true,
 						position: 'top',
 					});
-					console.error(err);
 				});
 		} else if (newPassword != '' && newPassword.length >= 5) {
 			// Only Changing the password
 			console.log('New Password - ' + newPassword);
+			user
+				.updatePassword(newPassword)
+				.then((response) => {
+					modalClose();
+					toast({
+						title: 'Successfully Updated password',
+						description: `Your account's password was succesfully updated.`,
+						status: 'success',
+						duration: 3000,
+						isClosable: true,
+						position: 'top',
+					});
+				})
+				.catch((err) => {
+					console.log(err);
+					toast({
+						title: 'Error Occurred',
+						description: err.message,
+						status: 'error',
+						duration: 3000,
+						isClosable: true,
+						position: 'top',
+					});
+				});
 		}
 	}
 
@@ -105,6 +132,10 @@ export default function AccountModal({ isOpen, onClose }) {
 		onClose();
 	};
 
+	const confirmReAuth = () => {
+		setReAuth(true);
+	};
+
 	return (
 		<>
 			{user && (
@@ -119,63 +150,73 @@ export default function AccountModal({ isOpen, onClose }) {
 					<ModalContent>
 						<ModalHeader>Account Settings</ModalHeader>
 						<ModalCloseButton />
-						<ModalBody>
-							<Stack spacing={2}>
-								<Box textAlign='center'>
-									<Heading size='md'>e-mail</Heading>
-									<Divider />
 
-									<Editable
-										placeholder={'Current e-mail address - ' + user.email}
-										textAlign='center'
-										isPreviewFocusable={false}
-										selectAllOnFocus={true}
-										onSubmit={(value) => setNewEmail(value)}
+						{reAuth ? (
+							<>
+								<ModalBody>
+									<Stack spacing={2}>
+										<Box textAlign='center'>
+											<Heading size='md'>e-mail</Heading>
+											<Divider />
+
+											<Editable
+												placeholder={'Current e-mail address - ' + user.email}
+												textAlign='center'
+												isPreviewFocusable={false}
+												selectAllOnFocus={true}
+												onSubmit={(value) => setNewEmail(value)}
+											>
+												{(props) => (
+													<>
+														<EditablePreview />
+														<EditableInput />
+														<EditableControls {...props} />
+													</>
+												)}
+											</Editable>
+										</Box>
+										<Box textAlign='center'>
+											<Heading size='md'>password</Heading>
+											<Divider />
+											<InputGroup size='md'>
+												<Input
+													pr='4.5rem'
+													id='password'
+													onChange={(value) => setNewPassword(value.target.value)}
+													type={show ? 'text' : 'password'}
+													placeholder='Enter password'
+												/>
+												<InputRightElement width='4.5rem'>
+													<Button h='1.75rem' size='sm' onClick={handleClick}>
+														{show ? 'Hide' : 'Show'}
+													</Button>
+												</InputRightElement>
+											</InputGroup>
+										</Box>
+									</Stack>
+								</ModalBody>
+
+								<ModalFooter textAlign='center'>
+									<Button
+										variantColor='blue'
+										mr={3}
+										onClick={() => {
+											modalClose();
+										}}
 									>
-										{(props) => (
-											<>
-												<EditablePreview />
-												<EditableInput />
-												<EditableControls {...props} />
-											</>
-										)}
-									</Editable>
-								</Box>
-								<Box textAlign='center'>
-									<Heading size='md'>password</Heading>
-									<Divider />
-									<InputGroup size='md'>
-										<Input
-											pr='4.5rem'
-											id='password'
-											onChange={(value) => setNewPassword(value.target.value)}
-											type={show ? 'text' : 'password'}
-											placeholder='Enter password'
-										/>
-										<InputRightElement width='4.5rem'>
-											<Button h='1.75rem' size='sm' onClick={handleClick}>
-												{show ? 'Hide' : 'Show'}
-											</Button>
-										</InputRightElement>
-									</InputGroup>
-								</Box>
-							</Stack>
-						</ModalBody>
-
-						<ModalFooter textAlign='center'>
-							<Button
-								variantColor='blue'
-								mr={3}
-								onClick={() => {
-									modalClose();
-								}}
-							>
-								Close
-							</Button>
-							<Button variant='solid' variantColor='green' onClick={newCreds}>
-								Save Changes
-							</Button>
-						</ModalFooter>
+										Close
+									</Button>
+									<Button variant='solid' variantColor='green' onClick={newCreds}>
+										Save Changes
+									</Button>
+								</ModalFooter>
+							</>
+						) : (
+							<Flex align='center' justify='center' flexDirection='column'>
+								<Text color='tomato'>You must re-login to view account details</Text>
+								<LoginFullPage setReAuth={confirmReAuth} />
+							</Flex>
+						)}
 					</ModalContent>
 				</Modal>
 			)}
