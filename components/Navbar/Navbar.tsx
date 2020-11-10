@@ -164,7 +164,20 @@ const Navbar = () => {
 
 	return (
 		<>
-			<NavbarWrapper>
+			<Flex
+				justify='space-between'
+				align='center'
+				borderBottom='1px solid #e2e8f0'
+				width='100%'
+				p={[
+					'10px 10px',
+					'10px 25px 10px 25px',
+					'10px 35px 10px 35px',
+					'10px 50px 10px 50px',
+					'10px 100px 10px 100px',
+				]}
+				as='nav'
+			>
 				<NavbarElementWrapper>
 					<LogoLink>
 						<Link href='/'>
@@ -176,7 +189,7 @@ const Navbar = () => {
 				{loading ? loadingLinks : <NavBarLink user={user} />}
 
 				<AccountModal isOpen={isOpen} onClose={onClose} />
-			</NavbarWrapper>
+			</Flex>
 		</>
 	);
 };

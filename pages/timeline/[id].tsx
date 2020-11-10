@@ -15,6 +15,9 @@ import {
 	BreadcrumbItem,
 	BreadcrumbLink,
 	Icon,
+	Flex,
+	Box,
+	Spinner,
 } from '@chakra-ui/core';
 import Timeline from '../../components/Timeline/Timeline';
 import Head from 'next/head';
@@ -61,9 +64,6 @@ export const ProjectTimeline = () => {
 	if (user && loaded == false) {
 		getTimeline();
 	}
-	// Use this id value to get the Timeline by axios
-	// Display the data returned here
-	// EZ Win
 
 	return (
 		<>
@@ -75,41 +75,65 @@ export const ProjectTimeline = () => {
 				/>
 			</Head>
 
-			<Breadcrumb
-				ml='30px'
-				my={4}
-				spacing='8px'
-				separator={<Icon color='gray.300' name='chevron-right' />}
-			>
-				<BreadcrumbItem>
-					<BreadcrumbLink href='/'>Home</BreadcrumbLink>
-				</BreadcrumbItem>
+			{!loading ? (
+				<>
+					<Breadcrumb
+						ml='30px'
+						my={4}
+						spacing='8px'
+						separator={<Icon color='gray.300' name='chevron-right' />}
+					>
+						<BreadcrumbItem>
+							<BreadcrumbLink href='/'>Home</BreadcrumbLink>
+						</BreadcrumbItem>
 
-				<BreadcrumbItem>
-					<BreadcrumbLink href='/timelines'>Timelines</BreadcrumbLink>
-				</BreadcrumbItem>
+						<BreadcrumbItem>
+							<BreadcrumbLink href='/timelines'>Timelines</BreadcrumbLink>
+						</BreadcrumbItem>
 
-				{user && timeline && (
-					<BreadcrumbItem isCurrentPage>
-						<BreadcrumbLink href='#'>{timeline.title}</BreadcrumbLink>
-					</BreadcrumbItem>
-				)}
-			</Breadcrumb>
+						{user && timeline && (
+							<BreadcrumbItem isCurrentPage>
+								<BreadcrumbLink href='#'>{timeline.title}</BreadcrumbLink>
+							</BreadcrumbItem>
+						)}
+					</Breadcrumb>
 
-			{user && timeline && (
-				<TimelineWrapper>
-					<TimelineHeader>{timeline.title}</TimelineHeader>
-					<Text font-size='sm' opacity={0.8} margin='-50px 10px 60px 10px'>
-						{timeline.description}
-					</Text>
-					{timeline.content && (
-						<ImagesContainer>
-							{timeline.content.map((image) => (
-								<Image src={image.image_url} />
-							))}
-						</ImagesContainer>
+					{user && timeline && (
+						<TimelineWrapper>
+							<TimelineHeader>{timeline.title}</TimelineHeader>
+							<Text font-size='sm' opacity={0.8} margin='-50px 10px 60px 10px'>
+								{timeline.description}
+							</Text>
+							{timeline.content && (
+								<ImagesContainer>
+									{timeline.content.map((image) => (
+										<Image src={image.image_url} />
+									))}
+								</ImagesContainer>
+							)}
+						</TimelineWrapper>
 					)}
-				</TimelineWrapper>
+				</>
+			) : (
+				<>
+					<Flex
+						justify='center'
+						align='center'
+						rounded='lg'
+						height='90vh'
+						p={2}
+						m={2}
+						bg='white'
+					>
+						<Spinner
+							thickness='4px'
+							emptyColor='gray.200'
+							color='blue.500'
+							speed='0.8s'
+							size='xl'
+						/>
+					</Flex>
+				</>
 			)}
 		</>
 	);

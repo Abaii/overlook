@@ -6,10 +6,25 @@ import {
 	LandingImageWrapper,
 	BottomOfPage,
 } from '../styles/global_emotion.styles';
-import { IconButton, Image, Flex, Box } from '@chakra-ui/core';
+import {
+	IconButton,
+	Image,
+	Flex,
+	Box,
+	Button,
+	Skeleton,
+	Stack,
+} from '@chakra-ui/core';
 import Head from 'next/head';
+import router from 'next/router';
+import { FaUser } from 'react-icons/fa';
+import { useAuth } from '../utils/auth/AuthContext';
+import Typist from 'react-typist';
+import { MdTimeline } from 'react-icons/md';
 
 const Home = () => {
+	const { user, loading } = useAuth();
+
 	return (
 		<>
 			<Head>
@@ -20,67 +35,91 @@ const Home = () => {
 				/>
 			</Head>
 
-			<Flex align='center' justify='center' flexDirection='column'>
-				<Flex
-					align='center'
-					justify='center'
-					flexDirection='column'
-					bg='#111111'
-					width='100%'
-					py={5}
-				>
+			<Flex
+				align='center'
+				justify='center'
+				flexDirection='column'
+				bg='#111111'
+				width='100%'
+				height={!user ? '70vh' : '110vh'}
+				py={5}
+			>
+				<Title
+					titleText='Welcome to'
+					tag='h1'
+					style={{
+						fontSize: '120px',
+						fontWeight: 'bold',
+						color: '#fff',
+						letterSpacing: '-8px',
+						lineHeight: 1,
+						textAlign: 'center',
+					}}
+				/>
+				<Title
+					titleText='Overlook'
+					tag='h1'
+					style={{
+						fontSize: '120px',
+						fontWeight: 'bold',
+						letterSpacing: '-6px',
+						lineHeight: 1,
+						background: '-webkit-linear-gradient(145deg, #b4373d, #b23acb)',
+						WebkitBackgroundClip: 'text',
+						WebkitTextFillColor: 'transparent',
+						padding: '0px 10px',
+					}}
+				/>
+				<Flex align='center' justify='center' flexDirection='row' mb={5}>
 					<Title
-						titleText='Welcome to'
+						titleText='🎨'
 						tag='h1'
 						style={{
-							fontSize: '120px',
-							fontWeight: 'bold',
-							color: '#fff',
-							letterSpacing: '-8px',
-							lineHeight: 1,
-							textAlign: 'center',
+							fontSize: '80px',
+							padding: '0',
 						}}
 					/>
 					<Title
-						titleText='Overlook'
+						titleText='👋'
 						tag='h1'
 						style={{
-							fontSize: '120px',
-							fontWeight: 'bold',
-							letterSpacing: '-6px',
-							lineHeight: 1,
-							background: '-webkit-linear-gradient(145deg, #b4373d, #b23acb)',
-							WebkitBackgroundClip: 'text',
-							WebkitTextFillColor: 'transparent',
-							padding: '0px 10px',
+							fontSize: '80px',
+							padding: '0',
 						}}
 					/>
-					<Flex align='center' justify='center' flexDirection='row' mb={5}>
-						<Title
-							titleText='🎨'
-							tag='h1'
-							style={{
-								fontSize: '80px',
-								padding: '0',
-							}}
-						/>
-						<Title
-							titleText='👋'
-							tag='h1'
-							style={{
-								fontSize: '80px',
-								padding: '0',
-							}}
-						/>
-					</Flex>
 				</Flex>
+				{!loading ? (
+					<Flex align='center' justify='center' flexDirection='row'>
+						{!user ? (
+							<Button leftIcon={FaUser} onClick={() => router.push('/register')}>
+								Sign Up Here!
+							</Button>
+						) : (
+							<Button leftIcon={MdTimeline}>Timelines</Button>
+						)}
+					</Flex>
+				) : (
+					<Stack spacing={2} isInline>
+						<Skeleton as={Button} mr={5}>
+							Timelines
+						</Skeleton>
+						<Skeleton as={Button} mr={5}>
+							Timelines
+						</Skeleton>
+						<Skeleton as={Button}>Timelines</Skeleton>
+					</Stack>
+				)}
+			</Flex>
 
-				<Box px={10} width='100%' pt={5}>
+			{!user && (
+				<>
 					<Flex
 						align='center'
 						justify='center'
 						flexDirection='column'
 						flexWrap='wrap'
+						height='110vh'
+						width='100%'
 						my={5}
 					>
 						<Title
@@ -103,60 +142,65 @@ const Home = () => {
 								textAlign: 'center',
 							}}
 						/>
-						{/* <LandingImageWrapper>
-							<Image
-								src='../static/svg/Process.svg'
-								alt='Illustration of a creative'
-							/>
-						</LandingImageWrapper> */}
-					</Flex>
 
-					<Flex justify='center' align='center' flexDirection='row' flexWrap='wrap'>
 						<LandingImageWrapper>
-							<Image
-								src='../static/svg/peep-sitting-12.svg'
-								alt='Illustration of a creative'
-							/>
+							<Image src='../static/svg/Timeline.svg' />
 						</LandingImageWrapper>
-						<Flex align='center' flexDirection='column'>
-							<Title
-								titleText="Whether you're an - Artist"
-								tag='h1'
-								style={{
-									fontSize: '60px',
-									fontFamily: 'Nothing You Could Do',
-									textAlign: 'center',
-								}}
-							/>
-
-							<Typo p_text='You can use Overlook to track the progress of your art as you decide what it is that you are creating!' />
-						</Flex>
 					</Flex>
 
-					<Flex justify='center' align='center' flexDirection='row' flexWrap='wrap'>
+					<Flex
+						width='100%'
+						height='110vh'
+						justify='center'
+						align='center'
+						py={5}
+						flexDirection='column'
+						bg='#EFE5D8'
+					>
+						<Title
+							titleText="Whether you're an - Artist"
+							tag='h1'
+							style={{
+								fontSize: '60px',
+								fontFamily: 'Nothing You Could Do',
+								textAlign: 'center',
+							}}
+						/>
+
+						<Typo p_text='You can use Overlook to track the progress of your art as you decide what it is that you are creating!' />
+						<Image src='../static/blue-paint-brush-stroke-4.png' />
+					</Flex>
+
+					<Flex
+						justify='center'
+						align='center'
+						flexDirection='row'
+						flexWrap='wrap'
+						width='100%'
+						height='100vh'
+						bg='#111111'
+					>
 						<Flex justify='center' align='center' flexDirection='column'>
-							<Title
-								titleText="Whether you're a - Developer"
-								tag='h1'
+							<h1
 								style={{
 									fontSize: '60px',
 									fontFamily: 'Consolas',
 									letterSpacing: '-6px',
-									lineHeight: 1,
+									textAlign: 'center',
+									color: '#33FF33',
 								}}
-							/>
-							<Typo p_text='You can use Overlook to track the progress of your products as you develop them, and use it to display your workflow!' />
+							>
+								Whether you're a - Developer{' '}
+								<span className='Cursor Cursor--blinking'>|</span>
+							</h1>
+							<p style={{ color: '#33FF33', textAlign: 'center' }}>
+								You can use Overlook to track the progress of your products as you
+								develop them, and use it to display your workflow!
+							</p>
 						</Flex>
-
-						<LandingImageWrapper>
-							<Image
-								src='../static/svg/peep-standing-3.svg'
-								alt='Illustration of a creative'
-							/>
-						</LandingImageWrapper>
 					</Flex>
-				</Box>
-			</Flex>
+				</>
+			)}
 		</>
 	);
 };

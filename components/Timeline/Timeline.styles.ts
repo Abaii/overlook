@@ -6,7 +6,8 @@ export const TimelineWrapper = styled.section`
     color: ${tokens.paragraph};
     display: flex;
     flex-direction: column;
-    margin: 0 15px;
+    height: 100vh;
+    margin: 0 20px;
     text-align: center;
 `;
 
@@ -18,7 +19,7 @@ export const TimelineHeader = styled.h2`
 `;
 
 export const ImagesContainer = styled.div`
-    flex-grow: 1;
+    flex-grow: 0;
     display: flex;
     flex-wrap: wrap;
 `;

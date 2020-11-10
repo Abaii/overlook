@@ -87,7 +87,7 @@ export const Timelines = () => {
 			</Breadcrumb>
 
 			{user && !loading && loaded ? (
-				<Flex justify='center' align='center' flexDirection='column' py='22px'>
+				<Flex align='center' flexDirection='column' py='22px' height='100vh'>
 					<Title
 						titleText='Timelines'
 						tag='h2'

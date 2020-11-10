@@ -9,12 +9,12 @@ import {
 const Footer = () => {
 	const [show, setShow] = useState(false);
 	return (
-		<Flex align='center' justify='center' mt={2} mb={5} flexDirection='column'>
+		<Flex align='center' justify='center' mt={5} mb={5} flexDirection='column'>
 			<IconButton
 				aria-label='close footer button'
 				icon={show ? 'chevron-up' : 'chevron-down'}
-				size='xs'
-				variantColor='purple'
+				rounded='full'
+				size='sm'
 				mb={2}
 				onClick={() => setShow(!show)}
 			/>

@@ -113,6 +113,7 @@ export default function TimelineCard({ user, timeline }) {
 					<ModalCloseButton />
 					<ModalBody>
 						<Stack>
+							<Text>{timeline._id}</Text>
 							<Text>{timeline.title}</Text>
 							<Text>{timeline.description}</Text>
 						</Stack>
