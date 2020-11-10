@@ -95,7 +95,9 @@ const Home = () => {
 								Sign Up Here!
 							</Button>
 						) : (
-							<Button leftIcon={MdTimeline}>Timelines</Button>
+							<Button leftIcon={MdTimeline} onClick={() => router.push('/timelines')}>
+								Timelines
+							</Button>
 						)}
 					</Flex>
 				) : (

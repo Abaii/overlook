@@ -22,23 +22,56 @@ import {
 	ModalCloseButton,
 	Button,
 	Link,
+	FormControl,
+	InputGroup,
+	FormErrorMessage,
+	Input,
+	InputRightElement,
+	FormLabel,
+	AlertDialog,
+	AlertDialogBody,
+	AlertDialogContent,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogOverlay,
+	Switch,
+	Badge,
 } from '@chakra-ui/core';
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import nookies from 'nookies';
 import { useRouter } from 'next/router';
 import { NONAME } from 'dns';
+import { Form, Formik, FormikErrors, FormikProps } from 'formik';
+import { FormButtonWrapper } from '../Auth/Login/Login.styles';
 
 const MotionBox = motion.custom(Box);
 
-export default function TimelineCard({ user, timeline }) {
+interface EditTimelineValues {
+	title: string;
+	description: string;
+}
+
+interface TimelineProps {
+	user: any;
+	timeline: any;
+}
+
+export default function TimelineCard({ user, timeline }: TimelineProps) {
 	const token = nookies.get({}, 'token');
 	const toast = useToast();
 	const router = useRouter();
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const [alertOpen, setIsOpen] = useState(false);
+	const alertClose = () => setIsOpen(false);
+	const cancelRef = React.useRef();
+	const [isSubmitting, setSubmitting] = useState(false);
 
-	const editTimeline = async () => {};
+	const initialValues = {
+		title: timeline.title,
+		description: timeline.description,
+	};
 
 	const deleteTimeline = async (id) => {
 		await axios
@@ -56,7 +89,8 @@ export default function TimelineCard({ user, timeline }) {
 					isClosable: true,
 					position: 'bottom',
 				});
-				setTimeout(router.reload, 2000);
+				alertClose();
+				router.reload;
 			})
 			.catch((err) => {
 				var errorCode = err.code;
@@ -72,6 +106,53 @@ export default function TimelineCard({ user, timeline }) {
 			});
 	};
 
+	const handleSubmit = ({ title, description }: EditTimelineValues) => {
+		setSubmitting(!isSubmitting);
+		axios
+			.put(
+				'http://localhost:8080/api/timelines/' + timeline._id,
+				{
+					title: title,
+					description: description,
+				},
+				{
+					headers: {
+						Authorization: 'Bearer ' + token.token,
+					},
+				}
+			)
+			.then((response) => {
+				setSubmitting(false);
+				onClose();
+				router.reload();
+			})
+			.catch((err) => {
+				setSubmitting(false);
+				var errorMessage = err.message;
+				toast({
+					title: errorMessage,
+					status: 'error',
+					duration: 3000,
+					isClosable: true,
+					position: 'bottom',
+				});
+			});
+	};
+
+	const validate = (values: EditTimelineValues) => {
+		const errors: FormikErrors<EditTimelineValues> = {};
+
+		if (!values.title) {
+			errors.title = 'You must enter a title';
+		}
+
+		if (!values.description) {
+			errors.description = 'You must enter a description';
+		}
+
+		return errors;
+	};
+
 	return (
 		<>
 			<MotionBox rounded='lg' borderWidth='1px' p={5} whileHover={{ scale: 1.05 }}>
@@ -84,7 +165,7 @@ export default function TimelineCard({ user, timeline }) {
 					</Text>
 				</Stack>
 
-				<Stack isInline spacing={3} justify='center'>
+				<Stack isInline spacing={3} justify='center' align='center'>
 					<Tag variantColor='blue' rounded='full'>
 						{user.displayName || user.email.split('@')[0]}
 					</Tag>
@@ -100,34 +181,128 @@ export default function TimelineCard({ user, timeline }) {
 						icon='delete'
 						variantColor='red'
 						rounded='full'
-						onClick={() => deleteTimeline(timeline._id)}
+						onClick={() => setIsOpen(true)}
 					/>
 				</Stack>
+				<Stack isInline justify='center' align='center' mt={4} spacing={0}>
+					<FormLabel>Publish Timeline?</FormLabel>
+					<Switch color='purple' value={timeline.published} />
+				</Stack>
+				<Badge variantColor={timeline.published ? 'green' : 'red'}>
+					{timeline.published ? 'Published' : 'Not Published'}
+				</Badge>
 			</MotionBox>
 
+			{/* Are you sure - delete timeline */}
+			<AlertDialog
+				isOpen={alertOpen}
+				leastDestructiveRef={cancelRef}
+				onClose={alertClose}
+			>
+				<AlertDialogOverlay />
+				<AlertDialogContent>
+					<AlertDialogHeader fontSize='lg' fontWeight='bold'>
+						Delete Timeline
+					</AlertDialogHeader>
+
+					<AlertDialogBody>
+						Are you sure? You can't undo this action afterwards.
+					</AlertDialogBody>
+
+					<AlertDialogFooter>
+						<Button ref={cancelRef} onClick={alertClose}>
+							Cancel
+						</Button>
+						<Button
+							variantColor='red'
+							onClick={() => deleteTimeline(timeline._id)}
+							ml={3}
+						>
+							Delete
+						</Button>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
+
 			{/* Edit Timeline Details Modal */}
-			<Modal onClose={onClose} isOpen={isOpen}>
+			<Modal onClose={onClose} isOpen={isOpen} closeOnOverlayClick={false}>
 				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader>Edit Timeline</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
-						<Stack>
-							<Text>{timeline._id}</Text>
-							<Text>{timeline.title}</Text>
-							<Text>{timeline.description}</Text>
-						</Stack>
+						<Formik
+							initialValues={initialValues}
+							onSubmit={handleSubmit}
+							validate={validate}
+						>
+							{({
+								handleSubmit,
+								errors,
+								values,
+								setFieldValue,
+							}: FormikProps<EditTimelineValues>) => (
+								<Form onSubmit={handleSubmit}>
+									<Stack spacing={6}>
+										<FormControl isInvalid={Boolean(errors.title)} isRequired={true}>
+											<FormLabel htmlFor='title'>Title</FormLabel>
+											<InputGroup>
+												<Input
+													type='text'
+													id='title'
+													aria-describedby='userame-helper-text'
+													value={values.title}
+													onChange={(e) => setFieldValue('title', e.target.value)}
+												/>
+											</InputGroup>
+											{errors.title && (
+												<FormErrorMessage mt={3}>{errors.title} </FormErrorMessage>
+											)}
+										</FormControl>
+
+										<FormControl
+											isInvalid={Boolean(errors.description)}
+											isRequired={true}
+										>
+											<FormLabel htmlFor='title'>Description</FormLabel>
+											<InputGroup>
+												Description
+												<Input
+													pr='4.5rem'
+													id='description'
+													value={values.description}
+													onChange={(e) => setFieldValue('description', e.target.value)}
+													type='text'
+												/>
+											</InputGroup>
+											{errors.description && (
+												<FormErrorMessage mt={3}>{errors.description}</FormErrorMessage>
+											)}
+										</FormControl>
+									</Stack>
+									<FormButtonWrapper style={{ marginBottom: '20px' }}>
+										<Button
+											variantColor='blue'
+											variant='solid'
+											mr={5}
+											onClick={() => onClose()}
+										>
+											Close
+										</Button>
+										<Button
+											isLoading={isSubmitting}
+											rightIcon='check'
+											variantColor='green'
+											type='submit'
+											variant='solid'
+										>
+											Save Changes
+										</Button>
+									</FormButtonWrapper>
+								</Form>
+							)}
+						</Formik>
 					</ModalBody>
-					<Flex justify='center' align='center' my={5}>
-						<Stack isInline>
-							<Button variantColor='blue' onClick={() => onClose()}>
-								Close
-							</Button>
-							<Button variantColor='green' leftIcon='check'>
-								Save Changes
-							</Button>
-						</Stack>
-					</Flex>
 				</ModalContent>
 			</Modal>
 		</>

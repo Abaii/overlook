@@ -6,7 +6,6 @@ export const TimelineWrapper = styled.section`
     color: ${tokens.paragraph};
     display: flex;
     flex-direction: column;
-    height: 100vh;
     margin: 0 20px;
     text-align: center;
 `;

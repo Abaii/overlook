@@ -74,12 +74,47 @@ export const TimelineModal = () => {
 	const handleSubmit = async ({ title, description }: TimelineValues) => {
 		setSubmitting(true);
 
-		// Single File version
-		if (!selectedImage && selectedImages == []) {
-			return;
+		// No Files
+		if (selectedImage == undefined && selectedImages.length == 0) {
+			const response = axios({
+				method: 'post',
+				url: 'http://localhost:8080/api/timelines',
+				data: {
+					title: title,
+					description: description,
+					ownerId: user.uid,
+				},
+				headers: { Authorization: 'Bearer ' + token.token },
+			})
+				.then(() => {
+					toast({
+						title: 'Timeline Created',
+						description: 'Successfully created Timeline.',
+						status: 'success',
+						duration: 4000,
+						isClosable: true,
+						position: 'top',
+					});
+					setSubmitting(false);
+					onClose();
+					router.reload();
+				})
+				.catch((err) => {
+					setSubmitting(false);
+					const errorCode = err.code;
+					const errorMessage = err.message;
+					toast({
+						title: errorCode,
+						description: errorMessage,
+						status: 'error',
+						duration: 4000,
+						isClosable: true,
+						position: 'top',
+					});
+				});
 		}
 
-		// Multiple File version
+		// One Image File
 		if (selectedImage) {
 			const formData = new FormData();
 			formData.append('image', selectedImage);
@@ -105,7 +140,7 @@ export const TimelineModal = () => {
 							content: [
 								{
 									image_url: res.data.data.location,
-									comment: ['This is a test comment!'],
+									comments: [{}],
 								},
 							],
 						},
@@ -142,6 +177,7 @@ export const TimelineModal = () => {
 					console.log(error);
 				});
 		} else if (selectedImages) {
+			// More than one image file
 			const formData = new FormData();
 			selectedImages.forEach((file) => {
 				formData.append('image', file);
@@ -160,7 +196,7 @@ export const TimelineModal = () => {
 
 					var uploadContent = res.data.data.map((file) => ({
 						image_url: file.Location,
-						comment: [''],
+						comments: [{}],
 					}));
 
 					console.log(uploadContent);
@@ -258,6 +294,7 @@ export const TimelineModal = () => {
 					modalClose();
 				}}
 				size='xl'
+				closeOnOverlayClick={false}
 			>
 				<ModalOverlay />
 				<ModalContent>
@@ -277,8 +314,8 @@ export const TimelineModal = () => {
 							}: FormikProps<TimelineValues>) => (
 								<Form onSubmit={handleSubmit}>
 									<Stack spacing={6}>
-										<FormControl isInvalid={Boolean(errors.title)}>
-											<FormLabel>Timeline Title</FormLabel>
+										<FormControl isInvalid={Boolean(errors.title)} isRequired={true}>
+											<FormLabel>Title</FormLabel>
 											<InputGroup>
 												<Input
 													type='text'
@@ -296,8 +333,11 @@ export const TimelineModal = () => {
 												</FormErrorMessage>
 											)}
 										</FormControl>
-										<FormControl isInvalid={Boolean(errors.description)}>
-											<FormLabel>Timeline Description</FormLabel>
+										<FormControl
+											isInvalid={Boolean(errors.description)}
+											isRequired={true}
+										>
+											<FormLabel>Description</FormLabel>
 											<InputGroup size='md'>
 												<Textarea
 													id='description'
@@ -315,7 +355,7 @@ export const TimelineModal = () => {
 											)}
 										</FormControl>
 										<FormControl>
-											<FormLabel>Image Upload</FormLabel>
+											<FormLabel>Image Upload - Optional</FormLabel>
 											<Box rounded='lg' bg='gray.100' p={2}>
 												<input
 													onChange={handleImageChange}

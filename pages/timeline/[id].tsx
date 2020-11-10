@@ -18,9 +18,11 @@ import {
 	Flex,
 	Box,
 	Spinner,
+	IconButton,
 } from '@chakra-ui/core';
 import Timeline from '../../components/Timeline/Timeline';
 import Head from 'next/head';
+import TimelineImage from '../../components/TimelineImage/TimelineImage';
 
 export interface TimelineTypes {
 	title: string;
@@ -28,7 +30,12 @@ export interface TimelineTypes {
 	content: [
 		{
 			image_url: string;
-			comment: [string];
+			comments: [
+				{
+					_id: any;
+					comment: string;
+				}
+			];
 		}
 	];
 	published: boolean;
@@ -43,6 +50,8 @@ export const ProjectTimeline = () => {
 	const { user, loading } = useAuth();
 	const token = nookies.get({}, 'token');
 	const [timeline, setTimeline] = useState<TimelineTypes>();
+
+	const [showComments, setShowComments] = useState(false);
 
 	const getTimeline = () => {
 		axios
@@ -107,7 +116,7 @@ export const ProjectTimeline = () => {
 							{timeline.content && (
 								<ImagesContainer>
 									{timeline.content.map((image) => (
-										<Image src={image.image_url} />
+										<TimelineImage image={image} />
 									))}
 								</ImagesContainer>
 							)}
