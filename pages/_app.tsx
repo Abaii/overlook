@@ -12,16 +12,6 @@ import { AuthProvider } from '../utils/auth/AuthContext';
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<>
-			<Global
-				styles={css`
-					button {
-						border: none;
-					}
-					input {
-						border: none;
-					}
-				`}
-			/>
 			<ThemeProvider theme={theme}>
 				<CSSReset />
 				<AuthProvider>

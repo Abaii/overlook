@@ -14,6 +14,7 @@ import {
 	Button,
 	Skeleton,
 	Stack,
+	Heading,
 } from '@chakra-ui/core';
 import Head from 'next/head';
 import router from 'next/router';
@@ -44,32 +45,32 @@ const Home = () => {
 				height={!user ? '70vh' : '110vh'}
 				py={5}
 			>
-				<Title
-					titleText='Welcome to'
-					tag='h1'
+				<Heading
 					style={{
-						fontSize: '120px',
 						fontWeight: 'bold',
 						color: '#fff',
-						letterSpacing: '-8px',
 						lineHeight: 1,
 						textAlign: 'center',
 					}}
-				/>
-				<Title
-					titleText='Overlook'
-					tag='h1'
+					letterSpacing={['-4px', '-6px', '-8px']}
+					fontSize={['60px', '80px', '100px', '120px']}
+				>
+					Welcome to
+				</Heading>
+				<Heading
 					style={{
-						fontSize: '120px',
 						fontWeight: 'bold',
-						letterSpacing: '-6px',
 						lineHeight: 1,
 						background: '-webkit-linear-gradient(145deg, #b4373d, #b23acb)',
 						WebkitBackgroundClip: 'text',
 						WebkitTextFillColor: 'transparent',
 						padding: '0px 10px',
 					}}
-				/>
+					letterSpacing={['-2px', '-4px', '-6px']}
+					fontSize={['60px', '80px', '100px', '120px']}
+				>
+					Overlook
+				</Heading>
 				<Flex align='center' justify='center' flexDirection='row' mb={5}>
 					<Title
 						titleText='🎨'

@@ -8,6 +8,7 @@ import {
 	Button,
 	Divider,
 	Flex,
+	Grid,
 	Heading,
 	Icon,
 	SimpleGrid,
@@ -104,15 +105,18 @@ export const Timelines = () => {
 						<>
 							{data.length ? (
 								<Box width='100%' px={5}>
-									<SimpleGrid minChildWidth='250px' spacing={4}>
+									<Grid
+										templateColumns={['1fr', '1fr 1fr', '1fr 1fr 1fr', '1fr 1fr 1fr 1fr']}
+										gap={4}
+									>
 										{data.map((timeline) => (
 											<TimelineCard key={timeline._id} user={user} timeline={timeline} />
 										))}
 
-										<Flex align='center' justify='center' height='261px'>
+										<Flex align='center' justify='center' height='auto-fit'>
 											<TimelineModal />
 										</Flex>
-									</SimpleGrid>
+									</Grid>
 								</Box>
 							) : (
 								<>

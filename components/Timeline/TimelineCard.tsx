@@ -155,7 +155,14 @@ export default function TimelineCard({ user, timeline }: TimelineProps) {
 
 	return (
 		<>
-			<MotionBox rounded='lg' borderWidth='1px' p={5} whileHover={{ scale: 1.05 }}>
+			<MotionBox
+				minW={['250px', '300px', '350px']}
+				height='fit-content'
+				rounded='lg'
+				borderWidth='1px'
+				p={5}
+				whileHover={{ scale: 1.05 }}
+			>
 				<Stack spacing={2}>
 					<Link href={'/timeline/' + timeline._id} style={{ outline: 'none' }}>
 						<Heading textAlign='center'>{timeline.title}</Heading>
@@ -186,11 +193,17 @@ export default function TimelineCard({ user, timeline }: TimelineProps) {
 				</Stack>
 				<Stack isInline justify='center' align='center' mt={4} spacing={0}>
 					<FormLabel>Publish Timeline?</FormLabel>
-					<Switch color='purple' value={timeline.published} />
+					<Switch
+						color='purple'
+						value={timeline.published}
+						onChange={() => console.log(timeline.published)}
+					/>
 				</Stack>
-				<Badge variantColor={timeline.published ? 'green' : 'red'}>
-					{timeline.published ? 'Published' : 'Not Published'}
-				</Badge>
+				<Flex justify='space-between'>
+					<Badge variantColor={timeline.published ? 'green' : 'red'}>
+						{timeline.published ? 'Published' : 'Not Published'}
+					</Badge>
+				</Flex>
 			</MotionBox>
 
 			{/* Are you sure - delete timeline */}

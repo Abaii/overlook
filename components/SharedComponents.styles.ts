@@ -15,11 +15,6 @@ export const LinkHoverWrapper = styled.div<SplitLinksProps>`
 		text-align: center;
 		text-decoration: none;
 	}
-	${({ first }) =>
-		first &&
-		css`
-			margin-right: 25px;
-		`}
 `;
 
 export const LoggedInInfoWrapper = styled.div<SplitLinksProps>`

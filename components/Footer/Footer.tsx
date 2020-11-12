@@ -8,6 +8,7 @@ import {
 
 const Footer = () => {
 	const [show, setShow] = useState(false);
+
 	return (
 		<Flex align='center' justify='center' mt={5} mb={5} flexDirection='column'>
 			<IconButton
@@ -20,7 +21,7 @@ const Footer = () => {
 			/>
 
 			{show && (
-				<Box py={2} rounded='lg' bg='white' p={3}>
+				<Box py={2} rounded='lg' bg='white' p={3} textAlign='center'>
 					<footer>
 						<Text fontSize='14px' mb={2}>
 							Developed & Designed by Abai Edmund & Johny Wills
