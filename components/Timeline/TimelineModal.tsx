@@ -31,7 +31,7 @@ import {
 	RadioGroup,
 	Radio,
 	Flex,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 
 // Formik Imports
 import { Formik, FormikErrors, FormikProps, FormikValues, Form } from 'formik';
@@ -46,6 +46,7 @@ import { Icon } from '../Navbar/Logo/Logo.styles';
 import { ImFilePicture, ImOffice } from 'react-icons/im';
 import { BsCodeSlash } from 'react-icons/bs';
 import { motion } from 'framer-motion';
+import { AddIcon, CheckCircleIcon, CheckIcon } from '@chakra-ui/icons';
 
 interface TimelineValues {
 	title: string;
@@ -279,8 +280,8 @@ export const TimelineModal = () => {
 	return (
 		<>
 			<MotionIconButton
-				icon='add'
-				variantColor='green'
+				icon={<AddIcon />}
+				colorScheme='green'
 				isRound={true}
 				aria-label='Create Timeline Button'
 				onClick={onOpen}
@@ -338,14 +339,14 @@ export const TimelineModal = () => {
 											isRequired={true}
 										>
 											<FormLabel>Description</FormLabel>
-											<InputGroup size='md'>
+											<InputGroup>
 												<Textarea
 													id='description'
 													value={values.description}
 													variant='filled'
 													onChange={(e) => setFieldValue('description', e.target.value)}
 													placeholder='Enter a description for this Timeline'
-													height='130px'
+													height='200px'
 												/>
 											</InputGroup>
 											{errors.description && (
@@ -368,7 +369,7 @@ export const TimelineModal = () => {
 													<Flex justify='center' align='center' mt={2}>
 														<Image
 															p={2}
-															size='50%'
+															boxSize='50%'
 															src={URL.createObjectURL(selectedImage)}
 															// Creates a preview of the image being selected
 														/>
@@ -384,13 +385,13 @@ export const TimelineModal = () => {
 												>
 													{selectedImages &&
 														selectedImages.map((image) => (
-															<Image p={2} size='50%' src={URL.createObjectURL(image)} />
+															<Image p={2} boxSize='50%' src={URL.createObjectURL(image)} />
 														))}
 												</Flex>
 
 												{uploadedImage && (
 													<Flex justify='center' align='center' mt={2}>
-														<Image p={2} size='50%' src={uploadedImage} />
+														<Image p={2} boxSize='50%' src={uploadedImage} />
 													</Flex>
 												)}
 											</Box>
@@ -406,8 +407,8 @@ export const TimelineModal = () => {
 									<Flex justify='center' align='center' my={5}>
 										<Button
 											isLoading={isSubmitting}
-											rightIcon='check'
-											variantColor='green'
+											rightIcon={<CheckIcon />}
+											colorScheme='green'
 											type='submit'
 											variant='solid'
 										>

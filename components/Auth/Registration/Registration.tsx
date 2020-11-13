@@ -21,7 +21,7 @@ import {
 	useDisclosure,
 	Box,
 	Flex,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { Formik, Form, FormikProps, FormikErrors } from 'formik';
 import { FormButtonWrapper } from './Registration.styles';
 import { ModalFooterWrapper } from '../Login/Login.styles';
@@ -29,6 +29,7 @@ import firebase from 'firebase';
 import initFirebase from '../../../utils/auth/initFirebase';
 import router from 'next/router';
 import ProviderButtons from '../ProviderButtons';
+import { ArrowForwardIcon } from '@chakra-ui/icons';
 
 initFirebase();
 
@@ -196,7 +197,7 @@ const RegistrationModal = ({ linkText = 'Register' }: RegistrationProps) => {
 										</FormControl>
 
 										<FormControl isInvalid={Boolean(errors.password)}>
-											<InputGroup size='md'>
+											<InputGroup>
 												<InputLeftAddon children='Password' />
 												<Input
 													pr='4.5rem'
@@ -220,8 +221,8 @@ const RegistrationModal = ({ linkText = 'Register' }: RegistrationProps) => {
 									<FormButtonWrapper>
 										<Button
 											isLoading={isSubmitting}
-											rightIcon='arrow-forward'
-											variantColor='purple'
+											rightIcon={<ArrowForwardIcon />}
+											colorScheme='purple'
 											type='submit'
 											variant='solid'
 										>
@@ -383,7 +384,7 @@ export const RegistrationFullPage = () => {
 										</FormControl>
 
 										<FormControl isInvalid={Boolean(errors.password)}>
-											<InputGroup size='md'>
+											<InputGroup>
 												<InputLeftAddon children='Password' />
 												<Input
 													pr='4.5rem'
@@ -407,8 +408,8 @@ export const RegistrationFullPage = () => {
 									<FormButtonWrapper>
 										<Button
 											isLoading={isSubmitting}
-											rightIcon='arrow-forward'
-											variantColor='purple'
+											rightIcon={<ArrowForwardIcon />}
+											colorScheme='purple'
 											type='submit'
 											variant='solid'
 										>

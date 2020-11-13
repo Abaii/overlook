@@ -1,4 +1,4 @@
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 interface AnimationProps {
@@ -35,7 +35,7 @@ export const Icon = styled.div<AnimationProps>`
 `;
 
 export const TextWrapper = styled.div`
-	font-size: 30px;
+	font-boxSize: 30px;
 	margin: -4px 0 0 0;
 `;
 

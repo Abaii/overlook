@@ -24,7 +24,8 @@ import {
 	Stack,
 	useToast,
 	Text,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
+import { EditIcon } from '@chakra-ui/icons';
 import React, { useState } from 'react';
 import { useAuth } from '../../utils/auth/AuthContext';
 import LoginModal, { LoginFullPage } from '../Auth/Login/Login';
@@ -117,8 +118,8 @@ export default function AccountModal({ isOpen, onClose }) {
 		return (
 			<Flex justify='center' mt={2}>
 				<IconButton
-					size='sm'
-					icon='edit'
+					boxSize='sm'
+					icon={<EditIcon />}
 					aria-label='edit value button'
 					onClick={onRequestEdit}
 				/>
@@ -156,7 +157,9 @@ export default function AccountModal({ isOpen, onClose }) {
 								<ModalBody>
 									<Stack spacing={2}>
 										<Box textAlign='center'>
-											<Heading size='md'>e-mail</Heading>
+											<Heading size='lg' mb={2}>
+												e-mail
+											</Heading>
 											<Divider />
 
 											<Editable
@@ -170,14 +173,15 @@ export default function AccountModal({ isOpen, onClose }) {
 													<>
 														<EditablePreview />
 														<EditableInput />
-														<EditableControls {...props} />
+														{/* <EditableControls {...props} /> */}
 													</>
 												)}
 											</Editable>
 										</Box>
 										<Box textAlign='center'>
-											<Heading size='md'>password</Heading>
-											<Divider />
+											<Heading size='lg' mb={2}>
+												password
+											</Heading>
 											<InputGroup size='md'>
 												<Input
 													pr='4.5rem'
@@ -198,7 +202,7 @@ export default function AccountModal({ isOpen, onClose }) {
 
 								<ModalFooter textAlign='center'>
 									<Button
-										variantColor='blue'
+										colorScheme='blue'
 										mr={3}
 										onClick={() => {
 											modalClose();
@@ -206,7 +210,7 @@ export default function AccountModal({ isOpen, onClose }) {
 									>
 										Close
 									</Button>
-									<Button variant='solid' variantColor='green' onClick={newCreds}>
+									<Button variant='solid' colorScheme='green' onClick={newCreds}>
 										Save Changes
 									</Button>
 								</ModalFooter>

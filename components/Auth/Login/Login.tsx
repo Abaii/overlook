@@ -24,7 +24,7 @@ import {
 	ButtonGroup,
 	Flex,
 	Heading,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { Formik, FormikErrors, FormikProps, FormikValues, Form } from 'formik';
 import { FormButtonWrapper, ModalFooterWrapper } from './Login.styles';
 import { LinkHoverWrapper } from '../../SharedComponents.styles';
@@ -35,6 +35,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { ImFacebook2 } from 'react-icons/im';
 import { Icon } from '../../Navbar/Logo/Logo.styles';
 import ProviderButtons from '../ProviderButtons';
+import { ArrowForwardIcon, ArrowUpDownIcon } from '@chakra-ui/icons';
 
 initFirebase();
 
@@ -157,7 +158,7 @@ const LoginModal = ({ linkText = 'Login', reRoute }: LoginProps) => {
 										</FormControl>
 
 										<FormControl isInvalid={Boolean(errors.password)}>
-											<InputGroup size='md'>
+											<InputGroup>
 												<InputLeftAddon children='Password' />
 												<Input
 													pr='4.5rem'
@@ -181,8 +182,8 @@ const LoginModal = ({ linkText = 'Login', reRoute }: LoginProps) => {
 									<FormButtonWrapper>
 										<Button
 											isLoading={isSubmitting}
-											rightIcon='arrow-forward'
-											variantColor='purple'
+											rightIcon={<ArrowForwardIcon />}
+											colorScheme='purple'
 											type='submit'
 											variant='solid'
 										>
@@ -283,7 +284,7 @@ export const LoginFullPage = ({ setReAuth }: LoginFullProps) => {
 								setFieldValue,
 							}: FormikProps<LoginValues>) => (
 								<Form onSubmit={handleSubmit}>
-									<Text fontSize='35px' fontWeight='bold' textAlign='center'>
+									<Text fontboxSize='35px' fontWeight='bold' textAlign='center'>
 										Login
 									</Text>
 									<Stack spacing={6}>
@@ -308,7 +309,7 @@ export const LoginFullPage = ({ setReAuth }: LoginFullProps) => {
 										</FormControl>
 
 										<FormControl isInvalid={Boolean(errors.password)}>
-											<InputGroup size='md'>
+											<InputGroup>
 												<InputLeftAddon children='Password' />
 												<Input
 													pr='4.5rem'
@@ -332,8 +333,8 @@ export const LoginFullPage = ({ setReAuth }: LoginFullProps) => {
 									<FormButtonWrapper>
 										<Button
 											isLoading={isSubmitting}
-											rightIcon='arrow-forward'
-											variantColor='purple'
+											rightIcon={<ArrowForwardIcon />}
+											colorScheme='purple'
 											type='submit'
 											variant='solid'
 										>

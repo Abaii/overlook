@@ -1,19 +1,15 @@
 import '../styles/globals.css';
-import { CSSReset, ThemeProvider, theme } from '@chakra-ui/core';
-import { Global, css } from '@emotion/core';
+import { CSSReset, ChakraProvider, theme } from '@chakra-ui/react';
 import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
-import { BottomOfPage, Page } from '../styles/global_emotion.styles';
-import firebase from 'firebase';
-import react, { useState, useEffect } from 'react';
+import { Page } from '../styles/global_emotion.styles';
 import type { AppProps } from 'next/app';
 import { AuthProvider } from '../utils/auth/AuthContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<>
-			<ThemeProvider theme={theme}>
-				<CSSReset />
+			<ChakraProvider>
 				<AuthProvider>
 					<Page>
 						<Navbar />
@@ -22,7 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 						<Footer />
 					</Page>
 				</AuthProvider>
-			</ThemeProvider>
+			</ChakraProvider>
 		</>
 	);
 }

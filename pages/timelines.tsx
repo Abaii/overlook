@@ -17,7 +17,7 @@ import {
 	Stack,
 	Tag,
 	Text,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import Head from 'next/head';
 
 // React Imports
@@ -32,6 +32,7 @@ import TimelineCard from '../components/Timeline/TimelineCard';
 import Title from '../components/Typo/Title/Title';
 import { AnimatePresence, AnimateSharedLayout, motion } from 'framer-motion';
 import { LoginFullPage } from '../components/Auth/Login/Login';
+import { ChevronRightIcon } from '@chakra-ui/icons';
 
 export const Timelines = () => {
 	const { user, loading } = useAuth();
@@ -68,7 +69,7 @@ export const Timelines = () => {
 				<title>Overlook | All Timelines</title>
 				<link
 					rel='icon'
-					href='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌍</text></svg>'
+					href='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-boxSize=%2290%22>🌍</text></svg>'
 				/>
 			</Head>
 
@@ -76,7 +77,7 @@ export const Timelines = () => {
 				ml='30px'
 				my={4}
 				spacing='8px'
-				separator={<Icon color='gray.300' name='chevron-right' />}
+				separator={<ChevronRightIcon color='gray.300' />}
 			>
 				<BreadcrumbItem>
 					<BreadcrumbLink href='/'>Home</BreadcrumbLink>
@@ -88,7 +89,13 @@ export const Timelines = () => {
 			</Breadcrumb>
 
 			{user && !loading && loaded ? (
-				<Flex align='center' flexDirection='column' py='22px' height='100vh'>
+				<Flex
+					align='center'
+					flexDirection='column'
+					py='22px'
+					mx={10}
+					height='100vh'
+				>
 					<Title
 						titleText='Timelines'
 						tag='h2'
@@ -104,16 +111,22 @@ export const Timelines = () => {
 					{!loading && data && loaded ? (
 						<>
 							{data.length ? (
-								<Box width='100%' px={5}>
+								<Box width='100vw' px={5}>
 									<Grid
-										templateColumns={['1fr', '1fr 1fr', '1fr 1fr 1fr', '1fr 1fr 1fr 1fr']}
-										gap={4}
+										templateColumns={['1fr', '1fr', '1fr 1fr', '1fr 1fr', '1fr 1fr 1fr']}
+										justifyContent='center'
+										gap={5}
 									>
 										{data.map((timeline) => (
 											<TimelineCard key={timeline._id} user={user} timeline={timeline} />
 										))}
 
-										<Flex align='center' justify='center' height='auto-fit'>
+										<Flex
+											align='center'
+											justify='center'
+											height='auto-fit'
+											// minW={['250px', '300px', '350px']}
+										>
 											<TimelineModal />
 										</Flex>
 									</Grid>
@@ -122,7 +135,7 @@ export const Timelines = () => {
 								<>
 									<Box bg='white' rounded='lg' p={5}>
 										<Stack spacing={5}>
-											<Text fontSize='2xl' color='red.500' alignSelf='center'>
+											<Text fontboxSize='2xl' color='red.500' alignSelf='center'>
 												No Timelines Created Yet
 											</Text>
 											<TimelineModal />

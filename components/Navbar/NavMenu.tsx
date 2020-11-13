@@ -1,3 +1,4 @@
+import { CloseIcon } from '@chakra-ui/icons';
 import {
 	IconButton,
 	Drawer,
@@ -8,7 +9,7 @@ import {
 	Stack,
 	Link,
 	useDisclosure,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import React from 'react';
 import { FiMenu } from 'react-icons/fi';
 import AccountMenu from '../Account/AccountMenu';
@@ -24,13 +25,21 @@ const NavMenu = ({ user, handleSignOut }: Props) => {
 
 	return (
 		<>
-			<IconButton icon={FiMenu} onClick={onOpen} aria-label='menu button' />
+			<IconButton icon={<FiMenu />} onClick={onOpen} aria-label='menu button' />
 
 			<Drawer placement='right' onClose={onClose} isOpen={isOpen}>
 				<DrawerOverlay />
 				<DrawerContent>
 					<DrawerHeader borderBottomWidth='1px' textAlign='center'>
 						Menu
+						<IconButton
+							ml={2}
+							size='sm'
+							colorScheme='red'
+							icon={<CloseIcon />}
+							aria-label='Close menu button'
+							onClick={onClose}
+						/>
 					</DrawerHeader>
 					<DrawerBody textAlign='center'>
 						<Stack spacing={3}>

@@ -13,7 +13,7 @@ import {
 	Stack,
 	Tag,
 	Text,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import Head from 'next/head';
 
 // React Imports
@@ -36,12 +36,12 @@ export const Account = () => {
 				<title>Account</title>
 				<link
 					rel='icon'
-					href='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌍</text></svg>'
+					href='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-boxSize=%2290%22>🌍</text></svg>'
 				/>
 			</Head>
 
 			<Flex justify='center' align='center' flexDirection='column' pt='22px'>
-				<Heading m={'22px 0 22px 0'} size='2xl'>
+				<Heading m={'22px 0 22px 0'} boxSize='2xl'>
 					Account
 				</Heading>
 				{user ? (
@@ -64,7 +64,7 @@ export const Account = () => {
 							thickness='4px'
 							emptyColor='gray.200'
 							color='blue.500'
-							size='xl'
+							boxSize='xl'
 							mt={40}
 						/>
 					</Flex>

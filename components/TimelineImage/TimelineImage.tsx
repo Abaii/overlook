@@ -8,7 +8,8 @@ import {
 	Button,
 	Flex,
 	Stack,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
+import { AddIcon, ChatIcon, DeleteIcon } from '@chakra-ui/icons';
 
 interface Props {
 	image: {
@@ -32,7 +33,7 @@ const TimelineImage = ({ image }: Props) => {
 
 				<Button
 					mt={2}
-					leftIcon='chat'
+					leftIcon={<ChatIcon />}
 					aria-label='show comments'
 					onClick={() => setShowComments(!showComments)}
 				>
@@ -50,10 +51,18 @@ const TimelineImage = ({ image }: Props) => {
 						{image.comments.map((singleComment) => (
 							<Stack isInline>
 								<Text>{singleComment.comment}</Text>
-								<IconButton icon='delete' size='xs' aria-label='delete comment' />
+								<IconButton
+									icon={<DeleteIcon />}
+									size='xs'
+									aria-label='delete comment'
+								/>
 							</Stack>
 						))}
-						<IconButton icon='add' aria-label='add comment button' rounded='full' />
+						<IconButton
+							icon={<AddIcon />}
+							aria-label='add comment button'
+							rounded='full'
+						/>
 					</Box>
 				)}
 			</Flex>

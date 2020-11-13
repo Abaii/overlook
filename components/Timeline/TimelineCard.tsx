@@ -7,7 +7,6 @@ import {
 	Flex,
 	Image,
 	Stack,
-	TagIcon,
 	TagLabel,
 	TagCloseButton,
 	IconButton,
@@ -36,15 +35,15 @@ import {
 	AlertDialogOverlay,
 	Switch,
 	Badge,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import nookies from 'nookies';
 import { useRouter } from 'next/router';
-import { NONAME } from 'dns';
 import { Form, Formik, FormikErrors, FormikProps } from 'formik';
 import { FormButtonWrapper } from '../Auth/Login/Login.styles';
+import { CheckIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons';
 
 const MotionBox = motion.custom(Box);
 
@@ -173,20 +172,20 @@ export default function TimelineCard({ user, timeline }: TimelineProps) {
 				</Stack>
 
 				<Stack isInline spacing={3} justify='center' align='center'>
-					<Tag variantColor='blue' rounded='full'>
+					<Tag colorScheme='blue' rounded='full'>
 						{user.displayName || user.email.split('@')[0]}
 					</Tag>
 					<IconButton
 						aria-label='edit timeline'
-						icon='edit'
-						variantColor='yellow'
+						icon={<EditIcon />}
+						colorScheme='yellow'
 						rounded='full'
 						onClick={() => onOpen()}
 					/>
 					<IconButton
 						aria-label='delete timeline'
-						icon='delete'
-						variantColor='red'
+						icon={<DeleteIcon />}
+						colorScheme='red'
 						rounded='full'
 						onClick={() => setIsOpen(true)}
 					/>
@@ -194,13 +193,13 @@ export default function TimelineCard({ user, timeline }: TimelineProps) {
 				<Stack isInline justify='center' align='center' mt={4} spacing={0}>
 					<FormLabel>Publish Timeline?</FormLabel>
 					<Switch
-						color='purple'
+						colorScheme='purple'
 						value={timeline.published}
 						onChange={() => console.log(timeline.published)}
 					/>
 				</Stack>
 				<Flex justify='space-between'>
-					<Badge variantColor={timeline.published ? 'green' : 'red'}>
+					<Badge colorScheme={timeline.published ? 'green' : 'red'}>
 						{timeline.published ? 'Published' : 'Not Published'}
 					</Badge>
 				</Flex>
@@ -214,7 +213,7 @@ export default function TimelineCard({ user, timeline }: TimelineProps) {
 			>
 				<AlertDialogOverlay />
 				<AlertDialogContent>
-					<AlertDialogHeader fontSize='lg' fontWeight='bold'>
+					<AlertDialogHeader fontboxSize='lg' fontWeight='bold'>
 						Delete Timeline
 					</AlertDialogHeader>
 
@@ -227,7 +226,7 @@ export default function TimelineCard({ user, timeline }: TimelineProps) {
 							Cancel
 						</Button>
 						<Button
-							variantColor='red'
+							colorScheme='red'
 							onClick={() => deleteTimeline(timeline._id)}
 							ml={3}
 						>
@@ -295,7 +294,7 @@ export default function TimelineCard({ user, timeline }: TimelineProps) {
 									</Stack>
 									<FormButtonWrapper style={{ marginBottom: '20px' }}>
 										<Button
-											variantColor='blue'
+											colorScheme='blue'
 											variant='solid'
 											mr={5}
 											onClick={() => onClose()}
@@ -304,8 +303,8 @@ export default function TimelineCard({ user, timeline }: TimelineProps) {
 										</Button>
 										<Button
 											isLoading={isSubmitting}
-											rightIcon='check'
-											variantColor='green'
+											rightIcon={<CheckIcon />}
+											colorScheme='green'
 											type='submit'
 											variant='solid'
 										>

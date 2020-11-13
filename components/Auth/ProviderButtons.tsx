@@ -1,4 +1,4 @@
-import { Box, Button, Stack, useToast } from '@chakra-ui/core';
+import { Box, Button, Stack, useToast } from '@chakra-ui/react';
 import firebase from 'firebase';
 import React from 'react';
 import { FcGoogle } from 'react-icons/fc';
@@ -102,22 +102,18 @@ const ProviderButtons = ({ bgColor }) => {
 				onClick={googleLogin}
 				style={{ fontFamily: 'Roboto' }}
 				bg={bgColor}
+				leftIcon={<FcGoogle size='30px' />}
 				aria-label='google sign-in'
 			>
-				<Box as={FcGoogle} size='30px' style={{ marginRight: '18px' }} />
 				Sign In With Google
 			</Button>
 			<Button
 				onClick={facebookLogin}
 				style={{ fontFamily: 'Roboto' }}
-				bg={bgColor}
+				colorScheme='facebook'
+				leftIcon={<ImFacebook2 size='24px' />}
 				aria-label='facebook sign-in'
 			>
-				<Box
-					as={ImFacebook2}
-					size='26px'
-					style={{ color: '#3b5998', marginRight: '18px' }}
-				/>
 				Sign In With Facebook
 			</Button>
 		</Stack>

@@ -1,4 +1,9 @@
 import {
+	ArrowForwardIcon,
+	ChevronRightIcon,
+	SettingsIcon,
+} from '@chakra-ui/icons';
+import {
 	Tooltip,
 	Button,
 	Menu,
@@ -10,7 +15,7 @@ import {
 	MenuDivider,
 	Icon,
 	useDisclosure,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { MdTimeline } from 'react-icons/md';
@@ -43,16 +48,16 @@ const AccountMenu = ({ user, handleSignOut }: Props) => {
 				<MenuList>
 					<MenuGroup>
 						<MenuItem onClick={() => onOpen()} height='50px' textAlign='center'>
-							<Icon name='settings' mr='18px' size='28px' />
+							<SettingsIcon mr='18px' boxSize='28px' />
 							Account Settings
-							<Icon name='chevron-right' ml='12px' size='30px' />
+							<ChevronRightIcon ml='12px' boxSize='30px' />
 						</MenuItem>
 						<MenuDivider />
 						<MenuItem justifyContent='center' style={{ background: 'none' }}>
 							<Button
 								onClick={handleSignOut}
-								leftIcon='arrow-forward'
-								variantColor='red'
+								leftIcon={<ArrowForwardIcon />}
+								colorScheme='red'
 							>
 								Sign Out
 							</Button>

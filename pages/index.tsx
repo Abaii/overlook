@@ -15,7 +15,7 @@ import {
 	Skeleton,
 	Stack,
 	Heading,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import Head from 'next/head';
 import router from 'next/router';
 import { FaUser } from 'react-icons/fa';
@@ -32,7 +32,7 @@ const Home = () => {
 				<title>Overlook | Home</title>
 				<link
 					rel='icon'
-					href='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌍</text></svg>'
+					href='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-boxSize=%2290%22>🌍</text></svg>'
 				/>
 			</Head>
 
@@ -92,11 +92,14 @@ const Home = () => {
 				{!loading ? (
 					<Flex align='center' justify='center' flexDirection='row'>
 						{!user ? (
-							<Button leftIcon={FaUser} onClick={() => router.push('/register')}>
+							<Button leftIcon={<FaUser />} onClick={() => router.push('/register')}>
 								Sign Up Here!
 							</Button>
 						) : (
-							<Button leftIcon={MdTimeline} onClick={() => router.push('/timelines')}>
+							<Button
+								leftIcon={<MdTimeline />}
+								onClick={() => router.push('/timelines')}
+							>
 								Timelines
 							</Button>
 						)}

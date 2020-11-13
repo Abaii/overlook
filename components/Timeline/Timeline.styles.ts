@@ -34,7 +34,7 @@ export const FormButtonWrapper = styled.div`
 export const PhotoWrapper = styled.div<{ imageSrc: string }>`
   height: 300px;
   width: 25%;
-  background-size: cover;
+  background-boxSize: cover;
   background-position: center;
   background-image: url(${({ imageSrc }) => imageSrc });
   margin: 5px 0px;

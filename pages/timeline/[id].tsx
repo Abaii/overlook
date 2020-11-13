@@ -19,10 +19,12 @@ import {
 	Box,
 	Spinner,
 	IconButton,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import Timeline from '../../components/Timeline/Timeline';
 import Head from 'next/head';
 import TimelineImage from '../../components/TimelineImage/TimelineImage';
+import { ChevronRightIcon } from '@chakra-ui/icons';
+import { Heading } from '@chakra-ui/react';
 
 export interface TimelineTypes {
 	title: string;
@@ -80,7 +82,7 @@ export const ProjectTimeline = () => {
 				{user && timeline && <title>{timeline.title}</title>}
 				<link
 					rel='icon'
-					href='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌍</text></svg>'
+					href='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-boxSize=%2290%22>🌍</text></svg>'
 				/>
 			</Head>
 
@@ -90,7 +92,7 @@ export const ProjectTimeline = () => {
 						ml='30px'
 						my={4}
 						spacing='8px'
-						separator={<Icon color='gray.300' name='chevron-right' />}
+						separator={<ChevronRightIcon color='gray.300' />}
 					>
 						<BreadcrumbItem>
 							<BreadcrumbLink href='/'>Home</BreadcrumbLink>
@@ -109,8 +111,16 @@ export const ProjectTimeline = () => {
 
 					{user && timeline && (
 						<TimelineWrapper>
-							<TimelineHeader>{timeline.title}</TimelineHeader>
-							<Text font-size='sm' opacity={0.8} margin='-50px 10px 60px 10px'>
+							<Heading
+								fontSize={['40px', '40px', '5vw']}
+								style={{
+									margin: '0px 40px 40px 40px',
+									fontWeight: 'bold',
+								}}
+							>
+								{timeline.title}
+							</Heading>
+							<Text fontSize='sm' opacity={0.8} margin='-50px 10px 60px 10px'>
 								{timeline.description}
 							</Text>
 							{timeline.content && (

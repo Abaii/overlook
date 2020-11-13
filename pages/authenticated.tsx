@@ -3,7 +3,7 @@ import nookies from 'nookies';
 import { InferGetServerSidePropsType, GetServerSidePropsContext } from 'next';
 
 import { firebaseAdmin } from '../utils/auth/firebaseAdmin';
-import { Flex, Text } from '@chakra-ui/core';
+import { Flex, Text } from '@chakra-ui/react';
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 	try {

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Avatar, Box, Flex, IconButton, Text } from '@chakra-ui/core';
+import { Avatar, Box, Flex, IconButton, Text } from '@chakra-ui/react';
 import {
 	FooterElementsWrapper,
 	FooterSingleElementWrapper,
 	FooterWrapper,
 } from './Footer.styles';
+import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 
 const Footer = () => {
 	const [show, setShow] = useState(false);
@@ -13,7 +14,7 @@ const Footer = () => {
 		<Flex align='center' justify='center' mt={5} mb={5} flexDirection='column'>
 			<IconButton
 				aria-label='close footer button'
-				icon={show ? 'chevron-up' : 'chevron-down'}
+				icon={show ? <ChevronUpIcon /> : <ChevronDownIcon />}
 				rounded='full'
 				size='sm'
 				mb={2}
@@ -23,7 +24,7 @@ const Footer = () => {
 			{show && (
 				<Box py={2} rounded='lg' bg='white' p={3} textAlign='center'>
 					<footer>
-						<Text fontSize='14px' mb={2}>
+						<Text fontboxSize='14px' mb={2}>
 							Developed & Designed by Abai Edmund & Johny Wills
 						</Text>
 						<FooterElementsWrapper>

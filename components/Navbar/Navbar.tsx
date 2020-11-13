@@ -24,7 +24,7 @@ import {
 	DrawerHeader,
 	DrawerBody,
 	Stack,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import {
 	NavbarElementWrapper,
 	NavbarWrapper,
@@ -98,9 +98,9 @@ const Navbar = () => {
 
 				<NavbarElementWrapper>
 					<Button
-						leftIcon={MdTimeline}
+						leftIcon={<MdTimeline />}
 						variant='outline'
-						variantColor='purple'
+						colorScheme='purple'
 						onClick={() => router.push('/timelines')}
 						rounded='full'
 					>
