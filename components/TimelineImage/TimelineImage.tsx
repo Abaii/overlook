@@ -18,6 +18,7 @@ import {
 } from '@chakra-ui/react';
 import { AddIcon, ChatIcon, DeleteIcon } from '@chakra-ui/icons';
 import TimelineComments from './TimelineComments';
+import { motion } from 'framer-motion';
 
 interface Props {
 	image: {
@@ -29,14 +30,26 @@ interface Props {
 			}
 		];
 	};
+	deleteComment: any;
 }
 
-const TimelineImage = ({ image }: Props) => {
+const MotionButton = motion.custom(Button);
+
+const TimelineImage = ({ image, deleteComment }: Props) => {
 	const [showComments, setShowComments] = useState(false);
+
+	const showComment = async (comment) => {
+		const result = image.comments.filter((rComment) => rComment != comment);
+		deleteComment(result, image);
+	};
 
 	return (
 		<Flex justify='center' align='center' flexDirection='column'>
 			<Image src={image.image_url} width='fit-content' height='fit-content' />
+
+			<MotionButton whileHover={{ opacity: 1 }} opacity='0.4' top='-100px'>
+				Settings
+			</MotionButton>
 
 			<Box
 				borderWidth='1px'
@@ -49,36 +62,14 @@ const TimelineImage = ({ image }: Props) => {
 				{image.comments.map((singleComment) => (
 					<Stack isInline>
 						<Text>{singleComment.comment}</Text>
-						<IconButton icon={<DeleteIcon />} size='xs' aria-label='delete comment' />
+						<IconButton
+							icon={<DeleteIcon />}
+							size='xs'
+							aria-label='delete comment'
+							onClick={() => showComment(singleComment)}
+						/>
 					</Stack>
 				))}
-
-				<Popover placement='top'>
-					<PopoverTrigger>
-						<IconButton
-							icon={<ChatIcon />}
-							aria-label='add comment button'
-							rounded='full'
-						/>
-					</PopoverTrigger>
-
-					<PopoverContent>
-						<PopoverArrow />
-						<PopoverHeader>Add a Comment!</PopoverHeader>
-						<PopoverBody>
-							<Box>
-								<Textarea
-									id='description'
-									variant='filled'
-									placeholder='Enter a comment'
-									my={2}
-									resize='none'
-								/>
-								<Button colorScheme='green'>Add Comment</Button>
-							</Box>
-						</PopoverBody>
-					</PopoverContent>
-				</Popover>
 			</Box>
 		</Flex>
 	);

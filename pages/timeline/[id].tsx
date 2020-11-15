@@ -19,12 +19,25 @@ import {
 	Box,
 	Spinner,
 	IconButton,
+	Popover,
+	Button,
+	PopoverTrigger,
+	PopoverContent,
+	PopoverHeader,
+	PopoverArrow,
+	PopoverBody,
+	Textarea,
+	Stack,
+	toast,
+	useToast,
+	useDisclosure,
 } from '@chakra-ui/react';
 import Timeline from '../../components/Timeline/Timeline';
 import Head from 'next/head';
 import TimelineImage from '../../components/TimelineImage/TimelineImage';
-import { ChevronRightIcon } from '@chakra-ui/icons';
+import { ChatIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Heading } from '@chakra-ui/react';
+import { setCommentRange, tokenToString } from 'typescript';
 
 export interface TimelineTypes {
 	title: string;
@@ -50,16 +63,47 @@ export const ProjectTimeline = () => {
 	const { id } = router.query;
 	const [loaded, setLoaded] = useState(false);
 	const { user, loading } = useAuth();
-	const token = nookies.get({}, 'token');
 	const [timeline, setTimeline] = useState<TimelineTypes>();
+	const [isSubmitting, setSubmitting] = useState(false);
+	const toast = useToast();
+	const [comment, setComment] = useState('');
+	const { isOpen, onOpen, onClose } = useDisclosure();
 
-	const [showComments, setShowComments] = useState(false);
+	const addComment = async (image, comment) => {
+		setSubmitting(true);
 
-	const getTimeline = () => {
+		if (comment) {
+			image.comments.push({ comment: comment });
+		} else {
+			setSubmitting(false);
+			return;
+		}
+
+		const { token } = await user.getIdTokenResult();
+
+		axios
+			.put('http://localhost:8080/api/timelines/' + id, timeline, {
+				headers: {
+					Authorization: 'Bearer ' + token,
+				},
+			})
+			.then((response) => {
+				setSubmitting(false);
+				console.log(response.data);
+			})
+			.catch((err) => {
+				setSubmitting(false);
+				console.log(err);
+			});
+	};
+
+	const getTimeline = async () => {
+		const { token } = await user.getIdTokenResult();
+
 		axios
 			.get('http://localhost:8080/api/timelines/' + id, {
 				headers: {
-					Authorization: 'Bearer ' + token.token,
+					Authorization: 'Bearer ' + token,
 				},
 			})
 			.then((response) => {
@@ -68,6 +112,33 @@ export const ProjectTimeline = () => {
 			})
 			.catch((err) => {
 				setLoaded(true);
+				console.error(err);
+			});
+	};
+
+	const deleteComment = async (result, image) => {
+		const { token } = await user.getIdTokenResult();
+		const index = timeline.content.indexOf(image);
+		timeline.content[index].comments = result;
+
+		axios
+			.put('http://localhost:8080/api/timelines/' + id, timeline, {
+				headers: {
+					Authorization: 'Bearer ' + token,
+				},
+			})
+			.then((resp) => {
+				console.log(resp);
+				toast({
+					title: 'Deleted Comment',
+					description: 'Comment successfully deleted.',
+					status: 'success',
+					duration: 1000,
+					isClosable: true,
+					position: 'bottom',
+				});
+			})
+			.catch((err) => {
 				console.error(err);
 			});
 	};
@@ -127,7 +198,43 @@ export const ProjectTimeline = () => {
 							{timeline.content && (
 								<ImagesContainer>
 									{timeline.content.map((image) => (
-										<TimelineImage image={image} />
+										<Popover placement='top'>
+											<Box>
+												<TimelineImage image={image} deleteComment={deleteComment} />
+
+												<PopoverTrigger>
+													<IconButton
+														icon={<ChatIcon />}
+														aria-label='add comment button'
+														rounded='full'
+														mt={2}
+													/>
+												</PopoverTrigger>
+
+												<PopoverContent>
+													<PopoverArrow />
+													<PopoverHeader>Add a Comment!</PopoverHeader>
+													<PopoverBody>
+														<Box>
+															<Textarea
+																id='description'
+																variant='filled'
+																placeholder='Enter a comment'
+																resize='none'
+																onChange={(e) => setComment(e.target.value)}
+															/>
+															<Button
+																colorScheme='green'
+																onClick={() => addComment(image, comment)}
+																isLoading={isSubmitting}
+															>
+																Add Comment
+															</Button>
+														</Box>
+													</PopoverBody>
+												</PopoverContent>
+											</Box>
+										</Popover>
 									))}
 								</ImagesContainer>
 							)}

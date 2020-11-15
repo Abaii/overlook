@@ -8,7 +8,7 @@ export const TimelineWrapper = styled.section`
     flex-direction: column;
     margin: 0 20px;
     text-align: center;
-    height: 100vh;
+    height: fit-content;
 `;
 
 export const TimelineHeader = styled.h2`
