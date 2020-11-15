@@ -116,11 +116,12 @@ export const ProjectTimeline = () => {
 								style={{
 									margin: '0px 40px 40px 40px',
 									fontWeight: 'bold',
+									textAlign: 'center',
 								}}
 							>
 								{timeline.title}
 							</Heading>
-							<Text fontSize='sm' opacity={0.8} margin='-50px 10px 60px 10px'>
+							<Text fontSize='sm' opacity={0.8} margin='-20px 10px 60px 10px'>
 								{timeline.description}
 							</Text>
 							{timeline.content && (

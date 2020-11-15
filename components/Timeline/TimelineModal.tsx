@@ -141,7 +141,7 @@ export const TimelineModal = () => {
 							content: [
 								{
 									image_url: res.data.data.location,
-									comments: [{}],
+									comments: [],
 								},
 							],
 						},
@@ -197,7 +197,7 @@ export const TimelineModal = () => {
 
 					var uploadContent = res.data.data.map((file) => ({
 						image_url: file.Location,
-						comments: [{}],
+						comments: [],
 					}));
 
 					console.log(uploadContent);

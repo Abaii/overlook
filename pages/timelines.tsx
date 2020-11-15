@@ -38,10 +38,10 @@ export const Timelines = () => {
 	const { user, loading } = useAuth();
 	const [data, setData] = useState([]);
 	const [loaded, setLoaded] = useState(false);
-	const token = nookies.get({}, 'token');
 	const [selectedId, setSelectedId] = useState(null);
 
-	async function getTimelines(uid, token) {
+	async function getTimelines(uid) {
+		const { token } = await user.getIdTokenResult();
 		await axios({
 			method: 'get',
 			url: 'http://localhost:8080/api/timelines/uid/' + uid,
@@ -60,7 +60,7 @@ export const Timelines = () => {
 	}
 
 	if (user && loaded == false) {
-		getTimelines(user.uid, token.token);
+		getTimelines(user.uid);
 	}
 
 	return (
