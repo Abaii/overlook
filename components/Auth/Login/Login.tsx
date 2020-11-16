@@ -284,7 +284,7 @@ export const LoginFullPage = ({ setReAuth }: LoginFullProps) => {
 								setFieldValue,
 							}: FormikProps<LoginValues>) => (
 								<Form onSubmit={handleSubmit}>
-									<Text fontboxSize='35px' fontWeight='bold' textAlign='center'>
+									<Text fontSize='35px' fontWeight='bold' textAlign='center'>
 										Login
 									</Text>
 									<Stack spacing={6}>

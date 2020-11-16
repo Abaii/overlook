@@ -193,14 +193,10 @@ export const TimelineModal = () => {
 				.then(async (res) => {
 					setUploadedImages(res.data.data);
 
-					console.log(res.data.data);
-
 					var uploadContent = res.data.data.map((file) => ({
 						image_url: file.Location,
 						comments: [],
 					}));
-
-					console.log(uploadContent);
 
 					const response = await axios({
 						method: 'post',
@@ -224,6 +220,7 @@ export const TimelineModal = () => {
 							});
 							setSubmitting(false);
 							onClose();
+							router.reload();
 						})
 						.catch((err) => {
 							setSubmitting(false);

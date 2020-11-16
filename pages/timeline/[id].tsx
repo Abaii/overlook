@@ -34,10 +34,11 @@ import {
 } from '@chakra-ui/react';
 import Timeline from '../../components/Timeline/Timeline';
 import Head from 'next/head';
-import TimelineImage from '../../components/TimelineImage/TimelineImage';
+import TimelineImage from '../../components/Timeline/TimelineImage';
 import { ChatIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Heading } from '@chakra-ui/react';
 import { setCommentRange, tokenToString } from 'typescript';
+import LoadingPage from '../../components/Loading/LoadingPage';
 
 export interface TimelineTypes {
 	title: string;
@@ -128,7 +129,6 @@ export const ProjectTimeline = () => {
 				},
 			})
 			.then((resp) => {
-				console.log(resp);
 				toast({
 					title: 'Deleted Comment',
 					description: 'Comment successfully deleted.',
@@ -137,6 +137,7 @@ export const ProjectTimeline = () => {
 					isClosable: true,
 					position: 'bottom',
 				});
+				router.reload();
 			})
 			.catch((err) => {
 				console.error(err);
@@ -150,10 +151,10 @@ export const ProjectTimeline = () => {
 	return (
 		<>
 			<Head>
-				{user && timeline && <title>{timeline.title}</title>}
+				{user && timeline && <title>Overlook | {timeline.title}</title>}
 				<link
 					rel='icon'
-					href='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-boxSize=%2290%22>🌍</text></svg>'
+					href='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/271/water-wave_1f30a.png'
 				/>
 			</Head>
 
@@ -242,25 +243,7 @@ export const ProjectTimeline = () => {
 					)}
 				</>
 			) : (
-				<>
-					<Flex
-						justify='center'
-						align='center'
-						rounded='lg'
-						height='90vh'
-						p={2}
-						m={2}
-						bg='white'
-					>
-						<Spinner
-							thickness='4px'
-							emptyColor='gray.200'
-							color='blue.500'
-							speed='0.8s'
-							size='xl'
-						/>
-					</Flex>
-				</>
+				<LoadingPage />
 			)}
 		</>
 	);

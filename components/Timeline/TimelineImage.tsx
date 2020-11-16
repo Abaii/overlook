@@ -17,7 +17,6 @@ import {
 	Textarea,
 } from '@chakra-ui/react';
 import { AddIcon, ChatIcon, DeleteIcon } from '@chakra-ui/icons';
-import TimelineComments from './TimelineComments';
 import { motion } from 'framer-motion';
 
 interface Props {
@@ -46,10 +45,6 @@ const TimelineImage = ({ image, deleteComment }: Props) => {
 	return (
 		<Flex justify='center' align='center' flexDirection='column'>
 			<Image src={image.image_url} width='fit-content' height='fit-content' />
-
-			<MotionButton whileHover={{ opacity: 1 }} opacity='0.4' top='-100px'>
-				Settings
-			</MotionButton>
 
 			<Box
 				borderWidth='1px'
