@@ -42,28 +42,49 @@ export const Timelines = () => {
 	const [loaded, setLoaded] = useState(false);
 	const [selectedId, setSelectedId] = useState(null);
 
-	async function getTimelines(uid) {
-		const { token } = await user.getIdTokenResult();
-		await axios({
-			method: 'get',
-			url: 'http://localhost:8080/api/timelines/uid/' + uid,
-			headers: {
-				Authorization: 'Bearer ' + token,
-				'Content-Type': 'text/event-stream',
-			},
-		})
-			.then((resp) => {
-				setData(resp.data);
-				setLoaded(true);
-			})
-			.catch((err) => {
-				console.error(err);
-			});
-	}
+	const onTimelineChange = (id: number, title: string, description: string) => {
+		setData((prevData) => {
+			const oldTimeline = prevData.find((data) => data._id === id);
+			const newData = prevData.filter((data) => data._id !== id);
+			const newTimeline = {
+				...oldTimeline,
+				title,
+				description,
+			};
+			return [...newData, newTimeline];
+		});
+	};
+	// Adding - don't filter, pass new id from API response
 
-	if (user && loaded == false) {
-		getTimelines(user.uid);
-	}
+	const deleteTimeline = (id: number) => {
+		setData((prevData) => {
+			const newData = prevData.filter((data) => data._id !== id);
+			return newData;
+		});
+	};
+
+	useEffect(() => {
+		(async () => {
+			if (user) {
+				const { token } = await user.getIdTokenResult();
+				await axios({
+					method: 'get',
+					url: 'http://localhost:8080/api/timelines/uid/' + user.uid,
+					headers: {
+						Authorization: 'Bearer ' + token,
+						'Content-Type': 'text/event-stream',
+					},
+				})
+					.then((resp) => {
+						setData(resp.data);
+						setLoaded(true);
+					})
+					.catch((err) => {
+						console.error(err);
+					});
+			}
+		})();
+	}, [user]);
 
 	return (
 		<>
@@ -121,7 +142,13 @@ export const Timelines = () => {
 											gap={5}
 										>
 											{data.map((timeline) => (
-												<TimelineCard key={timeline._id} user={user} timeline={timeline} />
+												<TimelineCard
+													key={timeline._id}
+													user={user}
+													timeline={timeline}
+													onTimelineChange={onTimelineChange}
+													deleteTimeline={deleteTimeline}
+												/>
 											))}
 										</Grid>
 									</Box>

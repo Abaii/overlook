@@ -44,6 +44,7 @@ import { useRouter } from 'next/router';
 import { Form, Formik, FormikErrors, FormikProps } from 'formik';
 import { FormButtonWrapper } from '../Auth/Login/Login.styles';
 import { CheckIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons';
+import { LinkHoverWrapper } from '../SharedComponents.styles';
 
 const MotionBox = motion.custom(Box);
 
@@ -55,9 +56,16 @@ interface EditTimelineValues {
 interface TimelineProps {
 	user: any;
 	timeline: any;
+	onTimelineChange: (id: number, title: string, description: string) => void;
+	deleteTimeline: (id: number) => void;
 }
 
-export default function TimelineCard({ user, timeline }: TimelineProps) {
+export default function TimelineCard({
+	user,
+	timeline,
+	onTimelineChange,
+	deleteTimeline,
+}: TimelineProps) {
 	const token = nookies.get({}, 'token');
 	const toast = useToast();
 	const router = useRouter();
@@ -72,7 +80,7 @@ export default function TimelineCard({ user, timeline }: TimelineProps) {
 		description: timeline.description,
 	};
 
-	const deleteTimeline = async (id) => {
+	const delTimeline = async (id) => {
 		await axios
 			.delete('http://localhost:8080/api/timelines/' + id, {
 				headers: {
@@ -89,7 +97,7 @@ export default function TimelineCard({ user, timeline }: TimelineProps) {
 					position: 'bottom',
 				});
 				alertClose();
-				router.reload;
+				deleteTimeline(id);
 			})
 			.catch((err) => {
 				var errorCode = err.code;
@@ -121,9 +129,9 @@ export default function TimelineCard({ user, timeline }: TimelineProps) {
 				}
 			)
 			.then((response) => {
+				onTimelineChange(timeline._id, title, description);
 				setSubmitting(false);
 				onClose();
-				router.reload();
 			})
 			.catch((err) => {
 				setSubmitting(false);
@@ -163,9 +171,9 @@ export default function TimelineCard({ user, timeline }: TimelineProps) {
 				whileHover={{ scale: 1.05 }}
 			>
 				<Stack spacing={2}>
-					<Link href={'/timeline/' + timeline._id} style={{ outline: 'none' }}>
-						<Heading textAlign='center'>{timeline.title}</Heading>
-					</Link>
+					<Heading textAlign='center'>
+						<Link href={'/timeline/' + timeline._id}>{timeline.title}</Link>
+					</Heading>
 					<Text my='20px' textAlign='center'>
 						{timeline.description}
 					</Text>
@@ -227,7 +235,7 @@ export default function TimelineCard({ user, timeline }: TimelineProps) {
 						</Button>
 						<Button
 							colorScheme='red'
-							onClick={() => deleteTimeline(timeline._id)}
+							onClick={() => delTimeline(timeline._id)}
 							ml={3}
 						>
 							Delete

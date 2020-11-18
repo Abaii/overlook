@@ -67,7 +67,7 @@ const Navbar = () => {
 						title: 'Signed Out',
 						description: 'You have successfully signed out of your account.',
 						status: 'success',
-						duration: 4000,
+						duration: 3000,
 						isClosable: true,
 						position: 'top',
 					});
@@ -79,7 +79,7 @@ const Navbar = () => {
 						title: errorCode,
 						description: errorMessage,
 						status: 'error',
-						duration: 4000,
+						duration: 3000,
 						isClosable: true,
 						position: 'top',
 					});

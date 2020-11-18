@@ -68,7 +68,6 @@ export const ProjectTimeline = () => {
 	const [isSubmitting, setSubmitting] = useState(false);
 	const toast = useToast();
 	const [comment, setComment] = useState('');
-	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	const addComment = async (image, comment) => {
 		setSubmitting(true);
@@ -90,6 +89,7 @@ export const ProjectTimeline = () => {
 			})
 			.then((response) => {
 				setSubmitting(false);
+				setComment('');
 				console.log(response.data);
 			})
 			.catch((err) => {
@@ -199,7 +199,7 @@ export const ProjectTimeline = () => {
 							{timeline.content && (
 								<ImagesContainer>
 									{timeline.content.map((image) => (
-										<Popover placement='top'>
+										<Popover placement='bottom'>
 											<Box>
 												<TimelineImage image={image} deleteComment={deleteComment} />
 

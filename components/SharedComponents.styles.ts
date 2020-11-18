@@ -6,7 +6,7 @@ interface SplitLinksProps {
 	first?: boolean;
 }
 
-export const LinkHoverWrapper = styled.div<SplitLinksProps>`
+export const LinkHoverWrapper = styled.div`
 	a:hover {
 		padding: 4px 8px 4px 8px;
 		border-radius: 20px;
