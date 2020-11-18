@@ -3,9 +3,11 @@ import { Flex, Stack, Text } from '@chakra-ui/react';
 import React from 'react';
 import TimelineModal from './TimelineModal';
 
-interface Props {}
+interface Props {
+	addTimeline: (timeline: any) => void;
+}
 
-const TimelineMenu = (props: Props) => {
+const TimelineMenu = ({ addTimeline }: Props) => {
 	return (
 		<>
 			<Flex
@@ -28,7 +30,7 @@ const TimelineMenu = (props: Props) => {
 						Menu
 					</Text>
 					<DragHandleIcon transform='rotate(90deg);' />
-					<TimelineModal />
+					<TimelineModal addTimeline={addTimeline} />
 				</Stack>
 			</Flex>
 		</>

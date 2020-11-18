@@ -40,7 +40,6 @@ export const Timelines = () => {
 	const { user, loading } = useAuth();
 	const [data, setData] = useState([]);
 	const [loaded, setLoaded] = useState(false);
-	const [selectedId, setSelectedId] = useState(null);
 
 	const onTimelineChange = (id: number, title: string, description: string) => {
 		setData((prevData) => {
@@ -59,6 +58,13 @@ export const Timelines = () => {
 	const deleteTimeline = (id: number) => {
 		setData((prevData) => {
 			const newData = prevData.filter((data) => data._id !== id);
+			return newData;
+		});
+	};
+
+	const addTimeline = (timeline: any) => {
+		setData((prevData) => {
+			const newData = [...prevData, timeline];
 			return newData;
 		});
 	};
@@ -159,7 +165,7 @@ export const Timelines = () => {
 												<Text fontboxSize='2xl' color='red.500' alignSelf='center'>
 													No Timelines Created Yet
 												</Text>
-												<TimelineModal />
+												<TimelineModal addTimeline={addTimeline} />
 											</Stack>
 										</Box>
 									</>
@@ -169,7 +175,7 @@ export const Timelines = () => {
 							<LoadingPage />
 						)}
 					</Flex>
-					<TimelineMenu />
+					<TimelineMenu addTimeline={addTimeline} />
 				</>
 			) : (
 				<>

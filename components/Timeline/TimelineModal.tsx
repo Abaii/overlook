@@ -53,12 +53,16 @@ interface TimelineValues {
 	description: string;
 }
 
+interface TimelineModalProps {
+	addTimeline?: (timeline: Object) => void;
+}
+
 const initialValues = {
 	title: '',
 	description: '',
 };
 
-export const TimelineModal = () => {
+export const TimelineModal = ({ addTimeline }: TimelineModalProps) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { user } = useAuth();
 	const [isSubmitting, setSubmitting] = useState(false);
@@ -76,7 +80,7 @@ export const TimelineModal = () => {
 		setSubmitting(true);
 
 		// No Files
-		if (selectedImage == undefined && selectedImages.length == 0) {
+		if (selectedImage === undefined && selectedImages.length === 0) {
 			const response = axios({
 				method: 'post',
 				url: 'http://localhost:8080/api/timelines',
@@ -87,18 +91,18 @@ export const TimelineModal = () => {
 				},
 				headers: { Authorization: 'Bearer ' + token.token },
 			})
-				.then(() => {
+				.then((resp) => {
 					toast({
 						title: 'Timeline Created',
 						description: 'Successfully created Timeline.',
 						status: 'success',
-						duration: 4000,
+						duration: 3000,
 						isClosable: true,
 						position: 'top',
 					});
 					setSubmitting(false);
+					addTimeline(resp.data);
 					onClose();
-					router.reload();
 				})
 				.catch((err) => {
 					setSubmitting(false);
@@ -113,10 +117,8 @@ export const TimelineModal = () => {
 						position: 'top',
 					});
 				});
-		}
-
-		// One Image File
-		if (selectedImage) {
+		} else if (selectedImage) {
+			// One Image Upload
 			const formData = new FormData();
 			formData.append('image', selectedImage);
 			await axios
@@ -147,7 +149,7 @@ export const TimelineModal = () => {
 						},
 						headers: { Authorization: 'Bearer ' + token.token },
 					})
-						.then(() => {
+						.then((resp) => {
 							toast({
 								title: 'Timeline Created',
 								description: 'Successfully created Timeline.',
@@ -157,8 +159,8 @@ export const TimelineModal = () => {
 								position: 'top',
 							});
 							setSubmitting(false);
+							addTimeline(resp.data);
 							onClose();
-							router.reload();
 						})
 						.catch((err) => {
 							setSubmitting(false);
@@ -209,7 +211,7 @@ export const TimelineModal = () => {
 						},
 						headers: { Authorization: 'Bearer ' + token.token },
 					})
-						.then(() => {
+						.then((resp) => {
 							toast({
 								title: 'Timeline Created',
 								description: 'Successfully created Timeline.',
@@ -219,8 +221,8 @@ export const TimelineModal = () => {
 								position: 'top',
 							});
 							setSubmitting(false);
+							addTimeline(resp.data);
 							onClose();
-							router.reload();
 						})
 						.catch((err) => {
 							setSubmitting(false);

@@ -185,7 +185,7 @@ export default function TimelineCard({
 					</Tag>
 					<IconButton
 						aria-label='edit timeline'
-						icon={<EditIcon />}
+						icon={<EditIcon color='white' />}
 						colorScheme='yellow'
 						rounded='full'
 						onClick={() => onOpen()}
