@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 //Styles
 import {
 	Link,
@@ -24,35 +24,26 @@ import {
 	DrawerHeader,
 	DrawerBody,
 	Stack,
-} from '@chakra-ui/react';
-import {
-	NavbarElementWrapper,
-	NavbarWrapper,
-	SplitLinks,
-	LogoLink,
-	IconWrapper,
-	NavbarElement,
-} from './Navbar.styles';
-import {
-	LinkHoverWrapper,
-	LoggedInInfoWrapper,
-} from '../SharedComponents.styles';
+} from "@chakra-ui/react";
+import { NavbarElementWrapper, NavbarWrapper, SplitLinks, LogoLink, IconWrapper, NavbarElement } from "./Navbar.styles";
+import { LinkHoverWrapper, LoggedInInfoWrapper } from "../SharedComponents.styles";
 // Auth
-import { useAuth, signOut } from '../../utils/auth/AuthContext';
+import { useAuth, signOut } from "../../utils/auth/AuthContext";
 // Components
-import Logo from './Logo/Logo';
-import LoginModal from '../Auth/Login/Login';
-import RegistrationModal from '../Auth/Registration/Registration';
-import TimelineModal from '../Timeline/TimelineModal';
-import AccountModal from '../Account/AccountModal';
+import Logo from "./Logo/Logo";
+import LoginModal from "../Auth/Login/Login";
+import RegistrationModal from "../Auth/Registration/Registration";
+import TimelineModal from "../Timeline/TimelineModal";
+import AccountModal from "../Account/AccountModal";
 // Icons
-import { FaUser } from 'react-icons/fa';
-import { FiMenu } from 'react-icons/fi';
-import { MdTimeline } from 'react-icons/md';
+import { FaUser } from "react-icons/fa";
+import { FiMenu } from "react-icons/fi";
+import { MdTimeline } from "react-icons/md";
+import { AiFillPicture } from "react-icons/ai";
 // Router
-import { useRouter } from 'next/router';
-import NavMenu from './NavMenu';
-import AccountMenu from '../Account/AccountMenu';
+import { useRouter } from "next/router";
+import NavMenu from "./NavMenu";
+import AccountMenu from "../Account/AccountMenu";
 
 const Navbar = () => {
 	const { user, loading } = useAuth();
@@ -60,16 +51,16 @@ const Navbar = () => {
 	const router = useRouter();
 
 	const handleSignOut = () => {
-		router.push('/').then(() => {
+		router.push("/").then(() => {
 			signOut()
 				.then((result) => {
 					toast({
-						title: 'Signed Out',
-						description: 'You have successfully signed out of your account.',
-						status: 'success',
+						title: "Signed Out",
+						description: "You have successfully signed out of your account.",
+						status: "success",
 						duration: 3000,
 						isClosable: true,
-						position: 'top',
+						position: "top",
 					});
 				})
 				.catch((error) => {
@@ -78,10 +69,10 @@ const Navbar = () => {
 					toast({
 						title: errorCode,
 						description: errorMessage,
-						status: 'error',
+						status: "error",
 						duration: 3000,
 						isClosable: true,
-						position: 'top',
+						position: "top",
 					});
 				});
 		});
@@ -89,7 +80,7 @@ const Navbar = () => {
 
 	const loggedInLinks = (
 		<>
-			<Flex display={['none', 'none', 'flex']}>
+			<Flex display={["none", "none", "flex"]}>
 				<Tooltip label='Create a Timeline' aria-label='create a timeline button'>
 					<NavbarElementWrapper>
 						<TimelineModal />
@@ -97,13 +88,7 @@ const Navbar = () => {
 				</Tooltip>
 
 				<NavbarElementWrapper>
-					<Button
-						leftIcon={<MdTimeline />}
-						variant='outline'
-						colorScheme='purple'
-						onClick={() => router.push('/timelines')}
-						rounded='full'
-					>
+					<Button leftIcon={<AiFillPicture />} onClick={() => router.push("/timelines")} rounded='full'>
 						Timelines
 					</Button>
 				</NavbarElementWrapper>
@@ -111,7 +96,7 @@ const Navbar = () => {
 				<AccountMenu user={user} handleSignOut={handleSignOut} />
 			</Flex>
 
-			<Flex display={['flex', 'flex', 'none']}>
+			<Flex display={["flex", "flex", "none"]}>
 				<NavMenu user={user} handleSignOut={handleSignOut} />
 			</Flex>
 		</>
@@ -120,7 +105,7 @@ const Navbar = () => {
 	const loggedOutLinks = (
 		<SplitLinks>
 			<LinkHoverWrapper>
-				<Box mr={['15px', '20px', '25px']}>
+				<Box mr={["15px", "20px", "25px"]}>
 					<LoginModal reRoute='/' />
 				</Box>
 			</LinkHoverWrapper>
@@ -131,7 +116,7 @@ const Navbar = () => {
 	);
 
 	const loadingLinks = (
-		<Flex display={['none', 'none', 'flex']}>
+		<Flex display={["none", "none", "flex"]}>
 			<Flex justify='center' align='center'>
 				<Skeleton as={IconButton} rounded='full' mr={5} />
 				<Skeleton as={Button} height='40px' width='122px' rounded='full' mr={5} />
@@ -157,8 +142,7 @@ const Navbar = () => {
 				width='100%'
 				p='1.5rem'
 				as='nav'
-				wrap='wrap'
-			>
+				wrap='wrap'>
 				<NavbarElementWrapper>
 					<LogoLink>
 						<Link href='/'>
