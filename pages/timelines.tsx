@@ -41,20 +41,15 @@ export const Timelines = () => {
 	const [data, setData] = useState([]);
 	const [loaded, setLoaded] = useState(false);
 
-	const onTimelineChange = (
-		id: number,
-		title: string,
-		description: string
-	) => {
+	const onTimelineChange = (id: number, title: string, description: string, published: boolean) => {
 		setData((prevData) => {
 			let contentCopy = prevData.slice();
 
-			const index = contentCopy.findIndex(
-				(content) => content._id === id
-			);
+			const index = contentCopy.findIndex((content) => content._id === id);
 
 			contentCopy[index].title = title;
 			contentCopy[index].description = description;
+			contentCopy[index].published = published;
 
 			return contentCopy;
 		});
@@ -108,12 +103,7 @@ export const Timelines = () => {
 				/>
 			</Head>
 
-			<Breadcrumb
-				ml='30px'
-				my={4}
-				spacing='8px'
-				separator={<ChevronRightIcon color='gray.300' />}
-			>
+			<Breadcrumb ml='30px' my={4} spacing='8px' separator={<ChevronRightIcon color='gray.300' />}>
 				<BreadcrumbItem>
 					<BreadcrumbLink href='/'>Home</BreadcrumbLink>
 				</BreadcrumbItem>
@@ -125,13 +115,7 @@ export const Timelines = () => {
 
 			{user && !loading && loaded ? (
 				<>
-					<Flex
-						align='center'
-						flexDirection='column'
-						py='22px'
-						mx={2}
-						height='fit-content'
-					>
+					<Flex align='center' flexDirection='column' py='22px' mx={2} height='fit-content'>
 						<Title
 							titleText='Timelines'
 							tag='h2'
@@ -149,27 +133,16 @@ export const Timelines = () => {
 								{data.length ? (
 									<Box width='95vw' px={5}>
 										<Grid
-											templateColumns={[
-												"1fr",
-												"1fr",
-												"1fr 1fr",
-												"1fr 1fr",
-												"1fr 1fr 1fr",
-											]}
+											templateColumns={["1fr", "1fr", "1fr 1fr", "1fr 1fr", "1fr 1fr 1fr"]}
 											justifyContent='center'
-											gap={5}
-										>
+											gap={5}>
 											{data.map((timeline) => (
 												<TimelineCard
 													key={timeline._id}
 													user={user}
 													timeline={timeline}
-													onTimelineChange={
-														onTimelineChange
-													}
-													deleteTimeline={
-														deleteTimeline
-													}
+													onTimelineChange={onTimelineChange}
+													deleteTimeline={deleteTimeline}
 												/>
 											))}
 										</Grid>
@@ -178,16 +151,10 @@ export const Timelines = () => {
 									<>
 										<Box bg='white' rounded='lg' p={5}>
 											<Stack spacing={5}>
-												<Text
-													fontboxSize='2xl'
-													color='red.500'
-													alignSelf='center'
-												>
+												<Text fontboxSize='2xl' color='red.500' alignSelf='center'>
 													No Timelines Created Yet
 												</Text>
-												<TimelineModal
-													addTimeline={addTimeline}
-												/>
+												<TimelineModal addTimeline={addTimeline} />
 											</Stack>
 										</Box>
 									</>
@@ -202,12 +169,7 @@ export const Timelines = () => {
 			) : (
 				<>
 					{!user && !loading ? (
-						<Flex
-							justify='center'
-							align='center'
-							flexDirection='column'
-							py='22px'
-						>
+						<Flex justify='center' align='center' flexDirection='column' py='22px'>
 							<LoginFullPage />
 						</Flex>
 					) : (

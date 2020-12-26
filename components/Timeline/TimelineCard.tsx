@@ -52,21 +52,17 @@ const MotionBox = motion.custom(Box);
 interface EditTimelineValues {
 	title: string;
 	description: string;
+	published: boolean;
 }
 
 interface TimelineProps {
 	user: any;
 	timeline: any;
-	onTimelineChange: (id: number, title: string, description: string) => void;
+	onTimelineChange: (id: number, title: string, description: string, published: boolean) => void;
 	deleteTimeline: (id: number) => void;
 }
 
-export default function TimelineCard({
-	user,
-	timeline,
-	onTimelineChange,
-	deleteTimeline,
-}: TimelineProps) {
+export default function TimelineCard({ user, timeline, onTimelineChange, deleteTimeline }: TimelineProps) {
 	const token = nookies.get({}, "token");
 	const toast = useToast();
 	const router = useRouter();
@@ -116,7 +112,7 @@ export default function TimelineCard({
 			});
 	};
 
-	const handleSubmit = ({ title, description }: EditTimelineValues) => {
+	const handleSubmit = ({ title, description, published }: EditTimelineValues) => {
 		setSubmitting(!isSubmitting);
 		axios
 			.put(
@@ -124,6 +120,7 @@ export default function TimelineCard({
 				{
 					title: title,
 					description: description,
+					published: published,
 				},
 				{
 					headers: {
@@ -132,7 +129,7 @@ export default function TimelineCard({
 				}
 			)
 			.then((response) => {
-				onTimelineChange(timeline._id, title, description);
+				onTimelineChange(timeline._id, title, description, published);
 				setSubmitting(false);
 				onClose();
 			})
@@ -164,17 +161,7 @@ export default function TimelineCard({
 	};
 
 	const randColorScheme = () => {
-		const colors = [
-			"blue",
-			"red",
-			"green",
-			"orange",
-			"yellow",
-			"teal",
-			"cyan",
-			"purple",
-			"pink",
-		];
+		const colors = ["blue", "red", "green", "orange", "yellow", "teal", "cyan", "purple", "pink"];
 
 		const color = colors[Math.floor(Math.random() * colors.length)];
 
@@ -193,13 +180,10 @@ export default function TimelineCard({
 				rounded='lg'
 				borderWidth='1px'
 				p={5}
-				whileHover={{ scale: 1.05 }}
-			>
+				whileHover={{ scale: 1.05 }}>
 				<Stack spacing={2}>
 					<Heading textAlign='center'>
-						<Link href={"/timeline/" + timeline._id}>
-							{timeline.title}
-						</Link>
+						<Link href={"/timeline/" + timeline._id}>{timeline.title}</Link>
 					</Heading>
 					<Text my='20px' textAlign='center'>
 						{timeline.description}
@@ -225,52 +209,28 @@ export default function TimelineCard({
 						onClick={() => setIsOpen(true)}
 					/>
 				</Stack>
-				<Stack
-					isInline
-					justify='center'
-					align='center'
-					mt={4}
-					spacing={0}
-				>
-					<FormLabel>Publish Timeline?</FormLabel>
-					<Switch
-						colorScheme='purple'
-						value={timeline.published}
-						onChange={() => setPublished(!published)}
-					/>
-				</Stack>
 				<Flex justify='space-between'>
-					<Badge colorScheme={published ? "green" : "red"}>
-						{published ? "Published" : "Not Published"}
+					<Badge colorScheme={timeline.published ? "green" : "red"}>
+						{timeline.published ? "Published" : "Not Published"}
 					</Badge>
 				</Flex>
 			</MotionBox>
 
 			{/* Are you sure - delete timeline */}
-			<AlertDialog
-				isOpen={alertOpen}
-				leastDestructiveRef={cancelRef}
-				onClose={alertClose}
-			>
+			<AlertDialog isOpen={alertOpen} leastDestructiveRef={cancelRef} onClose={alertClose}>
 				<AlertDialogOverlay />
 				<AlertDialogContent>
 					<AlertDialogHeader fontboxSize='lg' fontWeight='bold'>
 						Delete Timeline
 					</AlertDialogHeader>
 
-					<AlertDialogBody>
-						Are you sure? You can't undo this action afterwards.
-					</AlertDialogBody>
+					<AlertDialogBody>Are you sure? You can't undo this action afterwards.</AlertDialogBody>
 
 					<AlertDialogFooter>
 						<Button ref={cancelRef} onClick={alertClose}>
 							Cancel
 						</Button>
-						<Button
-							colorScheme='red'
-							onClick={() => delTimeline(timeline._id)}
-							ml={3}
-						>
+						<Button colorScheme='red' onClick={() => delTimeline(timeline._id)} ml={3}>
 							Delete
 						</Button>
 					</AlertDialogFooter>
@@ -278,97 +238,62 @@ export default function TimelineCard({
 			</AlertDialog>
 
 			{/* Edit Timeline Details Modal */}
-			<Modal
-				onClose={onClose}
-				isOpen={isOpen}
-				closeOnOverlayClick={false}
-			>
+			<Modal onClose={onClose} isOpen={isOpen} closeOnOverlayClick={false}>
 				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader>Edit Timeline</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
-						<Formik
-							initialValues={initialValues}
-							onSubmit={handleSubmit}
-							validate={validate}
-						>
-							{({
-								handleSubmit,
-								errors,
-								values,
-								setFieldValue,
-							}: FormikProps<EditTimelineValues>) => (
+						<Formik initialValues={initialValues} onSubmit={handleSubmit} validate={validate}>
+							{({ handleSubmit, errors, values, setFieldValue }: FormikProps<EditTimelineValues>) => (
 								<Form onSubmit={handleSubmit}>
 									<Stack spacing={6}>
-										<FormControl
-											isInvalid={Boolean(errors.title)}
-											isRequired={true}
-										>
-											<FormLabel htmlFor='title'>
-												Title
-											</FormLabel>
+										<FormControl isInvalid={Boolean(errors.title)} isRequired={true}>
+											<FormLabel htmlFor='title'>Title</FormLabel>
 											<InputGroup>
 												<Input
 													type='text'
 													id='title'
 													aria-describedby='userame-helper-text'
 													value={values.title}
-													onChange={(e) =>
-														setFieldValue(
-															"title",
-															e.target.value
-														)
-													}
+													onChange={(e) => setFieldValue("title", e.target.value)}
 												/>
 											</InputGroup>
-											{errors.title && (
-												<FormErrorMessage mt={3}>
-													{errors.title}{" "}
-												</FormErrorMessage>
-											)}
+											{errors.title && <FormErrorMessage mt={3}>{errors.title} </FormErrorMessage>}
 										</FormControl>
 
-										<FormControl
-											isInvalid={Boolean(
-												errors.description
-											)}
-											isRequired={true}
-										>
-											<FormLabel htmlFor='title'>
-												Description
-											</FormLabel>
+										<FormControl isInvalid={Boolean(errors.description)} isRequired={true}>
+											<FormLabel htmlFor='title'>Description</FormLabel>
 											<InputGroup>
 												Description
 												<Input
 													pr='4.5rem'
 													id='description'
 													value={values.description}
-													onChange={(e) =>
-														setFieldValue(
-															"description",
-															e.target.value
-														)
-													}
+													onChange={(e) => setFieldValue("description", e.target.value)}
 													type='text'
 												/>
 											</InputGroup>
 											{errors.description && (
-												<FormErrorMessage mt={3}>
-													{errors.description}
-												</FormErrorMessage>
+												<FormErrorMessage mt={3}>{errors.description}</FormErrorMessage>
 											)}
 										</FormControl>
+
+										<FormControl>
+											<Flex>
+												<FormLabel htmlFor='publish timeline' textAlign='center' mb='0'>
+													Publish Timeline?
+												</FormLabel>
+												<Switch
+													defaultIsChecked={timeline.published}
+													onChange={(e) => setFieldValue("published", e.target.checked)}
+													size='lg'
+												/>
+											</Flex>
+										</FormControl>
 									</Stack>
-									<FormButtonWrapper
-										style={{ marginBottom: "20px" }}
-									>
-										<Button
-											colorScheme='blue'
-											variant='solid'
-											mr={5}
-											onClick={() => onClose()}
-										>
+									<FormButtonWrapper style={{ marginBottom: "20px" }}>
+										<Button colorScheme='blue' variant='solid' mr={5} onClick={() => onClose()}>
 											Close
 										</Button>
 										<Button
@@ -376,8 +301,7 @@ export default function TimelineCard({
 											rightIcon={<CheckIcon />}
 											colorScheme='green'
 											type='submit'
-											variant='solid'
-										>
+											variant='solid'>
 											Save Changes
 										</Button>
 									</FormButtonWrapper>
