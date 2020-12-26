@@ -1,4 +1,4 @@
-import { CloseIcon } from '@chakra-ui/icons';
+import { CloseIcon } from "@chakra-ui/icons";
 import {
 	IconButton,
 	Drawer,
@@ -9,11 +9,11 @@ import {
 	Stack,
 	Link,
 	useDisclosure,
-} from '@chakra-ui/react';
-import React from 'react';
-import { FiMenu } from 'react-icons/fi';
-import AccountMenu from '../Account/AccountMenu';
-import TimelineModal from '../Timeline/TimelineModal';
+} from "@chakra-ui/react";
+import React from "react";
+import { FiMenu } from "react-icons/fi";
+import AccountMenu from "../Account/AccountMenu";
+import TimelineModal from "../Timeline/TimelineModal";
 
 interface Props {
 	user: any;

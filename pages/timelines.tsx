@@ -17,40 +17,46 @@ import {
 	Stack,
 	Tag,
 	Text,
-} from '@chakra-ui/react';
-import Head from 'next/head';
+} from "@chakra-ui/react";
+import Head from "next/head";
 
 // React Imports
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 // Other Imports
-import axios from 'axios';
-import { useAuth } from '../utils/auth/AuthContext';
-import nookies from 'nookies';
-import TimelineModal from '../components/Timeline/TimelineModal';
-import TimelineCard from '../components/Timeline/TimelineCard';
-import Title from '../components/Typo/Title/Title';
-import { AnimatePresence, AnimateSharedLayout, motion } from 'framer-motion';
-import { LoginFullPage } from '../components/Auth/Login/Login';
-import { ChevronRightIcon, DragHandleIcon } from '@chakra-ui/icons';
-import LoadingPage from '../components/Loading/LoadingPage';
-import TimelineMenu from '../components/Timeline/TimelineMenu';
+import axios from "axios";
+import { useAuth } from "../utils/auth/AuthContext";
+import nookies from "nookies";
+import TimelineModal from "../components/Timeline/TimelineModal";
+import TimelineCard from "../components/Timeline/TimelineCard";
+import Title from "../components/Typo/Title/Title";
+import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion";
+import { LoginFullPage } from "../components/Auth/Login/Login";
+import { ChevronRightIcon, DragHandleIcon } from "@chakra-ui/icons";
+import LoadingPage from "../components/Loading/LoadingPage";
+import TimelineMenu from "../components/Timeline/TimelineMenu";
 
 export const Timelines = () => {
 	const { user, loading } = useAuth();
 	const [data, setData] = useState([]);
 	const [loaded, setLoaded] = useState(false);
 
-	const onTimelineChange = (id: number, title: string, description: string) => {
+	const onTimelineChange = (
+		id: number,
+		title: string,
+		description: string
+	) => {
 		setData((prevData) => {
-			const oldTimeline = prevData.find((data) => data._id === id);
-			const newData = prevData.filter((data) => data._id !== id);
-			const newTimeline = {
-				...oldTimeline,
-				title,
-				description,
-			};
-			return [...newData, newTimeline];
+			let contentCopy = prevData.slice();
+
+			const index = contentCopy.findIndex(
+				(content) => content._id === id
+			);
+
+			contentCopy[index].title = title;
+			contentCopy[index].description = description;
+
+			return contentCopy;
 		});
 	};
 	// Adding - don't filter, pass new id from API response
@@ -74,11 +80,11 @@ export const Timelines = () => {
 			if (user) {
 				const { token } = await user.getIdTokenResult();
 				await axios({
-					method: 'get',
-					url: 'http://localhost:8080/api/timelines/uid/' + user.uid,
+					method: "get",
+					url: "http://localhost:8080/api/timelines/uid/" + user.uid,
 					headers: {
-						Authorization: 'Bearer ' + token,
-						'Content-Type': 'text/event-stream',
+						Authorization: "Bearer " + token,
+						"Content-Type": "text/event-stream",
 					},
 				})
 					.then((resp) => {
@@ -130,10 +136,10 @@ export const Timelines = () => {
 							titleText='Timelines'
 							tag='h2'
 							style={{
-								margin: '0 0 40px 0',
-								fontSize: '60px',
-								fontWeight: 'bold',
-								letterSpacing: '-4px',
+								margin: "0 0 40px 0",
+								fontSize: "60px",
+								fontWeight: "bold",
+								letterSpacing: "-4px",
 								lineHeight: 1,
 							}}
 						/>
@@ -143,7 +149,13 @@ export const Timelines = () => {
 								{data.length ? (
 									<Box width='95vw' px={5}>
 										<Grid
-											templateColumns={['1fr', '1fr', '1fr 1fr', '1fr 1fr', '1fr 1fr 1fr']}
+											templateColumns={[
+												"1fr",
+												"1fr",
+												"1fr 1fr",
+												"1fr 1fr",
+												"1fr 1fr 1fr",
+											]}
 											justifyContent='center'
 											gap={5}
 										>
@@ -152,8 +164,12 @@ export const Timelines = () => {
 													key={timeline._id}
 													user={user}
 													timeline={timeline}
-													onTimelineChange={onTimelineChange}
-													deleteTimeline={deleteTimeline}
+													onTimelineChange={
+														onTimelineChange
+													}
+													deleteTimeline={
+														deleteTimeline
+													}
 												/>
 											))}
 										</Grid>
@@ -162,10 +178,16 @@ export const Timelines = () => {
 									<>
 										<Box bg='white' rounded='lg' p={5}>
 											<Stack spacing={5}>
-												<Text fontboxSize='2xl' color='red.500' alignSelf='center'>
+												<Text
+													fontboxSize='2xl'
+													color='red.500'
+													alignSelf='center'
+												>
 													No Timelines Created Yet
 												</Text>
-												<TimelineModal addTimeline={addTimeline} />
+												<TimelineModal
+													addTimeline={addTimeline}
+												/>
 											</Stack>
 										</Box>
 									</>
@@ -180,7 +202,12 @@ export const Timelines = () => {
 			) : (
 				<>
 					{!user && !loading ? (
-						<Flex justify='center' align='center' flexDirection='column' py='22px'>
+						<Flex
+							justify='center'
+							align='center'
+							flexDirection='column'
+							py='22px'
+						>
 							<LoginFullPage />
 						</Flex>
 					) : (

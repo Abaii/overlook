@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import axios from 'axios';
-import { useAuth } from '../../utils/auth/AuthContext';
-import nookies from 'nookies';
-import {
-	ImagesContainer,
-	TimelineHeader,
-	TimelineWrapper,
-} from '../../components/Timeline/Timeline.styles';
+import React, { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/router";
+import axios from "axios";
+import { useAuth } from "../../utils/auth/AuthContext";
+import nookies from "nookies";
+import { ImagesContainer, TimelineHeader, TimelineWrapper } from "../../components/Timeline/Timeline.styles";
 import {
 	Text,
 	Image,
@@ -31,20 +27,25 @@ import {
 	toast,
 	useToast,
 	useDisclosure,
-} from '@chakra-ui/react';
-import Timeline from '../../components/Timeline/Timeline';
-import Head from 'next/head';
-import TimelineImage from '../../components/Timeline/TimelineImage';
-import { ChatIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { Heading } from '@chakra-ui/react';
-import { setCommentRange, tokenToString } from 'typescript';
-import LoadingPage from '../../components/Loading/LoadingPage';
+	PopoverFooter,
+	PopoverCloseButton,
+} from "@chakra-ui/react";
+import Timeline from "../../components/Timeline/Timeline";
+import Head from "next/head";
+import TimelineImage from "../../components/Timeline/TimelineImage";
+import { AddIcon, ChatIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import { Heading } from "@chakra-ui/react";
+import { setCommentRange, tokenToString } from "typescript";
+import LoadingPage from "../../components/Loading/LoadingPage";
+import AddImage from "../../components/Image/AddImage";
 
 export interface TimelineTypes {
+	_id: any;
 	title: string;
 	description: string;
 	content: [
 		{
+			_id: any;
 			image_url: string;
 			comments: [
 				{
@@ -67,30 +68,91 @@ export const ProjectTimeline = () => {
 	const [timeline, setTimeline] = useState<TimelineTypes>();
 	const [isSubmitting, setSubmitting] = useState(false);
 	const toast = useToast();
-	const [comment, setComment] = useState('');
+	const [comment, setComment] = useState("");
+	const initialFocusRef = useRef();
+
+	useEffect(() => {
+		(async () => {
+			if (user) {
+				const { token } = await user.getIdTokenResult();
+				await axios({
+					method: "get",
+					url: "http://localhost:8080/api/timelines/" + id,
+					headers: {
+						Authorization: "Bearer " + token,
+						"Content-Type": "text/event-stream",
+					},
+				})
+					.then((resp) => {
+						setTimeline(resp.data);
+						setLoaded(!loaded);
+					})
+					.catch((err) => {
+						setLoaded(!loaded);
+						console.error(err);
+					});
+			}
+		})();
+	}, [user]);
+
+	const addImage = async () => {};
 
 	const addComment = async (image, comment) => {
 		setSubmitting(true);
-
-		if (comment) {
-			image.comments.push({ comment: comment });
-		} else {
-			setSubmitting(false);
-			return;
-		}
-
+		const index = timeline.content.indexOf(image);
 		const { token } = await user.getIdTokenResult();
 
-		axios
-			.put('http://localhost:8080/api/timelines/' + id, timeline, {
+		if (comment) {
+			setTimeline((prevData: any) => {
+				const newComments = [
+					...prevData.content[index].comments,
+					{
+						comment: comment,
+					},
+				];
+
+				const newContent = {
+					...prevData.content[index],
+					comments: newComments,
+				};
+
+				let data = prevData.content.slice();
+				data[index] = newContent;
+
+				const newTimeline = {
+					...prevData,
+					content: data,
+				};
+
+				apiAddComment(newTimeline, token);
+
+				return newTimeline;
+			});
+			setComment("");
+			setSubmitting(false);
+		} else {
+			setSubmitting(false);
+			toast({
+				title: "Comment Error:",
+				description: "Please enter a comment!",
+				status: "error",
+				duration: 2000,
+				isClosable: true,
+				position: "bottom",
+			});
+			return;
+		}
+	};
+
+	const apiAddComment = async (timeline, token) => {
+		await axios
+			.put("http://localhost:8080/api/timelines/" + id, timeline, {
 				headers: {
-					Authorization: 'Bearer ' + token,
+					Authorization: "Bearer " + token,
 				},
 			})
 			.then((response) => {
 				setSubmitting(false);
-				setComment('');
-				console.log(response.data);
 			})
 			.catch((err) => {
 				setSubmitting(false);
@@ -98,55 +160,92 @@ export const ProjectTimeline = () => {
 			});
 	};
 
-	const getTimeline = async () => {
-		const { token } = await user.getIdTokenResult();
-
+	const apiDelComment = (timeline, token) => {
 		axios
-			.get('http://localhost:8080/api/timelines/' + id, {
+			.put("http://localhost:8080/api/timelines/" + id, timeline, {
 				headers: {
-					Authorization: 'Bearer ' + token,
-				},
-			})
-			.then((response) => {
-				setLoaded(true);
-				setTimeline(response.data);
-			})
-			.catch((err) => {
-				setLoaded(true);
-				console.error(err);
-			});
-	};
-
-	const deleteComment = async (result, image) => {
-		const { token } = await user.getIdTokenResult();
-		const index = timeline.content.indexOf(image);
-		timeline.content[index].comments = result;
-
-		axios
-			.put('http://localhost:8080/api/timelines/' + id, timeline, {
-				headers: {
-					Authorization: 'Bearer ' + token,
+					Authorization: "Bearer " + token,
 				},
 			})
 			.then((resp) => {
 				toast({
-					title: 'Deleted Comment',
-					description: 'Comment successfully deleted.',
-					status: 'success',
+					title: "Deleted Comment",
+					description: "Comment successfully deleted.",
+					status: "success",
 					duration: 1000,
 					isClosable: true,
-					position: 'bottom',
+					position: "bottom",
 				});
-				router.reload();
 			})
 			.catch((err) => {
 				console.error(err);
 			});
 	};
 
-	if (user && loaded == false) {
-		getTimeline();
-	}
+	const apiDelImage = (timeline, token) => {
+		axios
+			.put("http://localhost:8080/api/timelines/" + id, timeline, {
+				headers: {
+					Authorization: "Bearer " + token,
+				},
+			})
+			.then((resp) => {
+				toast({
+					title: "Deleted Image",
+					description: "Image successfully deleted.",
+					status: "success",
+					duration: 1000,
+					isClosable: true,
+					position: "bottom",
+				});
+			})
+			.catch((err) => {
+				console.error(err);
+			});
+	};
+
+	const deleteComment = async (id, image) => {
+		const { token } = await user.getIdTokenResult();
+		const index = timeline.content.indexOf(image);
+
+		setTimeline((prevData: any) => {
+			const newComments = prevData.content[index].comments.filter((comment) => comment._id != id);
+			const newImage = {
+				image_url: prevData.content[index].image_url,
+				_id: prevData.content[index]._id,
+				comments: newComments,
+			};
+
+			let data = prevData.content.slice();
+
+			data[index] = newImage;
+
+			const newTimeline = {
+				...prevData,
+				content: data,
+			};
+
+			apiDelComment(newTimeline, token);
+
+			return newTimeline;
+		});
+	};
+
+	const deleteImage = async (id) => {
+		const { token } = await user.getIdTokenResult();
+		setTimeline((prevData: any) => {
+			let data = prevData.content.filter((image) => image._id != id);
+
+			const newTimeline = {
+				...prevData,
+				content: data,
+			};
+
+			apiDelImage(newTimeline, token);
+
+			return newTimeline;
+		});
+	};
 
 	return (
 		<>
@@ -160,12 +259,7 @@ export const ProjectTimeline = () => {
 
 			{!loading ? (
 				<>
-					<Breadcrumb
-						ml='30px'
-						my={4}
-						spacing='8px'
-						separator={<ChevronRightIcon color='gray.300' />}
-					>
+					<Breadcrumb ml='30px' my={4} spacing='8px' separator={<ChevronRightIcon color='gray.300' />}>
 						<BreadcrumbItem>
 							<BreadcrumbLink href='/'>Home</BreadcrumbLink>
 						</BreadcrumbItem>
@@ -184,60 +278,65 @@ export const ProjectTimeline = () => {
 					{user && timeline && (
 						<TimelineWrapper>
 							<Heading
-								fontSize={['40px', '40px', '5vw']}
+								fontSize={["40px", "40px", "5vw"]}
 								style={{
-									margin: '0px 40px 40px 40px',
-									fontWeight: 'bold',
-									textAlign: 'center',
-								}}
-							>
+									margin: "0px 40px 40px 40px",
+									fontWeight: "bold",
+									textAlign: "center",
+								}}>
 								{timeline.title}
 							</Heading>
 							<Text fontSize='sm' opacity={0.8} margin='-20px 10px 60px 10px'>
 								{timeline.description}
 							</Text>
 							{timeline.content && (
-								<ImagesContainer>
+								<Flex backgroundColor='#EDF2F7' borderRadius='10px' p='20px' overflowX='auto'>
 									{timeline.content.map((image) => (
-										<Popover placement='bottom'>
-											<Box>
-												<TimelineImage image={image} deleteComment={deleteComment} />
-
-												<PopoverTrigger>
-													<IconButton
-														icon={<ChatIcon />}
-														aria-label='add comment button'
-														rounded='full'
-														mt={2}
-													/>
-												</PopoverTrigger>
-
-												<PopoverContent>
-													<PopoverArrow />
-													<PopoverHeader>Add a Comment!</PopoverHeader>
-													<PopoverBody>
-														<Box>
-															<Textarea
-																id='description'
-																variant='filled'
-																placeholder='Enter a comment'
-																resize='none'
-																onChange={(e) => setComment(e.target.value)}
-															/>
-															<Button
-																colorScheme='green'
-																onClick={() => addComment(image, comment)}
-																isLoading={isSubmitting}
-															>
-																Add Comment
-															</Button>
-														</Box>
-													</PopoverBody>
-												</PopoverContent>
-											</Box>
-										</Popover>
+										<>
+											<Popover placement='bottom' initialFocusRef={initialFocusRef} isLazy>
+												{({ isOpen, onClose }) => (
+													<>
+														<TimelineImage
+															image={image}
+															deleteComment={deleteComment}
+															deleteImage={deleteImage}
+														/>
+														<PopoverContent>
+															<PopoverArrow />
+															<PopoverHeader>Add a Comment!</PopoverHeader>
+															<PopoverCloseButton />
+															<PopoverBody>
+																<Textarea
+																	id='description'
+																	variant='filled'
+																	placeholder='Enter a comment'
+																	resize='none'
+																	value={comment}
+																	ref={initialFocusRef}
+																	onChange={(e) => setComment(e.target.value)}
+																/>
+															</PopoverBody>
+															<PopoverFooter>
+																<Button
+																	colorScheme='green'
+																	onClick={() => {
+																		addComment(image, comment);
+																		onClose();
+																	}}
+																	isLoading={isSubmitting}>
+																	Add Comment
+																</Button>
+															</PopoverFooter>
+														</PopoverContent>
+													</>
+												)}
+											</Popover>
+										</>
 									))}
-								</ImagesContainer>
+									<Box display='flex' justifyContent='center' alignItems='center' minW='450px'>
+										<AddImage />
+									</Box>
+								</Flex>
 							)}
 						</TimelineWrapper>
 					)}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 // Chakra Components
 import {
@@ -31,22 +31,22 @@ import {
 	RadioGroup,
 	Radio,
 	Flex,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 
 // Formik Imports
-import { Formik, FormikErrors, FormikProps, FormikValues, Form } from 'formik';
-import { FormButtonWrapper } from './Timeline.styles';
+import { Formik, FormikErrors, FormikProps, FormikValues, Form } from "formik";
+import { FormButtonWrapper } from "./Timeline.styles";
 
 // Other Imports
-import axios from 'axios';
-import nookies from 'nookies';
-import { useAuth } from '../../utils/auth/AuthContext';
-import { useRouter } from 'next/router';
-import { Icon } from '../Navbar/Logo/Logo.styles';
-import { ImFilePicture, ImOffice } from 'react-icons/im';
-import { BsCodeSlash } from 'react-icons/bs';
-import { motion } from 'framer-motion';
-import { AddIcon, CheckCircleIcon, CheckIcon } from '@chakra-ui/icons';
+import axios from "axios";
+import nookies from "nookies";
+import { useAuth } from "../../utils/auth/AuthContext";
+import { useRouter } from "next/router";
+import { Icon } from "../Navbar/Logo/Logo.styles";
+import { ImFilePicture, ImOffice } from "react-icons/im";
+import { BsCodeSlash } from "react-icons/bs";
+import { motion } from "framer-motion";
+import { AddIcon, CheckCircleIcon, CheckIcon } from "@chakra-ui/icons";
 
 interface TimelineValues {
 	title: string;
@@ -54,12 +54,12 @@ interface TimelineValues {
 }
 
 interface TimelineModalProps {
-	addTimeline?: (timeline: Object) => void;
+	addTimeline?: (timeline: object) => void;
 }
 
 const initialValues = {
-	title: '',
-	description: '',
+	title: "",
+	description: "",
 };
 
 export const TimelineModal = ({ addTimeline }: TimelineModalProps) => {
@@ -74,7 +74,7 @@ export const TimelineModal = ({ addTimeline }: TimelineModalProps) => {
 	const [uploadedImage, setUploadedImage] = useState();
 	const [uploadedImages, setUploadedImages] = useState([]);
 
-	const token = nookies.get({}, 'token');
+	const token = nookies.get({}, "token");
 
 	const handleSubmit = async ({ title, description }: TimelineValues) => {
 		setSubmitting(true);
@@ -82,23 +82,23 @@ export const TimelineModal = ({ addTimeline }: TimelineModalProps) => {
 		// No Files
 		if (selectedImage === undefined && selectedImages.length === 0) {
 			const response = axios({
-				method: 'post',
-				url: 'http://localhost:8080/api/timelines',
+				method: "post",
+				url: "http://localhost:8080/api/timelines",
 				data: {
 					title: title,
 					description: description,
 					ownerId: user.uid,
 				},
-				headers: { Authorization: 'Bearer ' + token.token },
+				headers: { Authorization: "Bearer " + token.token },
 			})
 				.then((resp) => {
 					toast({
-						title: 'Timeline Created',
-						description: 'Successfully created Timeline.',
-						status: 'success',
+						title: "Timeline Created",
+						description: "Successfully created Timeline.",
+						status: "success",
 						duration: 3000,
 						isClosable: true,
-						position: 'top',
+						position: "top",
 					});
 					setSubmitting(false);
 					addTimeline(resp.data);
@@ -111,31 +111,31 @@ export const TimelineModal = ({ addTimeline }: TimelineModalProps) => {
 					toast({
 						title: errorCode,
 						description: errorMessage,
-						status: 'error',
+						status: "error",
 						duration: 4000,
 						isClosable: true,
-						position: 'top',
+						position: "top",
 					});
 				});
 		} else if (selectedImage) {
 			// One Image Upload
 			const formData = new FormData();
-			formData.append('image', selectedImage);
+			formData.append("image", selectedImage);
 			await axios
-				.post('http://localhost:8080/api/timelines/image', formData, {
+				.post("http://localhost:8080/api/timelines/image", formData, {
 					headers: {
-						Authorization: 'Bearer ' + token.token,
-						'Content-Type': 'multipart/form-data',
+						Authorization: "Bearer " + token.token,
+						"Content-Type": "multipart/form-data",
 					},
 				})
 				.then((res) => {
 					setUploadedImage(res.data.data.location);
 
-					console.log('Image Location -', res.data.data.location);
+					console.log("Image Location -", res.data.data.location);
 
 					const response = axios({
-						method: 'post',
-						url: 'http://localhost:8080/api/timelines',
+						method: "post",
+						url: "http://localhost:8080/api/timelines",
 						data: {
 							title: title,
 							description: description,
@@ -147,16 +147,16 @@ export const TimelineModal = ({ addTimeline }: TimelineModalProps) => {
 								},
 							],
 						},
-						headers: { Authorization: 'Bearer ' + token.token },
+						headers: { Authorization: "Bearer " + token.token },
 					})
 						.then((resp) => {
 							toast({
-								title: 'Timeline Created',
-								description: 'Successfully created Timeline.',
-								status: 'success',
+								title: "Timeline Created",
+								description: "Successfully created Timeline.",
+								status: "success",
 								duration: 4000,
 								isClosable: true,
-								position: 'top',
+								position: "top",
 							});
 							setSubmitting(false);
 							addTimeline(resp.data);
@@ -169,10 +169,10 @@ export const TimelineModal = ({ addTimeline }: TimelineModalProps) => {
 							toast({
 								title: errorCode,
 								description: errorMessage,
-								status: 'error',
+								status: "error",
 								duration: 4000,
 								isClosable: true,
-								position: 'top',
+								position: "top",
 							});
 						});
 				})
@@ -183,13 +183,13 @@ export const TimelineModal = ({ addTimeline }: TimelineModalProps) => {
 			// More than one image file
 			const formData = new FormData();
 			selectedImages.forEach((file) => {
-				formData.append('image', file);
+				formData.append("image", file);
 			});
 			await axios
-				.post('http://localhost:8080/api/timelines/image', formData, {
+				.post("http://localhost:8080/api/timelines/image", formData, {
 					headers: {
-						Authorization: 'Bearer ' + token.token,
-						'Content-Type': 'multipart/form-data',
+						Authorization: "Bearer " + token.token,
+						"Content-Type": "multipart/form-data",
 					},
 				})
 				.then(async (res) => {
@@ -201,24 +201,24 @@ export const TimelineModal = ({ addTimeline }: TimelineModalProps) => {
 					}));
 
 					const response = await axios({
-						method: 'post',
-						url: 'http://localhost:8080/api/timelines',
+						method: "post",
+						url: "http://localhost:8080/api/timelines",
 						data: {
 							title: title,
 							description: description,
 							ownerId: user.uid,
 							content: uploadContent,
 						},
-						headers: { Authorization: 'Bearer ' + token.token },
+						headers: { Authorization: "Bearer " + token.token },
 					})
 						.then((resp) => {
 							toast({
-								title: 'Timeline Created',
-								description: 'Successfully created Timeline.',
-								status: 'success',
+								title: "Timeline Created",
+								description: "Successfully created Timeline.",
+								status: "success",
 								duration: 4000,
 								isClosable: true,
-								position: 'top',
+								position: "top",
 							});
 							setSubmitting(false);
 							addTimeline(resp.data);
@@ -231,10 +231,10 @@ export const TimelineModal = ({ addTimeline }: TimelineModalProps) => {
 							toast({
 								title: errorCode,
 								description: errorMessage,
-								status: 'error',
+								status: "error",
 								duration: 4000,
 								isClosable: true,
-								position: 'top',
+								position: "top",
 							});
 						});
 				})
@@ -248,11 +248,12 @@ export const TimelineModal = ({ addTimeline }: TimelineModalProps) => {
 		const errors: FormikErrors<TimelineValues> = {};
 
 		if (!title) {
-			errors.title = 'You must enter a Title for this Timeline!';
+			errors.title = "You must enter a Title for this Timeline!";
 		}
 
 		if (!description) {
-			errors.description = 'Please provide a short description for your Timeline.';
+			errors.description =
+				"Please provide a short description for your Timeline.";
 		}
 
 		return errors;
@@ -314,7 +315,10 @@ export const TimelineModal = ({ addTimeline }: TimelineModalProps) => {
 							}: FormikProps<TimelineValues>) => (
 								<Form onSubmit={handleSubmit}>
 									<Stack spacing={6}>
-										<FormControl isInvalid={Boolean(errors.title)} isRequired={true}>
+										<FormControl
+											isInvalid={Boolean(errors.title)}
+											isRequired={true}
+										>
 											<FormLabel>Title</FormLabel>
 											<InputGroup>
 												<Input
@@ -324,17 +328,28 @@ export const TimelineModal = ({ addTimeline }: TimelineModalProps) => {
 													aria-describedby='timeline title input box'
 													variant='filled'
 													value={values.title}
-													onChange={(e) => setFieldValue('title', e.target.value)}
+													onChange={(e) =>
+														setFieldValue(
+															"title",
+															e.target.value
+														)
+													}
 												/>
 											</InputGroup>
 											{errors.title && (
-												<FormErrorMessage style={{ paddingTop: '12px' }}>
+												<FormErrorMessage
+													style={{
+														paddingTop: "12px",
+													}}
+												>
 													{errors.title}
 												</FormErrorMessage>
 											)}
 										</FormControl>
 										<FormControl
-											isInvalid={Boolean(errors.description)}
+											isInvalid={Boolean(
+												errors.description
+											)}
 											isRequired={true}
 										>
 											<FormLabel>Description</FormLabel>
@@ -343,20 +358,35 @@ export const TimelineModal = ({ addTimeline }: TimelineModalProps) => {
 													id='description'
 													value={values.description}
 													variant='filled'
-													onChange={(e) => setFieldValue('description', e.target.value)}
+													onChange={(e) =>
+														setFieldValue(
+															"description",
+															e.target.value
+														)
+													}
 													placeholder='Enter a description for this Timeline'
 													height='200px'
 												/>
 											</InputGroup>
 											{errors.description && (
-												<FormErrorMessage style={{ paddingTop: '12px' }}>
+												<FormErrorMessage
+													style={{
+														paddingTop: "12px",
+													}}
+												>
 													{errors.description}
 												</FormErrorMessage>
 											)}
 										</FormControl>
 										<FormControl>
-											<FormLabel>Image Upload - Optional</FormLabel>
-											<Box rounded='lg' bg='gray.100' p={2}>
+											<FormLabel>
+												Image Upload - Optional
+											</FormLabel>
+											<Box
+												rounded='lg'
+												bg='gray.100'
+												p={2}
+											>
 												<input
 													onChange={handleImageChange}
 													accept='.jpg, .png, .jpeg'
@@ -365,11 +395,17 @@ export const TimelineModal = ({ addTimeline }: TimelineModalProps) => {
 												/>
 
 												{selectedImage && (
-													<Flex justify='center' align='center' mt={2}>
+													<Flex
+														justify='center'
+														align='center'
+														mt={2}
+													>
 														<Image
 															p={2}
 															boxSize='50%'
-															src={URL.createObjectURL(selectedImage)}
+															src={URL.createObjectURL(
+																selectedImage
+															)}
 															// Creates a preview of the image being selected
 														/>
 													</Flex>
@@ -383,14 +419,30 @@ export const TimelineModal = ({ addTimeline }: TimelineModalProps) => {
 													flexWrap='wrap'
 												>
 													{selectedImages &&
-														selectedImages.map((image) => (
-															<Image p={2} boxSize='50%' src={URL.createObjectURL(image)} />
-														))}
+														selectedImages.map(
+															(image) => (
+																<Image
+																	p={2}
+																	boxSize='50%'
+																	src={URL.createObjectURL(
+																		image
+																	)}
+																/>
+															)
+														)}
 												</Flex>
 
 												{uploadedImage && (
-													<Flex justify='center' align='center' mt={2}>
-														<Image p={2} boxSize='50%' src={uploadedImage} />
+													<Flex
+														justify='center'
+														align='center'
+														mt={2}
+													>
+														<Image
+															p={2}
+															boxSize='50%'
+															src={uploadedImage}
+														/>
 													</Flex>
 												)}
 											</Box>
@@ -403,7 +455,11 @@ export const TimelineModal = ({ addTimeline }: TimelineModalProps) => {
 											</RadioGroup>
 										</FormControl> */}
 									</Stack>
-									<Flex justify='center' align='center' my={5}>
+									<Flex
+										justify='center'
+										align='center'
+										my={5}
+									>
 										<Button
 											isLoading={isSubmitting}
 											rightIcon={<CheckIcon />}

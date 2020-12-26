@@ -1,8 +1,4 @@
-import {
-	ArrowForwardIcon,
-	ChevronRightIcon,
-	SettingsIcon,
-} from '@chakra-ui/icons';
+import { ArrowForwardIcon, ChevronRightIcon, SettingsIcon } from "@chakra-ui/icons";
 import {
 	Tooltip,
 	Button,
@@ -15,13 +11,13 @@ import {
 	MenuDivider,
 	Icon,
 	useDisclosure,
-} from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import React from 'react';
-import { MdTimeline } from 'react-icons/md';
-import { NavbarElementWrapper } from '../Navbar/Navbar.styles';
-import TimelineModal from '../Timeline/TimelineModal';
-import AccountModal from './AccountModal';
+} from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import React from "react";
+import { MdTimeline } from "react-icons/md";
+import { NavbarElementWrapper } from "../Navbar/Navbar.styles";
+import TimelineModal from "../Timeline/TimelineModal";
+import AccountModal from "./AccountModal";
 
 interface Props {
 	user: any;
@@ -35,33 +31,14 @@ const AccountMenu = ({ user, handleSignOut }: Props) => {
 	return (
 		<>
 			<Menu>
-				<Tooltip label='Account Details' aria-label='account details'>
-					<MenuButton style={{ outline: 'none' }}>
-						{user && (
-							<Avatar
-								src={user.photoURL}
-								name={user.displayName || user.email.split('@')[0]}
-							/>
-						)}
-					</MenuButton>
-				</Tooltip>
+				<MenuButton>
+					{user && <Avatar src={user.photoURL} name={user.displayName || user.email.split("@")[0]} />}
+				</MenuButton>
 				<MenuList>
 					<MenuGroup>
-						<MenuItem onClick={() => onOpen()} height='50px' textAlign='center'>
-							<SettingsIcon mr='18px' boxSize='28px' />
-							Account Settings
-							<ChevronRightIcon ml='12px' boxSize='30px' />
-						</MenuItem>
+						<MenuItem onClick={() => onOpen()}>Account Settings</MenuItem>
 						<MenuDivider />
-						<MenuItem justifyContent='center' style={{ background: 'none' }}>
-							<Button
-								onClick={handleSignOut}
-								leftIcon={<ArrowForwardIcon />}
-								colorScheme='red'
-							>
-								Sign Out
-							</Button>
-						</MenuItem>
+						<MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
 					</MenuGroup>
 				</MenuList>
 			</Menu>

@@ -35,16 +35,17 @@ import {
 	AlertDialogOverlay,
 	Switch,
 	Badge,
-} from '@chakra-ui/react';
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import axios from 'axios';
-import nookies from 'nookies';
-import { useRouter } from 'next/router';
-import { Form, Formik, FormikErrors, FormikProps } from 'formik';
-import { FormButtonWrapper } from '../Auth/Login/Login.styles';
-import { CheckIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons';
-import { LinkHoverWrapper } from '../SharedComponents.styles';
+	color,
+} from "@chakra-ui/react";
+import React, { useState, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
+import axios from "axios";
+import nookies from "nookies";
+import { useRouter } from "next/router";
+import { Form, Formik, FormikErrors, FormikProps } from "formik";
+import { FormButtonWrapper } from "../Auth/Login/Login.styles";
+import { CheckIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { LinkHoverWrapper } from "../SharedComponents.styles";
 
 const MotionBox = motion.custom(Box);
 
@@ -66,14 +67,16 @@ export default function TimelineCard({
 	onTimelineChange,
 	deleteTimeline,
 }: TimelineProps) {
-	const token = nookies.get({}, 'token');
+	const token = nookies.get({}, "token");
 	const toast = useToast();
 	const router = useRouter();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [alertOpen, setIsOpen] = useState(false);
 	const alertClose = () => setIsOpen(false);
-	const cancelRef = React.useRef();
+	const cancelRef = useRef();
 	const [isSubmitting, setSubmitting] = useState(false);
+	const [published, setPublished] = useState(false);
+	const [color, setColor] = useState("");
 
 	const initialValues = {
 		title: timeline.title,
@@ -82,19 +85,19 @@ export default function TimelineCard({
 
 	const delTimeline = async (id) => {
 		await axios
-			.delete('http://localhost:8080/api/timelines/' + id, {
+			.delete("http://localhost:8080/api/timelines/" + id, {
 				headers: {
-					Authorization: 'Bearer ' + token.token,
+					Authorization: "Bearer " + token.token,
 				},
 			})
 			.then((response) => {
 				toast({
-					title: 'Deleted Timeline',
+					title: "Deleted Timeline",
 					description: `You have successfully deleted ${timeline.title}.`,
-					status: 'success',
+					status: "success",
 					duration: 3000,
 					isClosable: true,
-					position: 'bottom',
+					position: "bottom",
 				});
 				alertClose();
 				deleteTimeline(id);
@@ -105,10 +108,10 @@ export default function TimelineCard({
 				toast({
 					title: errorCode,
 					description: errorMessage,
-					status: 'error',
+					status: "error",
 					duration: 3000,
 					isClosable: true,
-					position: 'bottom',
+					position: "bottom",
 				});
 			});
 	};
@@ -117,14 +120,14 @@ export default function TimelineCard({
 		setSubmitting(!isSubmitting);
 		axios
 			.put(
-				'http://localhost:8080/api/timelines/' + timeline._id,
+				"http://localhost:8080/api/timelines/" + timeline._id,
 				{
 					title: title,
 					description: description,
 				},
 				{
 					headers: {
-						Authorization: 'Bearer ' + token.token,
+						Authorization: "Bearer " + token.token,
 					},
 				}
 			)
@@ -138,10 +141,10 @@ export default function TimelineCard({
 				var errorMessage = err.message;
 				toast({
 					title: errorMessage,
-					status: 'error',
+					status: "error",
 					duration: 3000,
 					isClosable: true,
-					position: 'bottom',
+					position: "bottom",
 				});
 			});
 	};
@@ -150,20 +153,42 @@ export default function TimelineCard({
 		const errors: FormikErrors<EditTimelineValues> = {};
 
 		if (!values.title) {
-			errors.title = 'You must enter a title';
+			errors.title = "You must enter a title";
 		}
 
 		if (!values.description) {
-			errors.description = 'You must enter a description';
+			errors.description = "You must enter a description";
 		}
 
 		return errors;
 	};
 
+	const randColorScheme = () => {
+		const colors = [
+			"blue",
+			"red",
+			"green",
+			"orange",
+			"yellow",
+			"teal",
+			"cyan",
+			"purple",
+			"pink",
+		];
+
+		const color = colors[Math.floor(Math.random() * colors.length)];
+
+		return color;
+	};
+
+	useEffect(() => {
+		setColor(randColorScheme());
+	}, []);
+
 	return (
 		<>
 			<MotionBox
-				minW={['250px', '300px', '350px']}
+				minW={["250px", "300px", "350px"]}
 				height='fit-content'
 				rounded='lg'
 				borderWidth='1px'
@@ -172,7 +197,9 @@ export default function TimelineCard({
 			>
 				<Stack spacing={2}>
 					<Heading textAlign='center'>
-						<Link href={'/timeline/' + timeline._id}>{timeline.title}</Link>
+						<Link href={"/timeline/" + timeline._id}>
+							{timeline.title}
+						</Link>
 					</Heading>
 					<Text my='20px' textAlign='center'>
 						{timeline.description}
@@ -180,13 +207,13 @@ export default function TimelineCard({
 				</Stack>
 
 				<Stack isInline spacing={3} justify='center' align='center'>
-					<Tag colorScheme='blue' rounded='full'>
-						{user.displayName || user.email.split('@')[0]}
+					<Tag colorScheme={color} rounded='full'>
+						{user.displayName || user.email.split("@")[0]}
 					</Tag>
 					<IconButton
 						aria-label='edit timeline'
 						icon={<EditIcon color='white' />}
-						colorScheme='yellow'
+						colorScheme='blue'
 						rounded='full'
 						onClick={() => onOpen()}
 					/>
@@ -198,17 +225,23 @@ export default function TimelineCard({
 						onClick={() => setIsOpen(true)}
 					/>
 				</Stack>
-				<Stack isInline justify='center' align='center' mt={4} spacing={0}>
+				<Stack
+					isInline
+					justify='center'
+					align='center'
+					mt={4}
+					spacing={0}
+				>
 					<FormLabel>Publish Timeline?</FormLabel>
 					<Switch
 						colorScheme='purple'
 						value={timeline.published}
-						onChange={() => console.log(timeline.published)}
+						onChange={() => setPublished(!published)}
 					/>
 				</Stack>
 				<Flex justify='space-between'>
-					<Badge colorScheme={timeline.published ? 'green' : 'red'}>
-						{timeline.published ? 'Published' : 'Not Published'}
+					<Badge colorScheme={published ? "green" : "red"}>
+						{published ? "Published" : "Not Published"}
 					</Badge>
 				</Flex>
 			</MotionBox>
@@ -245,7 +278,11 @@ export default function TimelineCard({
 			</AlertDialog>
 
 			{/* Edit Timeline Details Modal */}
-			<Modal onClose={onClose} isOpen={isOpen} closeOnOverlayClick={false}>
+			<Modal
+				onClose={onClose}
+				isOpen={isOpen}
+				closeOnOverlayClick={false}
+			>
 				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader>Edit Timeline</ModalHeader>
@@ -264,43 +301,68 @@ export default function TimelineCard({
 							}: FormikProps<EditTimelineValues>) => (
 								<Form onSubmit={handleSubmit}>
 									<Stack spacing={6}>
-										<FormControl isInvalid={Boolean(errors.title)} isRequired={true}>
-											<FormLabel htmlFor='title'>Title</FormLabel>
+										<FormControl
+											isInvalid={Boolean(errors.title)}
+											isRequired={true}
+										>
+											<FormLabel htmlFor='title'>
+												Title
+											</FormLabel>
 											<InputGroup>
 												<Input
 													type='text'
 													id='title'
 													aria-describedby='userame-helper-text'
 													value={values.title}
-													onChange={(e) => setFieldValue('title', e.target.value)}
+													onChange={(e) =>
+														setFieldValue(
+															"title",
+															e.target.value
+														)
+													}
 												/>
 											</InputGroup>
 											{errors.title && (
-												<FormErrorMessage mt={3}>{errors.title} </FormErrorMessage>
+												<FormErrorMessage mt={3}>
+													{errors.title}{" "}
+												</FormErrorMessage>
 											)}
 										</FormControl>
 
 										<FormControl
-											isInvalid={Boolean(errors.description)}
+											isInvalid={Boolean(
+												errors.description
+											)}
 											isRequired={true}
 										>
-											<FormLabel htmlFor='title'>Description</FormLabel>
+											<FormLabel htmlFor='title'>
+												Description
+											</FormLabel>
 											<InputGroup>
 												Description
 												<Input
 													pr='4.5rem'
 													id='description'
 													value={values.description}
-													onChange={(e) => setFieldValue('description', e.target.value)}
+													onChange={(e) =>
+														setFieldValue(
+															"description",
+															e.target.value
+														)
+													}
 													type='text'
 												/>
 											</InputGroup>
 											{errors.description && (
-												<FormErrorMessage mt={3}>{errors.description}</FormErrorMessage>
+												<FormErrorMessage mt={3}>
+													{errors.description}
+												</FormErrorMessage>
 											)}
 										</FormControl>
 									</Stack>
-									<FormButtonWrapper style={{ marginBottom: '20px' }}>
+									<FormButtonWrapper
+										style={{ marginBottom: "20px" }}
+									>
 										<Button
 											colorScheme='blue'
 											variant='solid'
@@ -328,9 +390,3 @@ export default function TimelineCard({
 		</>
 	);
 }
-
-// {
-// 	timeline.content[0] && (
-// 		<Tag>{timeline.content[0].comment.length} Comments</Tag>
-// 	);
-// }

@@ -19,9 +19,12 @@ export const TimelineHeader = styled.h2`
 `;
 
 export const ImagesContainer = styled.div`
-    flex-grow: 0;
     display: flex;
-    flex-wrap: wrap;
+    background-color: #EDF2F7;
+    border-radius: 10px;
+    padding: 20px;
+    overflow-x: auto;
+    overflow-y: hidden;
 `;
 
 export const FormButtonWrapper = styled.div`
@@ -29,19 +32,4 @@ export const FormButtonWrapper = styled.div`
     margin-bottom: 12px;
 	display: flex;
 	justify-content: center;
-`;
-
-
-export const PhotoWrapper = styled.div<{ imageSrc: string }>`
-  height: 300px;
-  width: 25%;
-  background-boxSize: cover;
-  background-position: center;
-  background-image: url(${({ imageSrc }) => imageSrc });
-  margin: 5px 0px;
-  transition: all 0.5s ease-in;
-  
-  :hover {
-      opacity: 0.8;
-  }
 `;
